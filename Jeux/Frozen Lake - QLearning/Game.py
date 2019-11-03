@@ -1,5 +1,6 @@
 import random
 
+
 class Game:
     ACTION_UP = 0
     ACTION_LEFT = 1
@@ -25,7 +26,6 @@ class Game:
         self.wrong_action_p = wrong_action_p
         self.alea = alea
         self.generate_game()
-        
 
     def _position_to_id(self, x, y):
         """Donne l'identifiant de la position entre 0 et 15"""
@@ -51,11 +51,11 @@ class Game:
         self.hole = hole
         self.block = block
         self.counter = 0
-        
+
         if not self.alea:
             self.start = start
         return self._get_state()
-    
+
     def reset(self):
         if not self.alea:
             self.position = self.start
@@ -83,7 +83,7 @@ class Game:
         :param action : the id of an action
         :return ((state_id, end, hole, block), reward, is_final, actions)
         """
-        
+
         self.counter += 1
 
         if action not in self.ACTIONS:
