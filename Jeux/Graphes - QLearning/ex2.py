@@ -238,6 +238,8 @@ action = sample_next_action(available_act)
 
 # This function updates the Q matrix according to
 # the path selected and the Q learning algorithm
+
+
 def update(current_state, action, gamma):
 
     max_index = np.where(Q[action, ] == np.max(Q[action, ]))[1]

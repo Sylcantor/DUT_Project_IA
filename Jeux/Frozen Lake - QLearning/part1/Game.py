@@ -1,7 +1,7 @@
 import random
 
 
-class Game :
+class Game:
     ACTION_UP = 0
     ACTION_LEFT = 1
     ACTION_DOWN = 2
@@ -21,8 +21,8 @@ class Game :
     num_actions = len(ACTIONS)
 
     def __init__(self, n, m, wrong_action_p=0.1, alea=False):
-        self.n = n
-        self.m = m
+        self.n = n                      # nombre x de cases
+        self.m = m                      # nombre y de cases
         self.wrong_action_p = wrong_action_p
         self.alea = alea
         self.generate_game()
