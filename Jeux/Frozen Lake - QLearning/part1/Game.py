@@ -1,7 +1,7 @@
 import random
 
 
-class Game:
+class Game :
     ACTION_UP = 0
     ACTION_LEFT = 1
     ACTION_DOWN = 2
