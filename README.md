@@ -1,17 +1,16 @@
 #### Castel Aurélien, Léa Dacosta, Kevin Seri, Nicolas Guiblin
 
 # Cahier des charges PT
-
+## Délais (Octobre 2019 à Mars 2020)
 
 ## Sommaire
 
-## I) Spécifications fonctionnelles
+### I) Spécifications fonctionnelles
+### 
+### II) Spécifications techniques
+### 
+### III) Diagrammes
 
-## II) Spécifications techniques
-
-## III) Diagrammes
-
-## Délais (Octobre 2019 à Mars 2020)
 
 
 ## I) Spécifications fonctionnelles
@@ -52,7 +51,7 @@ Contraintes
 
 L’API devra être la plus générique possible afin d’en faciliter son
 intégration dans le développement du programmeur. Elle devra également
-être mise à jour sans corrompre les fonctionnalités des jeux.
+être mise à jour sans corruption des fonctionnalités des différents jeux.
 Ainsi le projet utilisera le data-driven developpement : le projet est
 piloté par les données qui lui sont fournies et l’application marchera peu
 importe ces données.
