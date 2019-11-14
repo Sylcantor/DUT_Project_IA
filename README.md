@@ -1,7 +1,9 @@
 #### Castel Aurélien, Léa Dacosta, Kevin Seri, Nicolas Guiblin
 
 # Cahier des charges PT
-## Délais (Octobre 2019 à Mars 2020)
+### Délais (Octobre 2019 à Mars 2020)
+
+#
 
 ## Sommaire
 
@@ -11,7 +13,7 @@
 ### 
 ### III) Diagrammes
 
-
+#
 
 ## I) Spécifications fonctionnelles
 
