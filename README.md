@@ -25,10 +25,10 @@ Afin de déterminer les fonctionnalités que nous devrons au minimum
 produire, nous utilisons la méthode MoSCoW :
 
 ```
- M : Must (fonctionnalités vitales)
- S : Should (fonctionnalités importantes)
- C : Could (fonctionnalités optionnelles)
- W : Would (fonctionnalités pour parfaire le projet)
+* M : Must (fonctionnalités vitales)
+* S : Should (fonctionnalités importantes)
+* C : Could (fonctionnalités optionnelles)
+* W : Would (fonctionnalités pour parfaire le projet)
 ```
 
 #### Diagramme de MoSCoW
@@ -37,9 +37,6 @@ produire, nous utilisons la méthode MoSCoW :
 
 ## II) Spécifications techniques
 
-```
-Objectif
-```
 Notre projet sera codé en Python. En effet, ce langage est le plus utilisé
 dans le domaine de l’intelligence artificielle et possède de nombreuses
 librairies. De plus, c’est l’occasion de se former sur un langage qui nous est
@@ -65,6 +62,4 @@ importe ces données.
 
 #### Diagramme de cas d’usage
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Cas%20d%27usage.png)
-
-
 
