@@ -5,7 +5,6 @@
 <br>
 
 ## Sommaire
-<br>
 
 ### I) Spécifications fonctionnelles
 ### 
@@ -15,7 +14,6 @@
 <br>
 
 ## I) Spécifications fonctionnelles
-<br>
 
 Le but de ce projet est de créer une API d’Intelligence Artificielle permettant
 de jouer à n’importe quel jeu à deux joueurs en tour par tour et à information
@@ -37,12 +35,10 @@ produire, nous utilisons la méthode MoSCoW :
 <br>
 
 ## II) Spécifications techniques
-<br>
 
 Notre projet sera codé en Python. En effet, ce langage est le plus utilisé
 dans le domaine de l’intelligence artificielle et possède de nombreuses
-librairies. Parmi celles-ci, nous utiliserons anytree, matplotlib, networkx, numpy, pylab... 
-Qui serviront principalement pour représenter graphiquement les résultats obtenus des tests de nos intelligences artificielles.
+librairies. Parmi celles-ci, nous utiliserons anytree, matplotlib, networkx, numpy, pylab, etc. qui serviront principalement à représenter graphiquement les résultats obtenus des tests de nos intelligences artificielles.
 De plus, c’est l’occasion de se former sur un langage qui nous est
 inconnu.
 
@@ -67,7 +63,6 @@ importe ces données.
 <br>
 
 ## III) Diagrammes
-<br>
 
 #### Diagramme de cas d’usage
 <br>
