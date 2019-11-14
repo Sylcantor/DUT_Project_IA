@@ -32,6 +32,9 @@ produire, nous utilisons la méthode MoSCoW :
 <br>
 
 #### Diagramme de MoSCoW
+
+<br>
+
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/MoSCoW.png)
 
 <br>
@@ -59,6 +62,9 @@ importe ces données.
 <br>
 
 #### Diagramme de Gantt
+
+<br>
+
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Gantt.png)
 
 <br>
@@ -66,5 +72,10 @@ importe ces données.
 ## III) Diagrammes
 
 #### Diagramme de cas d’usage
+
+<br>
+
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Cas%20d%27usage.png)
+
+<br>
 
