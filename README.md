@@ -82,5 +82,3 @@ importe ces données.
 
 <br>
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Cas%20d%27usage.png)
-
-<br>
