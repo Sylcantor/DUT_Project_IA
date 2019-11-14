@@ -1,4 +1,5 @@
-#### Castel Aurélien, Léa Dacosta, Kevin Seri, Nicolas Guiblin
+#### Membres du groupe : Castel Aurélien, Léa Dacosta, Kevin Seri, Nicolas Guiblin
+#### Tuteur : Florent Madelaine
 
 # Cahier des charges PT
 ### Délais (Octobre 2019 à Mars 2020)
@@ -6,16 +7,26 @@
 
 ## Sommaire
 
-### I) Spécifications fonctionnelles
+### I) Contexte
+###
+### II) Spécifications fonctionnelles
 ### 
-### II) Spécifications techniques
-### 
-### III) Diagrammes
+### III) Spécifications techniques
+###
+### IV) Diagrammes
 <br>
 
-## I) Spécifications fonctionnelles
+## I) Contexte
 
-Le but de ce projet est de créer une API d’Intelligence Artificielle permettant
+    Aujourd'hui, l'intelligence artificielle est en forte expansion dans tous les domaines. Elles s'appliquent notamment aux transports, aux jeux vidéos, aux systèmes embarqués ou encore aux diagnostics médicaux, etc. Afin d'en avoir une première approche, nous avons choisi d'implémenter une IA dans le cadre de notre projet tuteuré.
+    Par ailleurs, la transformation digitale des entreprises est primordiale et nécessite la présence d'API (Interface de Programmation Applicative 
+    
+    
+Pourquoi ce choix de sujet ?
+Objectif ?
+## II) Spécifications fonctionnelles
+
+Le but de ce projet est de créer une API d’intelligence artificielle permettant
 de jouer à n’importe quel jeu à deux joueurs en tour par tour et à information
 complète tels que le jeu de Nim, le Korridor, etc.
 
@@ -34,7 +45,7 @@ produire, nous utilisons la méthode MoSCoW :
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/MoSCoW.png)
 <br>
 
-## II) Spécifications techniques
+## III) Spécifications techniques
 
 Notre projet sera codé en Python. En effet, ce langage est le plus utilisé
 dans le domaine de l’intelligence artificielle et possède de nombreuses
@@ -46,7 +57,6 @@ Nous utiliserons dans un premier temps l’algorithme minimax, qui est
 le plus adapté au type de jeux utilisés dans le cadre de ce projet. De ce fait,
 l’IA prendra la meilleure décision parmi celles qui lui sont offertes, au vu de
 l’état actuel du jeu.
-Contraintes
 
 L’API devra être la plus générique possible afin d’en faciliter son
 intégration dans le développement du programmeur. Elle devra également
@@ -62,11 +72,16 @@ importe ces données.
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Gantt.png)
 <br>
 
-## III) Diagrammes
+#### Résultat des entretiens
+
+*  24/10/2019 : Introduction du jeu "Le Korridor"
+*  07/11/2019 : Explication de l'algorithme minimax
+*  14/11/2019 : Confirmation du cahier des charges 
+
+## IV) Diagrammes
 
 #### Diagramme de cas d’usage
 <br>
 
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Cas%20d%27usage.png)
 <br>
-
