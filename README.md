@@ -29,9 +29,12 @@ produire, nous utilisons la méthode MoSCoW :
 * C : Could (fonctionnalités optionnelles)
 * W : Would (fonctionnalités pour parfaire le projet)
 
+<br>
+
 #### Diagramme de MoSCoW
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/MoSCoW.png)
 
+<br>
 
 ## II) Spécifications techniques
 
@@ -53,8 +56,12 @@ Ainsi le projet utilisera le data-driven developpement : le projet est
 piloté par les données qui lui sont fournies et l’application marchera peu
 importe ces données.
 
+<br>
+
 #### Diagramme de Gantt
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Gantt.png)
+
+<br>
 
 ## III) Diagrammes
 
