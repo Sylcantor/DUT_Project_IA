@@ -2,20 +2,20 @@
 
 # Cahier des charges PT
 ### Délais (Octobre 2019 à Mars 2020)
-
 <br>
 
 ## Sommaire
+<br>
 
 ### I) Spécifications fonctionnelles
 ### 
 ### II) Spécifications techniques
 ### 
 ### III) Diagrammes
-
 <br>
 
 ## I) Spécifications fonctionnelles
+<br>
 
 Le but de ce projet est de créer une API d’Intelligence Artificielle permettant
 de jouer à n’importe quel jeu à deux joueurs en tour par tour et à information
@@ -28,22 +28,22 @@ produire, nous utilisons la méthode MoSCoW :
 * S : Should (fonctionnalités importantes)
 * C : Could (fonctionnalités optionnelles)
 * W : Would (fonctionnalités pour parfaire le projet)
-
 <br>
 
 #### Diagramme de MoSCoW
-
 <br>
 
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/MoSCoW.png)
-
 <br>
 
 ## II) Spécifications techniques
+<br>
 
 Notre projet sera codé en Python. En effet, ce langage est le plus utilisé
 dans le domaine de l’intelligence artificielle et possède de nombreuses
-librairies. De plus, c’est l’occasion de se former sur un langage qui nous est
+librairies. Parmi celles-ci, nous utiliserons anytree, matplotlib, networkx, numpy, pylab... 
+Qui serviront principalement pour représenter graphiquement les résultats obtenus des tests de nos intelligences artificielles.
+De plus, c’est l’occasion de se former sur un langage qui nous est
 inconnu.
 
 Nous utiliserons dans un premier temps l’algorithme minimax, qui est
@@ -58,24 +58,20 @@ intégration dans le développement du programmeur. Elle devra également
 Ainsi le projet utilisera le data-driven developpement : le projet est
 piloté par les données qui lui sont fournies et l’application marchera peu
 importe ces données.
-
 <br>
 
 #### Diagramme de Gantt
-
 <br>
 
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Gantt.png)
-
 <br>
 
 ## III) Diagrammes
+<br>
 
 #### Diagramme de cas d’usage
-
 <br>
 
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Cas%20d%27usage.png)
-
 <br>
 
