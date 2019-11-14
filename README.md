@@ -1,10 +1,4 @@
-## Castel Aurélien
-
-## Léa Dacosta
-
-## Kevin Seri
-
-## Nicolas Guiblin
+#### Castel Aurélien, Léa Dacosta, Kevin Seri, Nicolas Guiblin
 
 # Cahier des charges PT
 
