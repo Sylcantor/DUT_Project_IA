@@ -8,11 +8,8 @@
 ## Sommaire
 
 ### I) Contexte
-###
 ### II) Spécifications fonctionnelles
-### 
 ### III) Spécifications techniques
-###
 ### IV) Diagrammes
 <br>
 
