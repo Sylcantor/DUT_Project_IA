@@ -637,7 +637,7 @@
 											"top": 547.5,
 											"width": 187,
 											"height": 13,
-											"text": "Calculer arbre de jeu"
+											"text": "Construire arbre de jeu"
 										},
 										{
 											"_type": "LabelView",
@@ -3235,97 +3235,98 @@
 							}
 						},
 						{
-							"_type": "UMLGeneralizationView",
-							"_id": "AAAAAAFuai3MZhrgtW0=",
+							"_type": "UMLExtendView",
+							"_id": "AAAAAAFuan1FzWZBKWI=",
 							"_parent": {
 								"$ref": "AAAAAAFuZXdsIjh4K+c="
 							},
 							"model": {
-								"$ref": "AAAAAAFuai3MZRrecsU="
+								"$ref": "AAAAAAFuan1FyWY/NfY="
 							},
 							"subViews": [
 								{
 									"_type": "EdgeLabelView",
-									"_id": "AAAAAAFuai3MZhrhkWo=",
+									"_id": "AAAAAAFuan1FzWZCUyY=",
 									"_parent": {
-										"$ref": "AAAAAAFuai3MZhrgtW0="
+										"$ref": "AAAAAAFuan1FzWZBKWI="
 									},
 									"model": {
-										"$ref": "AAAAAAFuai3MZRrecsU="
+										"$ref": "AAAAAAFuan1FyWY/NfY="
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 371,
-									"top": 671,
+									"left": 433,
+									"top": 620,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
 									"hostEdge": {
-										"$ref": "AAAAAAFuai3MZhrgtW0="
+										"$ref": "AAAAAAFuan1FzWZBKWI="
 									},
 									"edgePosition": 1
 								},
 								{
 									"_type": "EdgeLabelView",
-									"_id": "AAAAAAFuai3MZhriUmE=",
+									"_id": "AAAAAAFuan1FzWZDze0=",
 									"_parent": {
-										"$ref": "AAAAAAFuai3MZhrgtW0="
+										"$ref": "AAAAAAFuan1FzWZBKWI="
 									},
 									"model": {
-										"$ref": "AAAAAAFuai3MZRrecsU="
+										"$ref": "AAAAAAFuan1FyWY/NfY="
 									},
-									"visible": null,
 									"font": "Arial;13;0",
-									"left": 385,
-									"top": 666,
+									"left": 410,
+									"top": 605,
+									"width": 53.49169921875,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
 									"hostEdge": {
-										"$ref": "AAAAAAFuai3MZhrgtW0="
+										"$ref": "AAAAAAFuan1FzWZBKWI="
 									},
-									"edgePosition": 1
+									"edgePosition": 1,
+									"text": "«extend»"
 								},
 								{
 									"_type": "EdgeLabelView",
-									"_id": "AAAAAAFuai3MZhrjHbo=",
+									"_id": "AAAAAAFuan1FzmZE64E=",
 									"_parent": {
-										"$ref": "AAAAAAFuai3MZhrgtW0="
+										"$ref": "AAAAAAFuan1FzWZBKWI="
 									},
 									"model": {
-										"$ref": "AAAAAAFuai3MZRrecsU="
+										"$ref": "AAAAAAFuan1FyWY/NfY="
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 344,
-									"top": 682,
+									"left": 428,
+									"top": 649,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
 									"hostEdge": {
-										"$ref": "AAAAAAFuai3MZhrgtW0="
+										"$ref": "AAAAAAFuan1FzWZBKWI="
 									},
 									"edgePosition": 1
 								}
 							],
 							"font": "Arial;13;0",
 							"head": {
-								"$ref": "AAAAAAFuaad8lFTFYI0="
+								"$ref": "AAAAAAFuZXmSUjlo6GQ="
 							},
 							"tail": {
 								"$ref": "AAAAAAFuaiYj2xRbVls="
 							},
 							"lineStyle": 1,
-							"points": "347:656;369:711",
+							"points": "416:639;447:644",
 							"showVisibility": true,
 							"nameLabel": {
-								"$ref": "AAAAAAFuai3MZhrhkWo="
+								"$ref": "AAAAAAFuan1FzWZCUyY="
 							},
 							"stereotypeLabel": {
-								"$ref": "AAAAAAFuai3MZhriUmE="
+								"$ref": "AAAAAAFuan1FzWZDze0="
 							},
 							"propertyLabel": {
-								"$ref": "AAAAAAFuai3MZhrjHbo="
+								"$ref": "AAAAAAFuan1FzmZE64E="
 							}
 						}
 					]
@@ -3636,7 +3637,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFuZXdsIjh328I="
 					},
-					"name": "Calculer arbre de jeu"
+					"name": "Construire arbre de jeu"
 				},
 				{
 					"_type": "UMLUseCase",
@@ -3839,6 +3840,19 @@
 							},
 							"target": {
 								"$ref": "AAAAAAFuaad8k1TDjoE="
+							}
+						},
+						{
+							"_type": "UMLExtend",
+							"_id": "AAAAAAFuan1FyWY/NfY=",
+							"_parent": {
+								"$ref": "AAAAAAFuaiYj2xRZJ2A="
+							},
+							"source": {
+								"$ref": "AAAAAAFuaiYj2xRZJ2A="
+							},
+							"target": {
+								"$ref": "AAAAAAFuZXmSUTlmB58="
 							}
 						}
 					]
