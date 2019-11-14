@@ -19,8 +19,9 @@
 Aujourd'hui, l'intelligence artificielle est en forte expansion dans tous les domaines. Elles s'appliquent notamment aux transports, aux jeux vidéos, aux systèmes embarqués ou encore aux diagnostics médicaux, etc. Afin d'en avoir une première approche, nous avons choisi d'implémenter une IA dans le cadre de notre projet tuteuré. Par ailleurs, la transformation digitale des entreprises est primordiale et nécessite la présence d'APIs (Interface de Programmation Applicative), qui facilitent l'intégration de logiciels. Nous avons donc décidé de lier ces deux concepts en réalisant une API d'intelligence artificielle.
 
 Ce projet nous permet d'expérimenter le travail de groupe en totale autonomie. Ainsi, chacun peut apporter ses compétences et les élargir. Il nous permet aussi d'utiliser une méthode de gestion de projet qui correspond à celles mises en place dans les entreprises. Le groupe s'entretient donc régulièrement avec son tuteur, considéré comme client, afin de rendre compte de ses réalisations.
-<br>
 
+
+<br>
 ## II) Spécifications fonctionnelles
 
 Le but de ce projet est de créer une API d’intelligence artificielle permettant
