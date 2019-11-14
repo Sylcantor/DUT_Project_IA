@@ -24,12 +24,10 @@ complète tels que le jeu de Nim, le Korridor, etc.
 Afin de déterminer les fonctionnalités que nous devrons au minimum
 produire, nous utilisons la méthode MoSCoW :
 
-```
 * M : Must (fonctionnalités vitales)
 * S : Should (fonctionnalités importantes)
 * C : Could (fonctionnalités optionnelles)
 * W : Would (fonctionnalités pour parfaire le projet)
-```
 
 #### Diagramme de MoSCoW
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/MoSCoW.png)
