@@ -1185,11 +1185,11 @@
 									},
 									"font": "Arial;13;0",
 									"left": 93,
-									"top": 363,
+									"top": 375,
 									"width": 19.86181640625,
 									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 15,
+									"alpha": 0.8637716394310726,
+									"distance": 19.79898987322333,
 									"hostEdge": {
 										"$ref": "AAAAAAFuTD+o4svwqpA="
 									},
@@ -1455,11 +1455,11 @@
 									},
 									"font": "Arial;13;0",
 									"left": 117,
-									"top": 429,
+									"top": 439,
 									"width": 19,
 									"height": 13,
-									"alpha": 1.5707963267948966,
-									"distance": 15,
+									"alpha": 1.0023993361570946,
+									"distance": 19.79898987322333,
 									"hostEdge": {
 										"$ref": "AAAAAAFuTD+1CcxCZy4="
 									},
@@ -3062,7 +3062,7 @@
 										"$ref": "AAAAAAFuTEFQedQ0nhU="
 									},
 									"edgePosition": 1,
-									"text": "+W"
+									"text": "+C"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -3566,7 +3566,7 @@
 										"$ref": "AAAAAAFuTEH629hFSHM="
 									},
 									"edgePosition": 2,
-									"text": "+W"
+									"text": "+C"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -3784,7 +3784,7 @@
 											"top": 687,
 											"width": 189.2998046875,
 											"height": 13,
-											"text": "Séparer les arbres trop grands"
+											"text": "Couper les arbres trop grands"
 										},
 										{
 											"_type": "LabelView",
@@ -4781,7 +4781,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFuLU9nnf4nGGI="
 							},
-							"name": "W",
+							"name": "C",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAFuTEFQeNQxDvo=",
@@ -5297,7 +5297,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFuTEH629hBjtQ="
 								},
-								"name": "W",
+								"name": "C",
 								"reference": {
 									"$ref": "AAAAAAFuTEEN/dNks0Q="
 								}
@@ -5357,7 +5357,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Séparer les arbres trop grands"
+					"name": "Couper les arbres trop grands"
 				},
 				{
 					"_type": "UMLClass",
