@@ -2,9 +2,7 @@
 
 # Cahier des charges PT
 ### Délais (Octobre 2019 à Mars 2020)
-
 #
-
 ## Sommaire
 
 ### I) Spécifications fonctionnelles
@@ -12,9 +10,7 @@
 ### II) Spécifications techniques
 ### 
 ### III) Diagrammes
-
 #
-
 ## I) Spécifications fonctionnelles
 
 Le but de ce projet est de créer une API d’Intelligence Artificielle permettant
