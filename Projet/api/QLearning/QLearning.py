@@ -1,5 +1,6 @@
 # q learning with table https://cdancette.fr/2017/08/18/reinforcement-learning-part1/
 import numpy as np
+from api.QLearning.QDiagram import QDiagram
 
 
 class QLearning:
