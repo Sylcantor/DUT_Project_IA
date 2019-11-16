@@ -5,7 +5,8 @@ class Tree(object):
     def __init__(self, root_value, first_player):
         self.root_value = root_value
         self.first_player = first_player  # first_player: True = Human, False = Computer
-        self.tree = [Node(0, node_value=[self.root_value], is_final=False, evaluator_value=None)]
+        self.tree = [Node(0, node_value=[self.root_value],
+                          is_final=False, evaluator_value=None)]
         self.render_tree()
 
     def render_tree(self):
@@ -16,7 +17,8 @@ class Tree(object):
                 if not node.is_final:
                     for list_ in self.set_all_child(node):
                         self.tree.append(Node(len(self.tree), parent=self.tree[node.name],
-                                              node_value=list_[0], is_final=True if list_[1] == 1 else False,
+                                              node_value=list_[0], is_final=True if list_[
+                                                  1] == 1 else False,
                                               evaluator_value=None))
                 else:
                     count_final += 1
@@ -28,13 +30,15 @@ class Tree(object):
     def set_all_child(self, node):
         result_list = []
         if max(node.node_value) == 2:
-            result_list.append([self.set_child_value(node.node_value, 2, 1), 1])
+            result_list.append(
+                [self.set_child_value(node.node_value, 2, 1), 1])
         else:
             for value in node.node_value:
                 number_of_children = self.count_children(value)
                 if value > 2:
                     for i in range(number_of_children):
-                        result_list.append([self.set_child_value(node.node_value, value, i + 1), 0])
+                        result_list.append(
+                            [self.set_child_value(node.node_value, value, i + 1), 0])
         return self.check_duplicate(result_list)
 
     def count_children(self, current_value):
@@ -64,7 +68,8 @@ class Tree(object):
         current_state, current_player = self.get_tree_height(), self.first_player
         while current_state >= 0:
             for node in findall(self.tree[0], filter_=lambda n: n.depth == current_state):
-                node.evaluator_value = self.calculate_evaluator_value(node, current_player, current_state)
+                node.evaluator_value = self.calculate_evaluator_value(
+                    node, current_player, current_state)
             current_player = not current_player
             current_state -= 1
 

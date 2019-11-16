@@ -30,7 +30,8 @@ class Game:
 
     def available_moving_point(self, current_node):
         print("---------------------------------------------------")
-        print(("\t\t(^_^)/ YOUR" if self.current_player else "\t     ['-']/ COMPUTER'S") + " TURN")
+        print(
+            ("\t\t(^_^)/ YOUR" if self.current_player else "\t     ['-']/ COMPUTER'S") + " TURN")
         print("---------------------------------------------------")
         print("Available Moving Point")
         count_child = 0
@@ -39,7 +40,8 @@ class Game:
                 print("\nThere are no available moving point T____T", end="")
                 return False
             else:
-                print(str(count_child + 1) + ". [" + ("-".join(map(str, child.node_value)))+"]")
+                print(str(count_child + 1) +
+                      ". [" + ("-".join(map(str, child.node_value)))+"]")
             count_child += 1
         print("")
         return True
@@ -49,7 +51,8 @@ class Game:
         current_child = 0
         for child in current_node.children:
             if current_child == choice_child:
-                print("Computer move\t: [" + ("-".join(map(str, child.node_value)))+"]")
+                print(
+                    "Computer move\t: [" + ("-".join(map(str, child.node_value)))+"]")
                 return child
             current_child += 1
         print("---------------------------------------------------")
@@ -68,7 +71,8 @@ class Game:
             moving_choice = int(input("Choose your move\t: "))
             for child in current_node.children:
                 if moving_choice - 1 == count_child:
-                    print("Your move\t\t: [" + ("-".join(map(str, child.node_value))) + "]")
+                    print(
+                        "Your move\t\t: [" + ("-".join(map(str, child.node_value))) + "]")
                     return child
                 count_child += 1
             print("Invalid move\n")
@@ -94,7 +98,8 @@ class Game:
         print("---------------------------------------------------")
         print("\t\t  FIRST PLAYER")
         print("---------------------------------------------------")
-        self.is_play_first = int(input("1. You\n2. Computer\n\nInsert your choice\t: "))
+        self.is_play_first = int(
+            input("1. You\n2. Computer\n\nInsert your choice\t: "))
         self.is_play_first = True if self.is_play_first == 1 else False
         print("---------------------------------------------------\n\n")
 
