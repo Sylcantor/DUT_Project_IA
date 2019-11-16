@@ -6,7 +6,7 @@ class Action:
         This class create an object to encode the player wish of action
     """
     allActions = ["go_forward", "go_right", "go_backward", "go_left",
-                "place_wall"]
+                  "place_wall"]
 
     def __init__(self):
         """

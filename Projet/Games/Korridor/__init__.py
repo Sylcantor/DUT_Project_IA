@@ -66,5 +66,6 @@ def on_mouse_press(x, y, button, modifiers):
         elif button == mouse.RIGHT:
             play('place_wall ' + str(x) + ' ' + str(y) + ' 2')
 
+
 # Run Forest, run !
 pyglet.app.run()
