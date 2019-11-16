@@ -4,8 +4,29 @@ from api.QLearning.QDiagram import QDiagram
 
 
 class QLearning:
+    """
+    A class used for the QLearning algorithm
+
+    ...
+
+    Attributes
+    ----------
+    game      : an object
+        a game
+    states_n  : int
+        represents the different states
+
+    actions_n : int
+        represents the possible actions       
+
+    Methods
+    -------
+    generate_QLearning()
+        For generating the QLearning
+    """
 
     def __init__(self, game, states_n, actions_n):
+
         self.game = game
         self.states_n = states_n
         self.actions_n = actions_n
