@@ -14,7 +14,7 @@ setuptools.setup(
     description="package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python",
+    url="https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/src/master/Projet/api",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

@@ -23,18 +23,24 @@ BLACK = (0, 0, 0)
 
 class Stone(go.Stone):
     def __init__(self, board, point, color):
-        """Create, initialize and draw a stone."""
+        """
+        Create, initialize and draw a stone.
+        """
         super(Stone, self).__init__(board, point, color)
         self.coords = (5 + self.point[0] * 40, 5 + self.point[1] * 40)
         self.draw()
 
     def draw(self):
-        """Draw the stone as a circle."""
+        """
+        Draw the stone as a circle.
+        """
         pygame.draw.circle(screen, self.color, self.coords, 20, 0)
         pygame.display.update()
 
     def remove(self):
-        """Remove the stone from board."""
+        """
+        Remove the stone from board.
+        """
         blit_coords = (self.coords[0] - 20, self.coords[1] - 20)
         area_rect = pygame.Rect(blit_coords, (40, 40))
         screen.blit(background, blit_coords, area_rect)
@@ -44,13 +50,16 @@ class Stone(go.Stone):
 
 class Board(go.Board):
     def __init__(self):
-        """Create, initialize and draw an empty board."""
+        """
+        Create, initialize and draw an empty board.
+        """
         super(Board, self).__init__()
         self.outline = pygame.Rect(45, 45, 720, 720)
         self.draw()
 
     def draw(self):
-        """Draw the board to the background and blit it to the screen.
+        """
+        Draw the board to the background and blit it to the screen.
 
         The board is drawn by first drawing the outline, then the 19x19
         grid and finally by adding hoshi to the board. All these
@@ -75,7 +84,8 @@ class Board(go.Board):
         pygame.display.update()
 
     def update_liberties(self, added_stone=None):
-        """Updates the liberties of the entire board, group by group.
+        """
+        Updates the liberties of the entire board, group by group.
 
         Usually a stone is added each turn. To allow killing by 'suicide',
         all the 'old' groups should be updated before the newly added one.

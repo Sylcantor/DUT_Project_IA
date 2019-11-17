@@ -2,9 +2,9 @@
 import matplotlib.pyplot as plt
 
 
-class QDiagram:
+class MinMax:
     """
-    A class used for the representing the outcome of QLearning
+    A class used for the MinMax algorithm
     """
 
     def __init__(self, cumul_reward_list):

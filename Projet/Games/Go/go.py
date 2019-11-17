@@ -19,7 +19,8 @@ BLACK = (0, 0, 0)
 
 class Stone(object):
     def __init__(self, board, point, color):
-        """Create and initialize a stone.
+        """
+        Create and initialize a stone.
 
         Arguments:
         board -- the board which the stone resides on
@@ -34,13 +35,17 @@ class Stone(object):
         self.group = self.find_group()
 
     def remove(self):
-        """Remove the stone from board."""
+        """
+        Remove the stone from board.
+        """
         self.group.stones.remove(self)
         del self
 
     @property
     def neighbors(self):
-        """Return a list of neighboring points."""
+        """
+        Return a list of neighboring points.
+        """
         neighboring = [(self.point[0] - 1, self.point[1]),
                        (self.point[0] + 1, self.point[1]),
                        (self.point[0], self.point[1] - 1),
@@ -52,7 +57,9 @@ class Stone(object):
 
     @property
     def liberties(self):
-        """Find and return the liberties of the stone."""
+        """
+        Find and return the liberties of the stone.
+        """
         liberties = self.neighbors
         stones = self.board.search(points=self.neighbors)
         for stone in stones:
@@ -60,7 +67,9 @@ class Stone(object):
         return liberties
 
     def find_group(self):
-        """Find or create a group for the stone."""
+        """
+        Find or create a group for the stone.
+        """
         groups = []
         stones = self.board.search(points=self.neighbors)
         for stone in stones:
@@ -77,13 +86,16 @@ class Stone(object):
             return groups[0]
 
     def __str__(self):
-        """Return the location of the stone, e.g. 'D17'."""
+        """
+        Return the location of the stone, e.g. 'D17'.
+        """
         return 'ABCDEFGHJKLMNOPQRST'[self.point[0]-1] + str(20-(self.point[1]))
 
 
 class Group(object):
     def __init__(self, board, stone):
-        """Create and initialize a new group.
+        """
+        Create and initialize a new group.
 
         Arguments:
         board -- the board which this group resides in
@@ -96,7 +108,8 @@ class Group(object):
         self.liberties = None
 
     def merge(self, group):
-        """Merge two groups.
+        """
+        Merge two groups.
 
         This method merges the argument group with this one by adding
         all its stones into this one. After that it removes the group
@@ -113,14 +126,17 @@ class Group(object):
         del group
 
     def remove(self):
-        """Remove the entire group."""
+        """
+        Remove the entire group.
+        """
         while self.stones:
             self.stones[0].remove()
         self.board.groups.remove(self)
         del self
 
     def update_liberties(self):
-        """Update the group's liberties.
+        """
+        Update the group's liberties.
 
         As this method will remove the entire group if no liberties can
         be found, it should only be called once per turn.
@@ -135,18 +151,23 @@ class Group(object):
             self.remove()
 
     def __str__(self):
-        """Return a list of the group's stones as a string."""
+        """
+        Return a list of the group's stones as a string.
+        """
         return str([str(stone) for stone in self.stones])
 
 
 class Board(object):
     def __init__(self):
-        """Create and initialize an empty board."""
+        """
+        Create and initialize an empty board.
+        """
         self.groups = []
         self.next = BLACK
 
     def search(self, point=None, points=[]):
-        """Search the board for a stone.
+        """
+        Search the board for a stone.
 
         The board is searched in a linear fashion, looking for either a
         stone in a single point (which the method will immediately
@@ -167,7 +188,9 @@ class Board(object):
         return stones
 
     def turn(self):
-        """Keep track of the turn by flipping between BLACK and WHITE."""
+        """
+        Keep track of the turn by flipping between BLACK and WHITE.
+        """
         if self.next == BLACK:
             self.next = WHITE
             return BLACK

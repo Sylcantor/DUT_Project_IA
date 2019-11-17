@@ -28,11 +28,15 @@ class Game:
         self.generate_game()
 
     def _position_to_id(self, x, y):
-        """Donne l'identifiant de la position entre 0 et 15"""
+        """
+        Donne l'identifiant de la position entre 0 et 15
+        """
         return x + y * self.n
 
     def _id_to_position(self, id):
-        """Réciproque de la fonction précédente"""
+        """
+        Réciproque de la fonction précédente
+        """
         return (id % self.n, id // self.n)
 
     def generate_game(self):
