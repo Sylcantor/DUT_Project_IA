@@ -8,10 +8,11 @@ class MiniMax:
     # print names of all nodes visited during search
     def __init__(self, game_tree):
         """
-        constructeur où on donne l'arbre de jeu entier
+        Constructeur où on donne l'arbre de jeu entier.
+        Un arbre est constitué de noeud, il a une racine et des feuilles.
         """
         self.game_tree = game_tree  # GameTree
-        self.root = game_tree.root  # GameNode
+        self.root = game_tree.root  # GameRoot
         self.currentNode = None     # GameNode
         self.successors = []        # List of GameNodes
         return
@@ -20,7 +21,7 @@ class MiniMax:
 
     def minimax(self, node):
         """
-        méthode principale à appeler, on demande un noeud de l'arbre
+        Méthode principale à appeler, on demande un noeud de l'arbre.
         """
         # first, find the max value
         best_val = self.max_value(node)  # should be root node of tree
