@@ -9,7 +9,7 @@ class MiniMax:
     def __init__(self, game_tree):
         """
         Constructeur où on donne l'arbre de jeu entier.
-        Un arbre est constitué de noeud, il a une racine et des feuilles.
+        Un arbre est constitué de noeuds, il a une racine et des feuilles.
         """
         self.game_tree = game_tree  # GameTree
         self.root = game_tree.root  # GameRoot
