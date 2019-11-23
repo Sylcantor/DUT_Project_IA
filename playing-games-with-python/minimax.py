@@ -16,6 +16,9 @@ class MiniMax:
         Les feuilles au bout de l'arbre contiennent des valeurs 
         (qui peuvent être arbitraires selon le jeu).
         Par exemple: -10 pour une défaite et 10 pour une victoire.
+        
+        L'arbre est donc sous from de liste cf: https://www.programiz.com/python-programming/list
+        Exemple de data: [‘A’, [‘B’, (‘D’, 3), (‘E’, 5)], [‘C’, [‘F’, [‘I’,(‘K’,0), (‘L’, 7)],(‘J’,5)], [‘G’, (‘M’,7), (‘N’,8)], (‘H’,4)]]
         """
         self.game_tree = game_tree  # GameTree
         self.root = game_tree.root  # GameRoot
