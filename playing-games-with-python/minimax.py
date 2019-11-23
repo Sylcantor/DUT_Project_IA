@@ -7,13 +7,21 @@ class MiniMax:
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
     def __init__(self, game_tree):
+        """
+        constructeur où on donne l'arbre de jeu entier
+        """
         self.game_tree = game_tree  # GameTree
         self.root = game_tree.root  # GameNode
         self.currentNode = None     # GameNode
         self.successors = []        # List of GameNodes
         return
 
+    # ────────────────────────────────────────────────────────────────────────────────
+
     def minimax(self, node):
+        """
+        méthode principale à appeler, on demande un noeud de l'arbre
+        """
         # first, find the max value
         best_val = self.max_value(node)  # should be root node of tree
 
@@ -25,6 +33,9 @@ class MiniMax:
         # find the node with our best move
         best_move = None
         for elem in successors:   # ---> Need to propagate values up tree for this to work
+            """
+            On cherche parmis nos élements lequel est celui avec la valeur max de max_value et on fait un break puis on la return
+            """
             if elem.value == best_val:
                 best_move = elem
                 break
@@ -34,14 +45,28 @@ class MiniMax:
 
     def max_value(self, node):
         print("MiniMax-->MAX: Visited Node :: " + node.Name)
-        if self.isTerminal(node):
+        if self.isTerminal(node):  # si c'est une feuille
+            # alors on retourne sa valeur (return node.value)
             return self.getUtility(node)
 
         infinity = float('inf')
+        # on part de - l'infini pour trouver quelque chose de meilleur à chaque fois
         max_value = -infinity
 
-        successors_states = self.getSuccessors(node)
+        successors_states = self.getSuccessors(node)  # successeurs en dessous
+        """
+          p     : 0 (max) (current)
+         / \          v
+        s   s   : 1 (min)
+            on prend donc le max
+        """
         for state in successors_states:
+            """
+            On fait donc une succession de max, min, max, min... Car dans min_value() on demandera max_value().
+            Il n'y a pas de récursivité car on part de max_value() puis on demande min_value() puis max_value() et ainsi de suite.
+            On fait remonter les valeurs avec isTerminal(), getUtility(). Les noeuds ne return pas de valeur.
+            Le programme fonctionne de façon naturelle : voir Plminmax.gif, MinMax.png.
+            """
             max_value = max(max_value, self.min_value(state))
         return max_value
 
@@ -51,9 +76,16 @@ class MiniMax:
             return self.getUtility(node)
 
         infinity = float('inf')
+        # on part de + l'infini pour trouver quelque chose de pire à chaque fois
         min_value = infinity
 
-        successor_states = self.getSuccessors(node)
+        successor_states = self.getSuccessors(node)  # successeurs en dessous
+        """
+          p     : 0 (min) (current)
+         / \          v
+        s   s   : 1 (max)
+            on prend donc le min
+        """
         for state in successor_states:
             min_value = min(min_value, self.max_value(state))
         return min_value
