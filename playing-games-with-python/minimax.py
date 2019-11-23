@@ -2,6 +2,8 @@
 ######   MINI-MAX   ######
 ##########################
 
+# https://tonypoer.io/2016/10/28/implementing-minimax-and-alpha-beta-pruning-using-python/
+
 
 class MiniMax:
     # print utility value of root node (assuming it is max)
