@@ -10,6 +10,10 @@ class MiniMax:
         """
         Constructeur où on donne l'arbre de jeu entier.
         Un arbre est constitué de noeuds, il a une racine et des feuilles.
+        Cet arbre est le jeu entier: ce sont toutes les possibilités de jeu.
+        Les feuilles au bout de l'arbre contiennent des valeurs 
+        (qui peuvent être arbitraires selon le jeu).
+        Par exemple: -10 pour une défaite et 10 pour une victoire.
         """
         self.game_tree = game_tree  # GameTree
         self.root = game_tree.root  # GameRoot
