@@ -22,6 +22,8 @@ class GameTree:
         self.players = players
         return
 
+    # TODO Finir l'arbre et les noeuds
+
     def create_tree(self):
         """
         Méthode pour créer un arbre de jeu en fonction de l'état du jeu
