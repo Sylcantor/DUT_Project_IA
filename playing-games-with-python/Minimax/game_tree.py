@@ -4,7 +4,7 @@ class GameTree:
         # X = Human
         # O = Bot
         """
-        On doit avoir: l'état du jeu, la méthode pour jouer, la méthode pour copier le plateau, vérifier l'état du jeu
+        On doit avoir: l'état du jeu, la méthode pour jouer, la méthode pour copier le plateau, et la méthode pour vérifier l'état du jeu
         """
         self.state = state
 
