@@ -16,6 +16,7 @@ class Plateau():
     tab = []   
     
     def __init__(self):
+        #attribut
         self.ligne = 19
         self.colonne = 17
         self.j1 = Joueur(8, 1)
@@ -66,7 +67,7 @@ class Plateau():
     """
     def findejeu(self):
         if((self.j1.y == 0)
-        or (self.j2.y == 18):
+        or (self.j2.y == 18)):
             return True
         else:
             return False
@@ -86,11 +87,15 @@ class Plateau():
         self.tab[y][x] = 0
 
     def placeJoueur(self, x, y):
-        self.tab[y][x]
+        self.tab[y][x] = P
             
 
         
         
 p = Plateau()
 p.affichejeu()
-p.j1.deplacement(1)
+p.j1.seDeplacer(3)
+print(p.j1.x ," ",p.j1.y)
+
+p.j1.seDeplacer(2)
+print(p.j1.x ," ",p.j1.y)

@@ -17,6 +17,7 @@ class Joueur():
     
     
     def __init__(self, posx, posy):
+        #attributs
         self.x = posx
         self.y = posy
         self.nbMur = 10
