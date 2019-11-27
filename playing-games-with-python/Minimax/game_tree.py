@@ -22,7 +22,7 @@ class GameTree:
         self.players = players
         return
 
-    # TODO Finir l'arbre et les noeuds test
+    # TODO Finir l'arbre et les noeuds
 
     def create_tree(self):
         """
