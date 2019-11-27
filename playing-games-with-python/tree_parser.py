@@ -80,10 +80,13 @@ class GameTree:
 def main():
     filename = sys.argv[1]
     print ("hello world! " + filename)
-    data_list = parse_data_as_list(filename)
-    data_tree = GameTree()
-    data_tree.build_tree(data_list)
-
-if __name__ == "__main__":
     
-main()
+class GameNode:
+    
+    def __init__(self, name, value=0, parent=None):
+        data_list = parse_data_as_list(filename)
+        data_tree = GameTree()
+        data_tree.build_tree(data_list)
+
+    if __name__ == "__main__":
+        main()
