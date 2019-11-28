@@ -77,44 +77,14 @@ class GameTree:
             self.play_move.upper(new_state, player, empty_cell)
 
             # Si c'est à l'IA de jouer.
-            if player == 'O':
+            if player == players[1]:  # == O
                 # make more depth tree for human
                 result = create_node(new_state, players[0])
                 move['score'] = result
             # Si c'est à l'humain de jouer.
-            else:
+            else:  # == X
                 # make more depth tree for AI
                 result = create_node(new_state, players[1])
                 move['score'] = result
 
             moves.append(move)
-
-        # Cherche le meilleur coup.
-        best_move = None
-
-        # Si c'est à l'IA de jouer.
-        if player == 'O':
-            best = -infinity
-            for move in moves:
-                # On récupère le max.
-                if move['score'] > best:
-                    best = move['score']
-                    if best > 8:
-                        print("IA", "score", best,
-                              "index", move['index'], "\n")
-                    # On récupère l'index de la meilleure case pour l'IA.
-                    best_move = move['index']
-        # Si c'est à l'humain de jouer.
-        else:
-            best = infinity
-            for move in moves:
-                # On récupère le min.
-                if move['score'] < best:
-                    best = move['score']
-                    if best < 0:
-                        print("Humain", "score", best,
-                              "index", move['index'], "\n")
-                    # On récupère l'index de la pire case pour l'humain.
-                    best_move = move['index']
-
-        return best_move
