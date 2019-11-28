@@ -15,14 +15,17 @@ class Plateau():
     tab = []
     
     def __init__(self):
+        """
+        Attribut de la classe PLateau:
+            Nombre colonne, nombre ligne, Joueur1, Joueur2
+        """
         self.ligne = 19
         self.colonne = 17
         self.j1 = Joueur('A', 8, 1)
         self.j2 = Joueur('B', 8, 17)
         
-        """
-        Ajout de la liste pour obtenir un tableau à 2 dimensions.
-        """
+        
+        # Ajout de la liste pour obtenir un tableau à 2 dimensions.
         for i in range(self.ligne):
             self.tab.append([])
             
@@ -52,48 +55,69 @@ class Plateau():
                     else:
                         self.tab[i].append(3)
         
-        """
-        Ajout des joueurs sur le plateau au centre de chaque extrémité.
-        """
+        
+        # Ajout des joueurs sur le plateau au centre de chaque extrémité.
         self.tab[self.j1.y][self.j1.x] = self.j1.letter
-        self.tab[self.j2.y][self.j2.x] = self.j1.letter
+        self.tab[self.j2.y][self.j2.x] = self.j2.letter
         
         
-    """
-    On vérifie si l'un des joueur a atteint une zone d'arrivée.
-    Plus précisément, si la cellule du joueur A correspond à 7 ou la cellule
-    du joueur B correspond à 5.
-    """
+    
+    #On vérifie si l'un des joueur a atteint une zone d'arrivée.
+    #Plus précisément, si la cellule du joueur A correspond a atteint la ligne de 7 ou le joueu
+    #B a atteint la ligne 5.
     def findejeu(self):
+        """
+        Arguments : rien
+        Return : boolean
+        """
+
         if((self.j1.y == 0) or (self.j2.y == 18)):
             return True
         else:
             return False
         
-    """
-    Affichage du plateau.
-    """   
-    def affichejeu(self):     
+    
+    #Affichage du plateau.  
+    def affichejeu(self): 
+        """
+        Arguments : rien
+        Return : rien (void)
+        """    
 
         for i in range(self.ligne):
             for j in range(self.colonne):
                 print(self.tab[i][j], end="")
             print("\n")
             
-        
+    # Enleve le caractère du joueur de la cellule
     def enleveJoueur(self, joueur):
+        """
+        Arguments : Objet joueur
+        Return : rien (void)
+        """
         self.tab[joueur.y][joueur.x] = 0
-
+    # Ajoute le caractère du joueur sur la cellule
     def placeJoueur(self, joueur):
+        """
+        Arguments : Objet joueur
+        Return : rien (void)
+        """
         self.tab[joueur.y][joueur.x] = joueur.letter
     
+    # Tour de jeu pour un joueur (se deplacer ou poser un mur)
     def tour(self, joueur):
+        """
+        Argument: Objet joueur
+        Return : rien (void)
+        """
         print("\n-----------------------------------------------------")
         print("Joueur ", joueur.letter, ", à vous de jouer !")
         print("-----------------------------------------------------\n")
 
+        #choix du joueur
         deplacerPion = input("Voulez-vous déplacer votre pion ? (o/n) ")
 
+        #si le joueur veut se deplacer
         if(deplacerPion == 'o' or deplacerPion == 'O'):
             print("Déplacements : Haut (1), Bas (2), Gauche (3), Droite (4)")
             deplacement = int(input("Choisissez un déplacement parmi 1, 2, 3 ou 4 : "))
@@ -102,6 +126,7 @@ class Plateau():
             joueur.seDeplacer(deplacement)
             self.placeJoueur(joueur)
 
+        #si le joueur veut poser un mur
         elif(deplacerPion == 'n' or deplacerPion == "N"):
             poserMur = input("Voulez-vous poser un mur ? (o/n) ")
 
@@ -113,6 +138,7 @@ class Plateau():
                 print("Réponse invalide, nous vous prions de recommencer...")
                 self.tour(joueur)
 
+        #Dans le cas d'une reponse erronee
         else:
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
