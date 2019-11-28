@@ -50,6 +50,8 @@ class GameTree:
 
         winner_loser, done = self.check_current_state.upper(state)
 
+    # Si c'est des feuilles: on return la valeur de victoires ou défaite
+
         # Si le jeu est fini et que l'IA a gagné.
         if done == "Done" and winner_loser == players[0]:  # Humain X
             return win_value
