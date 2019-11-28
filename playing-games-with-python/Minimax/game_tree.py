@@ -1,6 +1,6 @@
 
 class GameTree:
-    def __init__(self, state, play_move, copy_game_state, check_current_state, check_playable=" ", win_value=10, loss_value=-loss_value, players=['Human', 'Bot']):
+    def __init__(self, state, play_move, copy_game_state, check_current_state, check_playable=" ", win_value=10, loss_value=-win_value, players=['Human', 'Bot']):
         # X = Human
         # O = Bot
         """
