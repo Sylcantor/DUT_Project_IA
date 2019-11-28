@@ -26,31 +26,35 @@ class GameTree:
 
     def create_tree(self):
         """
-        Méthode pour créer un arbre de jeu en fonction de l'état du jeu
+        Méthode pour créer un arbre de jeu en fonction de l'état du jeu.
+        On fait plein de parties dans cette méthode.
         Return une liste
         """
-        self.play_move.upper()  # play_move(state, player, block_num)
-        self.copy_game_state.upper()  # copy_game_state(state)
+        # self.play_move.upper()            # play_move(state, player, block_num)
+        # self.copy_game_state.upper()      # copy_game_state(state)
+        # self.check_current_state.upper()  # check_current_state(game_state)
 
         # Nested List
-        game_tree = ["Happy", [2, 0, 1, 5]]
+        game_tree = []
+
+        game_tree.append(create_node(self.state, players[0]))
 
         return game_tree
 
-    def create_node(self, player):
+    def create_node(self, state, player):
         """
-        Méthode pour faire un noeud de l'arbre
+        Méthode pour faire un noeud de l'arbre.
+        On joue une partie dans cette méthode.
         Return un noeud
         """
 
-        # check_current_state(game_state)
-        winner_loser, done = check_current_state.upper(state)
+        winner_loser, done = self.check_current_state.upper(state)
 
         # Si le jeu est fini et que l'IA a gagné.
-        if done == "Done" and winner_loser == players[0]:
+        if done == "Done" and winner_loser == players[0]:  # Humain X
             return win_value
         # Si le jeu est fini et que l'IA a perdu.
-        elif done == "Done" and winner_loser == players[1]:
+        elif done == "Done" and winner_loser == players[1]:  # IA O
             return loss_value
         # Si le jeu est fini et que personne n'a gagné.
         elif done == "Draw":
@@ -60,26 +64,27 @@ class GameTree:
         empty_cells = []
 
     # On numérote les cases où l'on peut jouer (pas vides)
-        for i in range(boardSizeX):
-            for j in range(boardSizeY):
+        for i in range(self.boardSizeX):
+            for j in range(self.boardSizeY):
                 if state[i][j] is self.check_playable:  # empty / playable
                     empty_cells.append(i*3 + (j+1))
 
+    # Jeux imaginaires
         for empty_cell in empty_cells:
             move = {}
             move['index'] = empty_cell
-            new_state = copy_game_state(state)
-            play_move(new_state, player, empty_cell)
+            new_state = self.copy_game_state.upper(state)
+            self.play_move.upper(new_state, player, empty_cell)
 
             # Si c'est à l'IA de jouer.
             if player == 'O':
                 # make more depth tree for human
-                result = getBestMove(new_state, 'X')
+                result = create_node(new_state, players[0])
                 move['score'] = result
             # Si c'est à l'humain de jouer.
             else:
                 # make more depth tree for AI
-                result = getBestMove(new_state, 'O')
+                result = create_node(new_state, players[1])
                 move['score'] = result
 
             moves.append(move)
