@@ -81,6 +81,15 @@ class GameTree:
         moves = []
         empty_cells = []
 
+        moves = []
+        empty_cells = []
+
+    # On numérote les cases où l'on peut jouer (pas vides)
+        for i in range(self.boardSizeX):
+            for j in range(self.boardSizeY):
+                if state[i][j] is self.check_playable:  # empty / playable
+                    empty_cells.append(i*self.boardSizeX + (j+1))
+
     # Jeux imaginaires
         for empty_cell in empty_cells:
             move = {}
@@ -129,7 +138,7 @@ class GameTree:
         for i in range(self.boardSizeX):
             for j in range(self.boardSizeY):
                 if state[i][j] is self.check_playable:  # empty / playable
-                    empty_cells.append(i*boardSizeX + (j+1))
+                    empty_cells.append(i*self.boardSizeX + (j+1))
 
     # Jeux imaginaires
         for empty_cell in empty_cells:
