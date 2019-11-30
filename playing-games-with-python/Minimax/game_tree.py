@@ -69,7 +69,7 @@ class GameTree:
         for i in range(self.boardSizeX):
             for j in range(self.boardSizeY):
                 if state[i][j] is self.check_playable:  # empty / playable
-                    empty_cells.append(i*3 + (j+1))
+                    empty_cells.append(i*boardSizeX + (j+1))
 
     # Jeux imaginaires
         for empty_cell in empty_cells:
