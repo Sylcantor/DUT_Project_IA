@@ -81,9 +81,6 @@ class GameTree:
         moves = []
         empty_cells = []
 
-        moves = []
-        empty_cells = []
-
     # On numérote les cases où l'on peut jouer (pas vides)
         for i in range(self.boardSizeX):
             for j in range(self.boardSizeY):
