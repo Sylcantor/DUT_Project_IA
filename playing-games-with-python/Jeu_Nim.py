@@ -32,7 +32,7 @@ class Nim():
         """
         if(self.allumette - nbAllumette < 0 or nbAllumette == 0):
             print("Vous ne pouvez pas effectuer cette action")
-            self.enleve(int(input("Donnez un nombre valide :")))
+            self.enleve(int(input("Donnez un nombre valide : ")))
         else:
             self.allumette -= nbAllumette
 
@@ -53,7 +53,7 @@ players = ['Human', 'Bot']
 
 nimObj = Nim(5)
 
-gt = GameTree(5, nimObj.enleve, nimObj.reste, nimObj.finDeJeu)
+gt = GameTree(5, nimObj.enleve(1), nimObj.reste(), nimObj.finDeJeu())
 
 i = 0
 
@@ -65,7 +65,7 @@ while(nimObj.finDeJeu() == False):
         player = players[1]
 
     print(nimObj.reste())
-    choix = int(input("Donner le nombre d'allumette :"))
+    choix = int(input("Donner le nombre d'allumette : "))
     nimObj.enleve(choix)
     print("\n")
 
