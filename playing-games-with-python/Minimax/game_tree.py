@@ -1,17 +1,16 @@
 
+from copy import deepcopy
+
+
 class GameTree:
     # init pour un jeu avec et sans plateau
-    def __init__(self, state, play_move, check_current_state, copy_game_state=None, win_value=10, loss_value=-10, check_playable=" ", players=['Human', 'Bot']):
+    def __init__(self, game, check_playable=None, win_value=10, loss_value=-10, players=['Human', 'Bot']):
         # X = Human
         # O = Bot
         """
         On doit avoir: l'état du jeu, la méthode pour jouer, la méthode pour copier le plateau, et la méthode pour vérifier l'état du jeu
         """
-        self.state = state
-
-        self.play_move = play_move
-        self.copy_game_state = copy_game_state
-        self.check_current_state = check_current_state
+        self.game = game
 
         self.check_playable = check_playable
         self.win_value = win_value
@@ -22,38 +21,37 @@ class GameTree:
     # TODO Mettre en pratique le code
 
     @classmethod
-    def from_board(cls, state, play_move, check_current_state, copy_game_state, win_value=10, loss_value=-10, check_playable=" ", players=['Human', 'Bot']):
+    def from_board(cls, game, check_playable=" ", win_value=10, loss_value=-10, players=['Human', 'Bot']):
         """
         Constructeur pour les jeux plateau
         """
-        g = GameTree(state, play_move, check_current_state, None,
-                     win_value, loss_value, check_playable, players)
+        g = GameTree(game, None, win_value, loss_value, players)
 
-        g.copy_game_state = copy_game_state
+        g.check_playable = check_playable
 
-        boardSample = check_current_state.upper(state)
+        boardSample = g.current_state
         self.boardSizeX = len(boardSample)
         self.boardSizeY = map(len, boardSample)
 
         return g
 
-    def create_tree(self):
+    def create_tree(self, game, currentplayer):
         """
         Méthode pour créer un arbre de jeu en fonction de l'état du jeu.
         On fait plein de parties dans cette méthode.
         Return une liste
         """
-        # self.play_move.upper()            # play_move(state, player, block_num)
-        # self.copy_game_state.upper()      # copy_game_state(state)
-        # self.check_current_state.upper()  # check_current_state(game_state)
+
+        self.game = game
+        state = game.current_state()
 
         # Nested List
         game_tree = []
 
-        try:
-            game_tree.append(create_node_game_board(self.state, players[0]))
-        except NameError:
-            game_tree.append(create_node(self.state, players[0]))
+        # try:
+        # self.create_node_game_board(self.state, self.players[0])
+        # except NameError:
+        self.create_node(state, currentplayer)
 
         return game_tree
 
@@ -64,15 +62,15 @@ class GameTree:
         Return un noeud
         """
 
-        winner_loser, done = self.check_current_state.upper(state)
+        winner_loser, done = self.game.check_current_state()
 
     # Si c'est des feuilles: on return la valeur de victoires ou défaite
 
         # Si le jeu est fini et que l'IA a gagné.
-        if done == "Done" and winner_loser == players[0]:  # Humain X
+        if done == True and winner_loser == self.players[0]:  # Humain X
             return win_value
         # Si le jeu est fini et que l'IA a perdu.
-        elif done == "Done" and winner_loser == players[1]:  # IA O
+        elif done == True and winner_loser == self.players[1]:  # IA O
             return loss_value
         # Si le jeu est fini et que personne n'a gagné.
         elif done == "Draw":
@@ -81,28 +79,30 @@ class GameTree:
         moves = []
         empty_cells = []
 
-    # On numérote les cases où l'on peut jouer (pas vides)
-        for i in range(self.boardSizeX):
-            for j in range(self.boardSizeY):
-                if state[i][j] is self.check_playable:  # empty / playable
-                    empty_cells.append(i*self.boardSizeX + (j+1))
+    # On numérote les coups où l'on peut jouer (pas vides)
+        for i in range(state):
+            if self.game.check_valide_move(i) == True:
+                empty_cells.append(i)
 
     # Jeux imaginaires
         for empty_cell in empty_cells:
             move = {}
             move['index'] = empty_cell
-            new_state = self.copy_game_state.upper(state)
-            self.play_move.upper(new_state, player, empty_cell)
+
+            # FIXME
+            copy_game = deepcopy(self.game)
+            new_state = copy_game.current_state()
+            copy_game.play_move(empty_cell, player)
 
             # Si c'est à l'IA de jouer.
-            if player == players[1]:  # == O
+            if player == self.players[1]:  # == O
                 # make more depth tree for human
-                result = create_node_game_board(new_state, players[0])
+                result = self.create_node(new_state, self.players[0])
                 move['score'] = result
             # Si c'est à l'humain de jouer.
             else:  # == X
                 # make more depth tree for AI
-                result = create_node_game_board(new_state, players[1])
+                result = self.create_node(new_state, self.players[1])
                 move['score'] = result
 
             moves.append(move)
