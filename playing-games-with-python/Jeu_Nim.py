@@ -31,6 +31,15 @@ class Nim():
         else:
             self.allumette -= choice
 
+    def check_valide_move(self, choice):
+        """
+        Methode qui vérifie si le coup est valide (sans changer l'objet)
+        """
+        if(self.allumette - choice < 0 or self.allumette == 0):
+            return False
+        else:
+            return True
+
     def check_current_state(self):
         """
         Methode qui vérifie s'il reste des allumettes
@@ -45,15 +54,6 @@ class Nim():
         Message qui donne le nombre d'allumette
         """
         return self.allumette
-
-    def check_valide_move(self, choice):
-        """
-        Methode qui vérifie si le coup est valide
-        """
-        if(self.allumette - choice < 0 or self.allumette == 0):
-            return False
-        else:
-            return True
 
     def gameover(self):
         """
