@@ -1,7 +1,7 @@
 
 class GameTree:
     # init pour un jeu avec et sans plateau
-    def __init__(self, state, play_move, copy_game_state, check_current_state, check_playable=" ", win_value=10, loss_value=-10, players=['Human', 'Bot']):
+    def __init__(self, state, play_move, copy_game_state, check_current_state, win_value=10, loss_value=-10, check_playable=" ", players=['Human', 'Bot']):
         # X = Human
         # O = Bot
         """
@@ -13,9 +13,10 @@ class GameTree:
         self.copy_game_state = copy_game_state
         self.check_current_state = check_current_state
 
-        boardSample = check_current_state.upper(state)
-        self.boardSizeX = len(boardSample)
-        self.boardSizeY = map(len, boardSample)
+        if type(check_current_state.upper(state)) is list:
+            boardSample = check_current_state.upper(state)
+            self.boardSizeX = len(boardSample)
+            self.boardSizeY = map(len, boardSample)
 
         self.check_playable = check_playable
         self.win_value = win_value
