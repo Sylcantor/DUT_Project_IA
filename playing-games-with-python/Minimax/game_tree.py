@@ -1,6 +1,7 @@
 
 class GameTree:
-    def __init__(self, state, play_move, copy_game_state, check_current_state, check_playable=" ", win_value=10, loss_value=-win_value, players=['Human', 'Bot']):
+    # init pour un jeu avec et sans plateau
+    def __init__(self, state, play_move, copy_game_state, check_current_state, check_playable=" ", win_value=10, loss_value=-10, players=['Human', 'Bot']):
         # X = Human
         # O = Bot
         """
@@ -24,7 +25,7 @@ class GameTree:
 
     # TODO Mettre en pratique le code
 
-    def create_tree(self):
+    def create_tree_game_board(self):
         """
         Méthode pour créer un arbre de jeu en fonction de l'état du jeu.
         On fait plein de parties dans cette méthode.

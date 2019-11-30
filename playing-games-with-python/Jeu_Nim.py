@@ -5,6 +5,8 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
+from Minimax.game_tree import GameTree
+
 
 class Nim():
 
@@ -47,11 +49,26 @@ class Nim():
         return("Il reste {0} allumettes".format(self.allumette))
 
 
-j = Nim(5)
-while(j.finDeJeu() == False):
-    print(j.reste())
+players = ['Human', 'Bot']
+
+nimObj = Nim(5)
+
+gt = GameTree(5, nimObj.enleve, nimObj.reste, nimObj.finDeJeu)
+
+i = 0
+
+while(nimObj.finDeJeu() == False):
+
+    if i == 0:
+        player = players[0]
+    else:
+        player = players[1]
+
+    print(nimObj.reste())
     choix = int(input("Donner le nombre d'allumette :"))
-    j.enleve(choix)
+    nimObj.enleve(choix)
     print("\n")
 
-print(j.gameover())
+    i ^= 1
+
+print(nimObj.gameover())
