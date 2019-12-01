@@ -52,7 +52,8 @@ class GameTree:
         primary_key = 0
 
         # chaque noeud contient l'objet jeu, le joueur, sa clef primaire, la clef primaire du parent et s'il y en a une la valeur de feuille
-        currentnode = [game, player, primary_key, primary_key]
+        # si c'est un parent alors le parent sera suivi par ses enfants
+        currentnode = [game, player, primary_key, primary_key]  # my_children ]
 
         # la queue, on ititialise la file avec l'état du jeu et le joueur qui joue
         queue = deque()
