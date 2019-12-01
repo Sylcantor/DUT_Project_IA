@@ -3,6 +3,24 @@ from copy import deepcopy
 from collections import deque
 
 
+class Node:  # currentnode = [game, player, primary_key, parent_id]  # my_children ]
+    def __init__(self, game, player, primary_key, parent_key=0, leaf_value=None):
+        self.game = game
+        self.player = player
+        self.primary_key = primary_key
+        self.parent_key = parent_key
+        self.leaf_value = leaf_value
+        self.children = []
+
+    def __repr__(self):
+        if self.children:
+            return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.children))[1:-1]
+        return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.leaf_value))[1:-1]
+
+    # return str((object.__repr__(self), self.name, self.my_id, self.parent, self.children))[1:-1]
+    # return str((object.__repr__(self), self.name, self.my_id, self.parent))[1:-1]
+
+
 class GameTree:
     # init pour un jeu avec et sans plateau
     def __init__(self, game, check_playable=None, win_value=10, loss_value=-10, players=['Human', 'Bot']):
@@ -53,14 +71,11 @@ class GameTree:
 
         # chaque noeud contient l'objet jeu, le joueur, sa clef primaire, la clef primaire du parent et s'il y en a une la valeur de feuille
         # si c'est un parent alors le parent sera suivi par ses enfants
-        currentnode = [game, player, primary_key,
-                       primary_key]  # my_children ]
-        currentnode.append(currentnode)
 
-        print("the first parent : " + str(currentnode))
+        currentnode = Node(game, player, primary_key, primary_key)
 
         # la queue, on ititialise la file avec l'état du jeu et le joueur qui joue
-        queue = deque()
+        queue = deque()  # <Node>
 
         queue.append(currentnode)
         game_tree.append(currentnode)
@@ -69,10 +84,11 @@ class GameTree:
 
             currentnode = queue.pop()
 
-            game = currentnode[0]
-            player = currentnode[1]
-            parent_key = currentnode[2]
-            parent = currentnode[3]
+            print("current node : " + str(currentnode))
+
+            game = currentnode.game
+            player = currentnode.player
+            parent_key = currentnode.primary_key
 
             constructingnode = []  # the next node
 
@@ -82,10 +98,11 @@ class GameTree:
 
                 primary_key += 1
 
-                constructingnode = [game, player, primary_key, parent_key, parent,
-                                    self.create_leaf(game)]
+                constructingnode = Node(game, player, primary_key,
+                                        parent_key, self.create_leaf(game))
+
                 print("leaf : " + str(constructingnode))
-                parent.append(constructingnode)
+                game_tree.append(constructingnode)
                 continue  # skip over the part of the loop
 
             moves = []
@@ -111,20 +128,19 @@ class GameTree:
                 # Si c'est à l'IA de jouer.    players = ['Human', 'Bot']
                 if player == self.players[1]:  # == O
                     # make more depth tree for human
-                    constructingnode = [copy_game,
-                                        self.players[0], primary_key, parent_key]  # au tours de human à jouer
+                    constructingnode = Node(copy_game,
+                                            self.players[0], primary_key, parent_key)  # au tours de human à jouer
                     print("constructed node : " + str(constructingnode))
-                    queue.append(constructingnode)
 
                 # Si c'est à l'humain de jouer.
                 if player == self.players[0]:  # == X
                     # make more depth tree for AI
-                    constructingnode = [copy_game,
-                                        self.players[1], primary_key, parent_key]  # au tours de bot à jouer
+                    constructingnode = Node(copy_game,
+                                            self.players[1], primary_key, parent_key)  # au tours de bot à jouer
                     print("constructed node : " + str(constructingnode))
-                    queue.append(constructingnode)
 
-                parent.append(constructingnode)
+                queue.append(constructingnode)
+                game_tree.append(constructingnode)
 
         # while not queue.empty():
          #   game_tree.append(queue.pop())
@@ -136,6 +152,21 @@ class GameTree:
 
         print("___ FINAL TREE ___")
         print(game_tree)
+
+        parent = None
+        for node in game_tree:
+            if node.primary_key == node.parent_key:
+                parent = node
+                break
+        print('Parent:', parent)
+
+        indexed_objects = {node.primary_key: node for node in game_tree}
+        for node in game_tree:
+            if node.primary_key != node.parent_key:
+                my_parent = indexed_objects[node.parent_key]
+                my_parent.children.append(node)
+
+        print('Parent:', [parent])
 
         return game_tree
 
