@@ -51,7 +51,7 @@ class GameTree:
 
         primary_key = 0
 
-        # chaque noeud contient son jeu, le joueur qui a joué
+        # chaque noeud contient l'objet jeu, le joueur, sa clef primaire, la clef primaire du parent et s'il y en a une la valeur de feuille
         currentnode = [game, player, primary_key, primary_key]
 
         # la queue, on ititialise la file avec l'état du jeu et le joueur qui joue
@@ -102,11 +102,11 @@ class GameTree:
                 # on fait le coup sur cette copie de jeu
                 copy_game.play_move(empty_cell, player)
 
-                # Si c'est à l'IA de jouer.
+                # Si c'est à l'IA de jouer.    players = ['Human', 'Bot']
                 if player == self.players[1]:  # == O
                     # make more depth tree for human
                     constructingnode = [copy_game,
-                                        self.players[0], primary_key, parent_key]
+                                        self.players[0], primary_key, parent_key]  # au tours de human à jouer
                     print("constructed node : " + str(constructingnode))
                     queue.append(constructingnode)
 
@@ -114,7 +114,7 @@ class GameTree:
                 if player == self.players[0]:  # == X
                     # make more depth tree for AI
                     constructingnode = [copy_game,
-                                        self.players[1], primary_key, parent_key]
+                                        self.players[1], primary_key, parent_key]  # au tours de bot à jouer
                     print("constructed node : " + str(constructingnode))
                     queue.append(constructingnode)
 

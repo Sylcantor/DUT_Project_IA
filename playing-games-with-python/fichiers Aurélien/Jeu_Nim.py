@@ -25,11 +25,11 @@ class Nim():
         Methode qui enleve un certain nombre d'allumette
         """
         self.currentplayer = currentplayer
-        if(self.allumette - choice < 0 or self.allumette == 0):
-            print("Vous ne pouvez pas effectuer cette action")
-            self.play_move(int(input("Donnez un nombre valide : ")))
-        else:
+        if (self.check_valid_move(choice)) and (choice not in self.invalid_moves()):
             self.allumette -= choice
+        else:
+            print("Vous ne pouvez pas effectuer cette action")
+            self.play_move(int(input("Donnez un nombre valide : ")), player[0])
 
     def check_valid_move(self, choice):
         """
@@ -49,7 +49,7 @@ class Nim():
         """
         invalid = []
         invalid.append(0)
-        if(self.allumette > 0):
+        if(self.allumette > 1):  # s'il reste une allumette alors on peut jouer le coup de 1
             invalid.append(self.allumette)
 
         print("invalid moves" + str(invalid))
@@ -81,7 +81,6 @@ game = Nim(6, players[0])
 
 gtree = GameTree(game)
 
-# FIXME
 nim_tree = gtree.create_tree(game, players[0])
 
 i = 0
