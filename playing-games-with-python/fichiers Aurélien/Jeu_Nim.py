@@ -31,14 +31,29 @@ class Nim():
         else:
             self.allumette -= choice
 
-    def check_valide_move(self, choice):
+    def check_valid_move(self, choice):
         """
-        Methode qui vérifie si le coup est valide (sans changer l'objet)
+        Methode qui vérifie si le coup est valide
         """
         if(self.allumette - choice < 0 or self.allumette == 0):
             return False
         else:
             return True
+
+    def minimal_move(self):
+        return 1
+
+    def invalid_moves(self):
+        """
+        Methode qui renvoie les coups impossibles
+        """
+        invalid = []
+        invalid.append(0)
+        if(self.allumette > 0):
+            invalid.append(self.allumette)
+
+        print("invalid moves" + str(invalid))
+        return invalid
 
     def check_current_state(self):
         """
@@ -62,7 +77,7 @@ class Nim():
         return("Il n'y a plus d'allumette, victoire à " + str(self.check_current_state()[0]))
 
 
-game = Nim(5, players[0])
+game = Nim(6, players[0])
 
 gtree = GameTree(game)
 

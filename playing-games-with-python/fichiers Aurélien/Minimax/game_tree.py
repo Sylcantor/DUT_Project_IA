@@ -1,5 +1,6 @@
 
 from copy import deepcopy
+from collections import deque
 
 
 class GameTree:
@@ -35,46 +36,132 @@ class GameTree:
 
         return g
 
-    def create_tree(self, game, currentplayer):
+    def create_tree(self, currentgame, currentplayer='Bot'):
         """
         Méthode pour créer un arbre de jeu en fonction de l'état du jeu.
         On fait plein de parties dans cette méthode.
         Return une liste
         """
+        # pour ne pas mélanger les variables current : c'est le jeu réel
+        game = currentgame
+        player = currentplayer
 
-        self.game = game
-        state = game.current_state()
-
-        # Nested List
+        # La liste à return
         game_tree = []
+
+        primary_key = 0
+
+        # chaque noeud contient son jeu, le joueur qui a joué
+        currentnode = [game, player, primary_key, primary_key]
+
+        # la queue, on ititialise la file avec l'état du jeu et le joueur qui joue
+        queue = deque()
+
+        queue.append(currentnode)
+        game_tree.append(currentnode)
+
+        while len(queue) != 0:  # while is not empty
+
+            currentnode = queue.pop()
+
+            game = currentnode[0]
+            player = currentnode[1]
+            parent_key = currentnode[2]
+
+            constructingnode = []  # the next node
+
+            # Si c'est une feuille: on return la valeur de victoire ou défaite
+            winner_loser, done = game.check_current_state()
+            if done == True or done == "Draw":
+
+                primary_key += 1
+
+                constructingnode = [game, player, primary_key, parent_key,
+                                    self.create_leaf(game)]
+                print("leaf : " + str(constructingnode))
+                game_tree.append(constructingnode)
+                continue  # skip over the part of the loop
+
+            moves = []
+            empty_cells = []
+
+            # On numérote les coups où l'on peut jouer (pas vides)
+            for i in range(game.minimal_move(), game.current_state() + 1):  # l'état actuel du jeu
+                if game.check_valid_move(i) == True:
+                    empty_cells.append(i)
+            print("empty_cells " + str(empty_cells))
+
+            # Jeux imaginaires
+            for empty_cell in [x for x in empty_cells if x not in game.invalid_moves()]:
+
+                print("empty_cell " + str(empty_cell))
+
+                primary_key += 1
+
+                copy_game = deepcopy(game)  # on copie le jeu
+                # on fait le coup sur cette copie de jeu
+                copy_game.play_move(empty_cell, player)
+
+                # Si c'est à l'IA de jouer.
+                if player == self.players[1]:  # == O
+                    # make more depth tree for human
+                    constructingnode = [copy_game,
+                                        self.players[0], primary_key, parent_key]
+                    print("constructed node : " + str(constructingnode))
+                    queue.append(constructingnode)
+
+                # Si c'est à l'humain de jouer.
+                if player == self.players[0]:  # == X
+                    # make more depth tree for AI
+                    constructingnode = [copy_game,
+                                        self.players[1], primary_key, parent_key]
+                    print("constructed node : " + str(constructingnode))
+                    queue.append(constructingnode)
+
+                game_tree.append(constructingnode)
+
+        # while not queue.empty():
+         #   game_tree.append(queue.pop())
 
         # try:
         # self.create_node_game_board(self.state, self.players[0])
         # except NameError:
-        self.create_node(state, currentplayer)
+        # self.create_node(state, currentplayer)
+
+        print("___ FINAL TREE ___")
+        print(game_tree)
 
         return game_tree
 
-    def create_node(self, state, player):
+    def create_leaf(self, game):
+        """
+        Return the value of a leaf
+        """
+
+        # Si c'est des feuilles: on return la valeur de victoires ou défaite
+        winner_loser, done = game.check_current_state()
+
+        # Si le jeu est fini et que l'IA a gagné.
+        if done == True and winner_loser == self.players[0]:  # Humain X
+            return self.win_value
+        # Si le jeu est fini et que l'IA a perdu.
+        elif done == True and winner_loser == self.players[1]:  # IA O
+            return self.loss_value
+        # Si le jeu est fini et que personne n'a gagné.
+        elif done == "Draw":
+            return 0
+
+    def create_node(self, game, player):
         """
         Méthode pour faire un noeud de l'arbre.
         On joue une partie dans cette méthode.
         Return un noeud
         """
 
-        winner_loser, done = self.game.check_current_state()
-
-    # Si c'est des feuilles: on return la valeur de victoires ou défaite
-
-        # Si le jeu est fini et que l'IA a gagné.
-        if done == True and winner_loser == self.players[0]:  # Humain X
-            return win_value
-        # Si le jeu est fini et que l'IA a perdu.
-        elif done == True and winner_loser == self.players[1]:  # IA O
-            return loss_value
-        # Si le jeu est fini et que personne n'a gagné.
-        elif done == "Draw":
-            return 0
+        # Si c'est des feuilles: on return la valeur de victoires ou défaite
+        winner_loser, done = game.check_current_state()
+        if done == True or done == "Draw":
+            self.create_leaf(game, player)
 
         moves = []
         empty_cells = []
