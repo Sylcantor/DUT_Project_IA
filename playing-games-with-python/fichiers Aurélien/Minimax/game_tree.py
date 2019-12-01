@@ -53,7 +53,11 @@ class GameTree:
 
         # chaque noeud contient l'objet jeu, le joueur, sa clef primaire, la clef primaire du parent et s'il y en a une la valeur de feuille
         # si c'est un parent alors le parent sera suivi par ses enfants
-        currentnode = [game, player, primary_key, primary_key]  # my_children ]
+        currentnode = [game, player, primary_key,
+                       primary_key]  # my_children ]
+        currentnode.append(currentnode)
+
+        print("the first parent : " + str(currentnode))
 
         # la queue, on ititialise la file avec l'état du jeu et le joueur qui joue
         queue = deque()
@@ -68,6 +72,7 @@ class GameTree:
             game = currentnode[0]
             player = currentnode[1]
             parent_key = currentnode[2]
+            parent = currentnode[3]
 
             constructingnode = []  # the next node
 
@@ -77,10 +82,10 @@ class GameTree:
 
                 primary_key += 1
 
-                constructingnode = [game, player, primary_key, parent_key,
+                constructingnode = [game, player, primary_key, parent_key, parent,
                                     self.create_leaf(game)]
                 print("leaf : " + str(constructingnode))
-                game_tree.append(constructingnode)
+                parent.append(constructingnode)
                 continue  # skip over the part of the loop
 
             moves = []
@@ -119,7 +124,7 @@ class GameTree:
                     print("constructed node : " + str(constructingnode))
                     queue.append(constructingnode)
 
-                game_tree.append(constructingnode)
+                parent.append(constructingnode)
 
         # while not queue.empty():
          #   game_tree.append(queue.pop())
