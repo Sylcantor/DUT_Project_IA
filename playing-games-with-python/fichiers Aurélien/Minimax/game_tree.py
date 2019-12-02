@@ -14,7 +14,7 @@ class Node:  # currentnode = [game, player, primary_key, parent_id]  # my_childr
 
     def __repr__(self):
         if self.children:
-            return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.children))[1:-1]
+            return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.leaf_value, self.children))[1:-1]
         return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.leaf_value))[1:-1]
 
     # return str((object.__repr__(self), self.name, self.my_id, self.parent, self.children))[1:-1]
@@ -150,15 +150,17 @@ class GameTree:
         # except NameError:
         # self.create_node(state, currentplayer)
 
-        print("___ FINAL TREE ___")
-        print(game_tree)
+        print("___ FINAL TREE ___", game_tree)
+        print(" ")
 
         parent = None
         for node in game_tree:
             if node.primary_key == node.parent_key:
                 parent = node
                 break
-        print('Parent:', parent)
+
+        print('___Parent:___', parent)
+        print(" ")
 
         indexed_objects = {node.primary_key: node for node in game_tree}
         for node in game_tree:
@@ -166,8 +168,8 @@ class GameTree:
                 my_parent = indexed_objects[node.parent_key]
                 my_parent.children.append(node)
 
-        print('Parent:', [parent])
-
+        print('___Parent:___', [parent])
+        print(" ")
         return game_tree
 
     def create_leaf(self, game):
