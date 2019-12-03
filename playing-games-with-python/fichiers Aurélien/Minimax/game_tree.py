@@ -3,19 +3,28 @@ from copy import deepcopy
 from collections import deque
 
 
-class Node:  # currentnode = [game, player, primary_key, parent_id]  # my_children ]
-    def __init__(self, game, player, primary_key, parent_key=0, leaf_value=None):
+class Node:  # currentnode = [game, player, my_id, parent_id]  # my_children ]
+    """
+    Class qui caractérise un noeud qui a:
+    game, player, my_id, parent_id=0, move=None, leaf_value=None
+    """
+
+    def __init__(self, game, player, my_id, parent_id=0, move=None, leaf_value=None):
         self.game = game
+        self.move = move
         self.player = player
-        self.primary_key = primary_key
-        self.parent_key = parent_key
-        self.leaf_value = leaf_value
+        self.my_id = my_id
+        self.parent_id = parent_id
+        self.value = leaf_value
         self.children = []
 
     def __repr__(self):
+        """
+        Pour récupérer un noeud, si on fait Node(...) on récupère tout ça:
+        """
         if self.children:
-            return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.leaf_value, self.children))[1:-1]
-        return str((object.__repr__(self), self.game, self.player, self.primary_key, self.parent_key, self.leaf_value))[1:-1]
+            return str((object.__repr__(self), self.game, self.move, self.player, self.my_id, self.parent_id, self.value, self.children))[1:-1]
+        return str((object.__repr__(self), self.game, self.move, self.player, self.my_id, self.parent_id, self.value))[1:-1]
 
     # return str((object.__repr__(self), self.name, self.my_id, self.parent, self.children))[1:-1]
     # return str((object.__repr__(self), self.name, self.my_id, self.parent))[1:-1]
@@ -35,6 +44,8 @@ class GameTree:
         self.win_value = win_value
         self.loss_value = loss_value
         self.players = players
+
+        # self.root = None
         return
 
     # TODO Mettre en pratique le code
@@ -67,12 +78,12 @@ class GameTree:
         # La liste à return
         game_tree = []
 
-        primary_key = 0
+        my_id = 0
 
         # chaque noeud contient l'objet jeu, le joueur, sa clef primaire, la clef primaire du parent et s'il y en a une la valeur de feuille
         # si c'est un parent alors le parent sera suivi par ses enfants
 
-        currentnode = Node(game, player, primary_key, primary_key)
+        currentnode = Node(game, player, my_id, my_id)
 
         # la queue, on ititialise la file avec l'état du jeu et le joueur qui joue
         queue = deque()  # <Node>
@@ -87,8 +98,9 @@ class GameTree:
             print("current node : " + str(currentnode))
 
             game = currentnode.game
+            parent_move = currentnode.move
             player = currentnode.player
-            parent_key = currentnode.primary_key
+            parent_id = currentnode.my_id
 
             constructingnode = []  # the next node
 
@@ -96,10 +108,11 @@ class GameTree:
             winner_loser, done = game.check_current_state()
             if done == True or done == "Draw":
 
-                primary_key += 1
+                my_id += 1
 
-                constructingnode = Node(game, player, primary_key,
-                                        parent_key, self.create_leaf(game))
+                constructingnode = Node(game, player,
+                                        my_id, parent_id,
+                                        parent_move, self.create_leaf(game))
 
                 print("leaf : " + str(constructingnode))
                 game_tree.append(constructingnode)
@@ -119,7 +132,7 @@ class GameTree:
 
                 print("empty_cell " + str(empty_cell))
 
-                primary_key += 1
+                my_id += 1
 
                 copy_game = deepcopy(game)  # on copie le jeu
                 # on fait le coup sur cette copie de jeu
@@ -128,15 +141,15 @@ class GameTree:
                 # Si c'est à l'IA de jouer.    players = ['Human', 'Bot']
                 if player == self.players[1]:  # == O
                     # make more depth tree for human
-                    constructingnode = Node(copy_game,
-                                            self.players[0], primary_key, parent_key)  # au tours de human à jouer
+                    constructingnode = Node(copy_game, self.players[0],
+                                            my_id, parent_id, empty_cell)  # au tours de human à jouer
                     print("constructed node : " + str(constructingnode))
 
                 # Si c'est à l'humain de jouer.
                 if player == self.players[0]:  # == X
                     # make more depth tree for AI
-                    constructingnode = Node(copy_game,
-                                            self.players[1], primary_key, parent_key)  # au tours de bot à jouer
+                    constructingnode = Node(copy_game, self.players[1],
+                                            my_id, parent_id, empty_cell)  # au tours de bot à jouer
                     print("constructed node : " + str(constructingnode))
 
                 queue.append(constructingnode)
@@ -153,24 +166,27 @@ class GameTree:
         print("___ FINAL TREE ___", game_tree)
         print(" ")
 
+        # v transformation v
+
         parent = None
         for node in game_tree:
-            if node.primary_key == node.parent_key:
+            if node.my_id == node.parent_id:
                 parent = node
                 break
 
         print('___Parent:___', parent)
         print(" ")
+        # self.root = parent
 
-        indexed_objects = {node.primary_key: node for node in game_tree}
+        indexed_objects = {node.my_id: node for node in game_tree}
         for node in game_tree:
-            if node.primary_key != node.parent_key:
-                my_parent = indexed_objects[node.parent_key]
+            if node.my_id != node.parent_id:
+                my_parent = indexed_objects[node.parent_id]
                 my_parent.children.append(node)
 
-        print('___Parent:___', [parent])
+        print('___Parent:___', parent)
         print(" ")
-        return game_tree
+        return parent
 
     def create_leaf(self, game):
         """
@@ -180,11 +196,27 @@ class GameTree:
         # Si c'est des feuilles: on return la valeur de victoires ou défaite
         winner_loser, done = game.check_current_state()
 
+        """
+        players = ['X', 'O']
+        # X = Human
+        # O = Bot
+        
         # Si le jeu est fini et que l'IA a gagné.
-        if done == True and winner_loser == self.players[0]:  # Humain X
+        if done == "Done" and winner_loser == 'O':
+            return 1
+        # Si le jeu est fini et que l'IA a perdu.
+        elif done == "Done" and winner_loser == 'X':
+            return -1
+        # Si le jeu est fini et que personne n'a gagné.
+        elif done == "Draw":
+            return 0
+        """
+
+        # Si le jeu est fini et que l'IA a gagné.
+        if done == True and winner_loser == self.players[1]:  # IA O
             return self.win_value
         # Si le jeu est fini et que l'IA a perdu.
-        elif done == True and winner_loser == self.players[1]:  # IA O
+        elif done == True and winner_loser == self.players[0]:  # Humain X
             return self.loss_value
         # Si le jeu est fini et que personne n'a gagné.
         elif done == "Draw":

@@ -6,6 +6,7 @@ Created on Thu Nov 21 22:51:50 2019
 """
 
 from Minimax.game_tree import GameTree
+from Minimax.minimax import Minimax
 
 players = ['Human', 'Bot']
 
@@ -62,6 +63,7 @@ class Nim():
         if(self.allumette != 0):
             return self.currentplayer, False
         else:
+            # return le joueur courant: donc le gagnant et un booléen True: la partie est finie
             return self.currentplayer, True
 
     def current_state(self):
@@ -81,24 +83,34 @@ game = Nim(6, players[0])
 
 gtree = GameTree(game)
 
-nim_tree = gtree.create_tree(game, players[0])
+nim_tree = gtree.create_tree(game, players[0])  # le premier joueur est humain
+
+minimax = Minimax(nim_tree)
 
 i = 0
+
+player = players[0]
 
 while((game.check_current_state()[1]) == False):
 
     if i == 0:
-        player = players[0]
+        player = players[0]  # human
+        print("___ " + player + " ___")
+
+        print("Nombre restant d'allumettes " + str(game.current_state()))
+        choix = int(input("Donner le nombre d'allumette : "))
+        game.play_move(choix, player)
+        print("\n")
     else:
-        player = players[1]
+        player = players[1]  # bot
+        print("___ " + player + " ___")
 
-    print("___ " + player + " ___")
-
-    print("Nombre restant d'allumettes " + str(game.current_state()))
-    choix = int(input("Donner le nombre d'allumette : "))
-    game.play_move(choix, player)
-    print("\n")
+        nim_tree = gtree.create_tree(game, players[1])
+        choix = minimax.choose_move(nim_tree)
+        game.play_move(choix, player)
+        print("\n")
 
     i ^= 1
+
 
 print(game.gameover())
