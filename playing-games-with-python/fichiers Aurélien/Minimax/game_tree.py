@@ -2,6 +2,11 @@
 from copy import deepcopy
 from collections import deque
 
+# -*- coding: utf-8 -*-
+"""
+@author: Aurelien
+"""
+
 
 class Node:  # currentnode = [game, player, my_id, parent_id]  # my_children ]
     """
