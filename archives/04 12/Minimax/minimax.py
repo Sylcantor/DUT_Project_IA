@@ -4,12 +4,8 @@
 
 # https://tonypoer.io/2016/10/28/implementing-minimax-and-alpha-beta-pruning-using-python/
 
-"""
-@author: Aurelien
-"""
 
-
-class Minimax:
+class MiniMax:
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
     def __init__(self, game_tree):
@@ -20,19 +16,19 @@ class Minimax:
         Les feuilles au bout de l'arbre contiennent des valeurs 
         (qui peuvent être arbitraires selon le jeu).
         Par exemple: -10 pour une défaite et 10 pour une victoire.
-
+        
         L'arbre est donc sous from de liste cf: https://www.programiz.com/python-programming/list
         Exemple de data: [‘A’, [‘B’, (‘D’, 3), (‘E’, 5)], [‘C’, [‘F’, [‘I’,(‘K’,0), (‘L’, 7)],(‘J’,5)], [‘G’, (‘M’,7), (‘N’,8)], (‘H’,4)]]
         """
         self.game_tree = game_tree  # GameTree
-        # self.root = game_tree.root  # GameRoot
+        self.root = game_tree.root  # GameRoot
         self.currentNode = None     # GameNode
         self.successors = []        # List of GameNodes
         return
 
     # ────────────────────────────────────────────────────────────────────────────────
 
-    def choose_move(self, node):
+    def minimax(self, node):
         """
         Méthode principale à appeler, on demande un noeud de l'arbre.
         """
@@ -46,7 +42,7 @@ class Minimax:
         print("MiniMax:  Utility Value of Root Node: = " + str(best_val))
         # find the node with our best move
         best_move = None
-        for elem in successors:   # ---> FIXME Need to propagate values up tree for this to work
+        for elem in successors:   # ---> Need to propagate values up tree for this to work
             """
             On cherche parmis nos élements lequel est celui avec la valeur max de max_value et on fait un break puis on la return
             """
@@ -55,11 +51,10 @@ class Minimax:
                 break
 
         # return that best value that we've found
-        print(" -- > MiniMax: Choosen move " + str(best_move))
-        return best_move.move
+        return best_move
 
     def max_value(self, node):
-        print("MiniMax --> MAX: Visited Node :: " + str(node.my_id))
+        print("MiniMax-->MAX: Visited Node :: " + node.Name)
         if self.isTerminal(node):  # si c'est une feuille
             # alors on retourne sa valeur (return node.value)
             return self.getUtility(node)
@@ -83,12 +78,10 @@ class Minimax:
             Le programme fonctionne de façon naturelle : voir Plminmax.gif, MinMax.png.
             """
             max_value = max(max_value, self.min_value(state))
-
-        node.value = max_value
         return max_value
 
     def min_value(self, node):
-        print("MiniMax --> MIN: Visited Node :: " + str(node.my_id))
+        print("MiniMax-->MIN: Visited Node :: " + node.Name)
         if self.isTerminal(node):
             return self.getUtility(node)
 
@@ -105,8 +98,6 @@ class Minimax:
         """
         for state in successor_states:
             min_value = min(min_value, self.max_value(state))
-
-        node.value = min_value
         return min_value
 
     #                     #
