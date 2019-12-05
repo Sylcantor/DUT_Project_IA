@@ -16,15 +16,14 @@ class Nim():
 
     def __init__(self, nbAllumette, firstplayer):
         """
-        Constructeur dans lequel on définit
-        le nombre d'allumette
+        Constructeur où on définit le jeu et le premier joueur
         """
         self.allumette = nbAllumette
         self.currentplayer = firstplayer
 
     def play_move(self, choice, currentplayer):
         """
-        Methode qui enleve un certain nombre d'allumette
+        Methode pour jouer au jeu
         """
         self.currentplayer = currentplayer
         if (self.check_valid_move(choice)) and (choice not in self.invalid_moves()):
@@ -42,9 +41,6 @@ class Nim():
         else:
             return True
 
-    def minimal_move(self):
-        return 1
-
     def invalid_moves(self):
         """
         Methode qui renvoie les coups impossibles
@@ -57,9 +53,15 @@ class Nim():
         print("invalid moves" + str(invalid))
         return invalid
 
+    def minimal_move(self):
+        """
+        Le coup minimal qu'on peut faire
+        """
+        return 1
+
     def check_current_state(self):
         """
-        Methode qui vérifie s'il reste des allumettes
+        Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         """
         if(self.allumette != 0):
             return self.currentplayer, False
@@ -69,7 +71,7 @@ class Nim():
 
     def current_state(self):
         """
-        Message qui donne le nombre d'allumette
+        Pour connaitre l'état du jeu actuel
         """
         return self.allumette
 

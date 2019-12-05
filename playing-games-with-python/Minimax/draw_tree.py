@@ -5,6 +5,10 @@ import types
 s = 70
 startpos = (0, 250)
 
+"""
+@author: Aurelien
+"""
+
 
 def drawing(node, pos):
     successors = getSuccessors(node)
@@ -20,6 +24,7 @@ def drawing(node, pos):
             up()
             goto(newpos)
             write(elem.move, 1)
+            # ^-- on peut changer ici ce qu'on veut afficher ici c'est les move
         if (elem.move):
             drawing(elem, newpos)
 
@@ -29,7 +34,7 @@ def drawing(node, pos):
 # successor states in a game tree are the child nodes...
 def getSuccessors(node):
     """
-    avoir les successeurs
+    avoir les successeurs/enfants
     """
     assert node is not None
     return node.children
@@ -37,8 +42,8 @@ def getSuccessors(node):
 
 def draw_tree(list):
     """
-    Fonction à lancer pour dessinner une liste par exemple: [1, [2, [3, [4, 5], 6], 7, 8]]
-    À donner en argument
+    Fonction à lancer pour dessinner un arbre de jeu
+    À donner en argument une liste comportant des objets de type Node
     """
     up()
     drawing(list, startpos)

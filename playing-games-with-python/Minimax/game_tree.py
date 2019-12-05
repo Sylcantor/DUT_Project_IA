@@ -12,6 +12,8 @@ class Node:  # currentnode = [game, player, my_id, parent_id]  # my_children ]
     """
     Class qui caractérise un noeud qui a:
     game, player, my_id, parent_id=0, move=None, leaf_value=None
+    leaf_value est à none au début pour les noeuds. On fait remonter
+    le leaf_value des feuilles vers le haut de l'arbre dans l'algorithme Minimax.
     """
 
     def __init__(self, game, player, my_id, parent_id=0, move=None, leaf_value=None):
@@ -36,11 +38,12 @@ class Node:  # currentnode = [game, player, my_id, parent_id]  # my_children ]
 
 
 class GameTree:
-    # init pour un jeu avec et sans plateau
+
     def __init__(self, game, win_value=10, loss_value=-10, players=['Human', 'Bot']):
         # X = Human
         # O = Bot
         """
+        Constructeur pour les jeux à tirages de nombres.
         On doit avoir: l'état du jeu, la méthode pour jouer, la méthode pour copier le plateau, et la méthode pour vérifier l'état du jeu
         """
         self.game = game
@@ -52,12 +55,11 @@ class GameTree:
         # self.root = None
         return
 
-    # TODO Mettre en pratique le code
-
+    # TODO from_board
     @classmethod
     def from_board(cls, game, win_value=10, loss_value=-10, players=['Human', 'Bot']):
         """
-        Constructeur pour les jeux plateau
+        Constructeur pour les jeux de plateau.
         """
         g = GameTree(game, win_value, loss_value, players)
 
@@ -69,6 +71,7 @@ class GameTree:
 
     def create_tree(self, currentgame, currentplayer='Bot'):
         """
+        Pour les jeux à tirages de nombres.
         Méthode pour créer un arbre de jeu en fonction de l'état du jeu.
         On fait plein de parties dans cette méthode.
         Return une liste
@@ -202,7 +205,7 @@ class GameTree:
         players = ['X', 'O']
         # X = Human
         # O = Bot
-        
+
         # Si le jeu est fini et que l'IA a gagné.
         if done == "Done" and winner_loser == 'O':
             return 1
@@ -223,3 +226,53 @@ class GameTree:
         # Si le jeu est fini et que personne n'a gagné.
         elif done == "Draw":
             return 0
+
+    # TODO  create_node_game_board
+    def create_node_game_board(self, state, player):
+        """
+        Pour les jeux de plateau.
+        Méthode pour faire un noeud de l'arbre.
+        On joue une partie dans cette méthode.
+        Return un noeud
+        """
+
+        winner_loser, done = self.check_current_state.upper(state)
+
+        # Si c'est des feuilles: on return la valeur de victoires ou défaite
+
+        # Si le jeu est fini et que l'IA a gagné.
+        if done == "Done" and winner_loser == players[0]:  # Humain X
+            return win_value
+        # Si le jeu est fini et que l'IA a perdu.
+        elif done == "Done" and winner_loser == players[1]:  # IA O
+            return loss_value
+        # Si le jeu est fini et que personne n'a gagné.
+        elif done == "Draw":
+            return 0
+
+        moves = []
+        empty_cells = []
+
+    # On numérote les cases où l'on peut jouer (pas vides)
+        for i in range(self.boardSizeX):
+            for j in range(self.boardSizeY):
+                if state[i][j] is self.check_playable:  # empty / playable
+                    empty_cells.append(i*self.boardSizeX + (j+1))
+
+    # Jeux imaginaires
+        for empty_cell in empty_cells:
+            move = {}
+            move['index'] = empty_cell
+            new_state = self.copy_game_state.upper(state)
+            self.play_move.upper(new_state, player, empty_cell)
+
+            # Si c'est à l'IA de jouer.
+            if player == players[1]:  # == O
+                # make more depth tree for human
+                result = create_node_game_board(new_state, players[0])
+                move['score'] = result
+            # Si c'est à l'humain de jouer.
+            else:  # == X
+                # make more depth tree for AI
+                result = create_node_game_board(new_state, players[1])
+                move['score'] = result
