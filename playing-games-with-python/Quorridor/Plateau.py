@@ -171,24 +171,61 @@ class Plateau():
         arguments : Joueur, int, int
         """
 
-        self.tab[murY][murX] = 1
+        if(self.tab[murY][murX] == 'm'):
 
-        if(murY % 2 != 0 and murX % 2 == 0):
-            self.tab[murY+1][murX] = 1
-        elif(murY % 2 == 0 and murX % 2 == 0):
-            self.tab[murY][murX+1] = 1
-        elif(murY % 2 == 0 and murX % 2 != 0):
-            direction = input("Le mur doit-il être posé horizontalement ou verticalement ? (h/v) ")
-
-            if(direction == 'h' or direction == 'H'):
-                self.tab[murY][murX+1] = 1
-            elif(direction == 'v' or direction == 'V'):
+            if(murY % 2 != 0 and murX % 2 != 0 and self.tab[murY+1][murX] == 'm'):
                 self.tab[murY+1][murX] = 1
-            else:
-                print("Réponse invalide, nous vous prions de recommencer...")
-                self.poserMur(joueur, murY, murX)
+            elif(murY % 2 == 0 and murX % 2 == 0 and self.tab[murY][murX+1] == 'm'):
+                self.tab[murY][murX+1] = 1
+            elif(murY % 2 == 0 and murX % 2 != 0):
+                direction = input("Le mur doit-il être posé horizontalement ou verticalement ? (h/v) ")
 
-        joueur.retraitMur()
+                if(direction == 'h' or direction == 'H'):
+                    if(self.tab[murY][murX+1] == 'm'):
+                        self.tab[murY][murX+1] = 1
+                    else:
+                        print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+                        coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
+
+                        murYtmp = int(coordonnees[0])
+                        murXtmp = int(coordonnees[1])
+
+                        self.poserMur(joueur, murYtmp, murXtmp)
+                elif(direction == 'v' or direction == 'V'):
+                    if(self.tab[murY+1][murX] == 'm'):
+                        self.tab[murY+1][murX] = 1
+                    else:
+                        print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+                        coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
+
+                        murYtmp = int(coordonnees[0])
+                        murXtmp = int(coordonnees[1])
+
+                        self.poserMur(joueur, murYtmp, murXtmp)
+                else:
+                    print("Réponse invalide, nous vous prions de recommencer...")
+                    self.tour(joueur)
+
+            else:
+                print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+                coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
+
+                murYtmp = int(coordonnees[0])
+                murXtmp = int(coordonnees[1])
+                
+                self.poserMur(joueur, murYtmp, murXtmp)
+                
+            self.tab[murY][murX] = 1
+            joueur.retraitMur()
+
+        else:
+            print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+            coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
+
+            murYtmp = int(coordonnees[0])
+            murXtmp = int(coordonnees[1])
+
+            self.poserMur(joueur, murYtmp, murXtmp)
 
 
     def tour(self, joueur):
@@ -215,32 +252,22 @@ class Plateau():
                 joueur.seDeplacer(deplacement, self)
                 self.placeJoueur(joueur)
             else:
-                print("Réponse invalide, nous vous prions de recommencer...")
+                print("Vous êtes à l'extrémité du plateau ! Vous ne pouvez pas vous déplacer à cet endroit-là...")
                 self.tour(joueur)
 
         elif(deplacerPion == 'n' or deplacerPion == "N"):
-            poserMur = input("Voulez-vous poser un mur ? (o/n) ")
+            coordonnees = input("Donnez les coordonnées du mur à poser (ligne puis colonne) séparées par un espace : ").split(" ")
 
-            # Si le joueur veut poser un mur.
-            if(poserMur == 'o' or poserMur == 'O'):
-                coordonnees = input("Donnez les coordonnées du mur à poser (ligne puis colonne) séparées par un espace : ").split(" ")
+            murY = int(coordonnees[0])
+            murX = int(coordonnees[1])
 
-                murY = int(coordonnees[0])
-                murX = int(coordonnees[1])
-
-                self.poserMur(joueur, murY, murX)
-            elif(poserMur == 'n' or poserMur == "N"):
-                print("Vous êtes trop gentil...")
-            
-            # Dans le cas d'une réponse erronée.
-            else:
-                print("Réponse invalide, nous vous prions de recommencer...")
-                self.tour(joueur)
+            self.poserMur(joueur, murY, murX)
 
         # Dans le cas d'une réponse erronée.
         else:
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
+
 
 
 """

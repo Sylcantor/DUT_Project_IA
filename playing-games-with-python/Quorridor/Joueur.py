@@ -40,6 +40,9 @@ class Joueur():
         arguments : int, Plateau
         """
 
+        # vérification de la possibilité de se déplacer
+        self.verifDep(choix, plateau)
+
         # déplacement vers le haut (1)
         if(choix == 1):
             if(self.y == 1):
@@ -69,8 +72,30 @@ class Joueur():
             self.y += self.deplacement[3][1]
         # on invite le joueur à réessayer
         else:
-            self.seDeplacer(int(input("Veuillez donner une reponse valide ! ")), plateau)
+            self.seDeplacer(int(input("Veuillez donner une reponse valide : ")), plateau)
         
+
+    def verifDep(self, choix, plateau):
+        """
+        Vérifie qu'il n'y a pas de mur bloquant le joueur dans son déplacement.
+        """
+        if(choix == 1):
+            if(plateau.tab[self.y + (self.deplacement[0][1] + 1)][self.x] == 1):
+                print("Un mur se trouve devant vous, vous ne pouvez pas le traverser !")
+                self.seDeplacer(int(input("Veuillez indiquer un autre déplacement : ")), plateau)
+        elif(choix == 2):
+            if(plateau.tab[self.y + (self.deplacement[1][1] - 1)][self.x] == 1):
+                print("Un mur se trouve devant vous, vous ne pouvez pas le traverser !")
+                self.seDeplacer(int(input("Veuillez indiquer un autre déplacement : ")), plateau)
+        elif(choix == 3):
+            if(plateau.tab[self.x + (self.deplacement[2][0] + 1)][self.y] == 1):
+                print("Un mur se trouve devant vous, vous ne pouvez pas le traverser !")
+                self.seDeplacer(int(input("Veuillez indiquer un autre déplacement : ")), plateau)
+        elif(choix == 4):
+            if(plateau.tab[self.x + (self.deplacement[3][0] - 1)][self.y] == 1):
+                print("Un mur se trouve devant vous, vous ne pouvez pas le traverser !")
+                self.seDeplacer(int(input("Veuillez indiquer un autre déplacement : ")), plateau)
+
 
     def retraitMur(self):
         """
