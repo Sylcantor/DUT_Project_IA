@@ -16,7 +16,7 @@ class Minimax:
 
     def __init__(self):
         """
-        Pour avoir l'objet Minimax
+        Constructeur.
         """
         return
 
