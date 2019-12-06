@@ -2,43 +2,45 @@ import numpy as np
 from math import inf as infinity
 
 from Minimax.game_tree import GameTree
-from Minimax.minimax import Minimax
+from Minimax.minimax_tree import Minimax
 
 
 players = ['Human', 'Bot']
 
+
 class Tictactoe():
 
-    def __init__(self,firstplayer,game_state):
+    def __init__(self, firstplayer, game_state):
         self.currentplayer = firstplayer
         self.game_state = game_state
-    
 
     def play_move(self, block_choice, currentplayer):
         self.currentplayer = currentplayer
 
         if(self.check_valid_move(block_choice)):
-            self.game_state[int((block_choice - 1) / 3)][(block_choice - 1) % 3] = currentplayer
+            self.game_state[int((block_choice - 1) / 3)
+                            ][(block_choice - 1) % 3] = currentplayer
         else:
-            block_choice = int(input("La case choisie n'est pas vide ! Choisissez-en une autre : "))
+            block_choice = int(
+                input("La case choisie n'est pas vide ! Choisissez-en une autre : "))
             self.play_move(block_choice, currentplayer)
 
-
-    def check_valid_move(self,block_choice):
+    def check_valid_move(self, block_choice):
         # On regarde si la case choisie est vide.
-        
+
         if self.game_state[int((block_choice - 1) / 3)][(block_choice - 1) % 3] is ' ':
             return True
         else:
             return False
-    
+
     def invalid_moves(self):
         """
         Methode qui renvoie les coups impossibles
         """
         invalid = []
-        for i in range(1,9):
-            if self.game_state[int((i - 1) / 3)][(i - 1) % 3] is not ' ':  # si la case choisie n'est pas dans le plateau
+        for i in range(1, 9):
+            # si la case choisie n'est pas dans le plateau
+            if self.game_state[int((i - 1) / 3)][(i - 1) % 3] is not ' ':
                 invalid.append(i)
 
         print("invalid moves" + str(invalid))
@@ -77,7 +79,7 @@ class Tictactoe():
             return self.game_state[1][1], True
         if (self.game_state[2][0] == self.game_state[1][1] and self.game_state[1][1] == self.game_state[0][2] and self.game_state[2][0] is not ' '):
             return self.game_state[1][1], True
-            
+
         # On regarde si la partie s'est terminée sur une égalité.
         draw_flag = 0
 
@@ -85,7 +87,7 @@ class Tictactoe():
             for j in range(3):
                 if self.game_state[i][j] is ' ':
                     draw_flag = 1
-        
+
         if draw_flag is 0:
             return None, "Draw"
 
@@ -93,7 +95,7 @@ class Tictactoe():
         return None, "Not Done"
 
     def current_state(self):
-        return 9 # nombre de cases
+        return 9  # nombre de cases
 
     def print_board(self):
         """
@@ -103,16 +105,18 @@ class Tictactoe():
         """
 
         print('----------------')
-        print('| ' + str(self.game_state[0][0]) + ' || ' + str(self.game_state[0][1]) + ' || ' + str(self.game_state[0][2]) + ' |')
+        print('| ' + str(self.game_state[0][0]) + ' || ' + str(
+            self.game_state[0][1]) + ' || ' + str(self.game_state[0][2]) + ' |')
         print('----------------')
-        print('| ' + str(self.game_state[1][0]) + ' || ' + str(self.game_state[1][1]) + ' || ' + str(self.game_state[1][2]) + ' |')
+        print('| ' + str(self.game_state[1][0]) + ' || ' + str(
+            self.game_state[1][1]) + ' || ' + str(self.game_state[1][2]) + ' |')
         print('----------------')
-        print('| ' + str(self.game_state[2][0]) + ' || ' + str(self.game_state[2][1]) + ' || ' + str(self.game_state[2][2]) + ' |')
+        print('| ' + str(self.game_state[2][0]) + ' || ' + str(
+            self.game_state[2][1]) + ' || ' + str(self.game_state[2][2]) + ' |')
         print('----------------')
 
     def minimal_move(self):
         return 1
-
 
 
 # Démarrage du jeu.
@@ -124,12 +128,12 @@ while play_again == 'Y' or play_again == 'y':
                   [' ', ' ', ' '],
                   [' ', ' ', ' ']]
 
-    game = Tictactoe(players[0],game_state)
+    game = Tictactoe(players[0], game_state)
 
     gtree = GameTree(game)
 
     tictactoe_tree = gtree.create_tree(game, players[0])
-    
+
     current_state = "Not Done"
     print("\nNouvelle partie !")
     game.print_board()
@@ -140,7 +144,8 @@ while play_again == 'Y' or play_again == 'y':
 
         # game.currentplayer est un booléen (si 0 alors c'est au tour de l'humain de jouer).
         if game.currentplayer == 0:
-            block_choice = int(input("C'est à vous de jouer, humain ! Choisissez une case à jouer (1 à 9) : "))
+            block_choice = int(
+                input("C'est à vous de jouer, humain ! Choisissez une case à jouer (1 à 9) : "))
             # On donne : l'état du jeu, le joueur (X ou O) et le choix de la case.
             game.play_move(block_choice, players[game.currentplayer])
 
