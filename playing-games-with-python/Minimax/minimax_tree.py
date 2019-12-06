@@ -10,14 +10,24 @@
 
 
 class Minimax:
-    """
-    Minimax sans besoins de game tree sous forme de liste à fournir (plus optimisé)
-    """
+    # print utility value of root node (assuming it is max)
+    # print names of all nodes visited during search
+    def __init__(self, game_tree):
+        """
+        Constructeur où on donne l'arbre de jeu entier.
+        Un arbre est constitué de noeuds, il a une racine et des feuilles.
+        Cet arbre est le jeu entier: ce sont toutes les possibilités de jeu.
+        Les feuilles au bout de l'arbre contiennent des valeurs 
+        (qui peuvent être arbitraires selon le jeu).
+        Par exemple: -10 pour une défaite et 10 pour une victoire.
 
-    def __init__(self):
+        L'arbre est donc sous from de liste cf: https://www.programiz.com/python-programming/list
+        Exemple de data: [‘A’, [‘B’, (‘D’, 3), (‘E’, 5)], [‘C’, [‘F’, [‘I’,(‘K’,0), (‘L’, 7)],(‘J’,5)], [‘G’, (‘M’,7), (‘N’,8)], (‘H’,4)]]
         """
-        Pour avoir l'objet Minimax
-        """
+        self.game_tree = game_tree  # GameTree
+        # self.root = game_tree.root  # GameRoot
+        self.currentNode = None     # GameNode
+        self.successors = []        # List of GameNodes
         return
 
     # ────────────────────────────────────────────────────────────────────────────────

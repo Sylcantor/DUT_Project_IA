@@ -6,7 +6,7 @@ Created on Thu Nov 21 22:51:50 2019
 """
 
 from Minimax.game_tree import GameTree
-from Minimax.minimax import Minimax
+from Minimax.minimax_tree import Minimax
 from Minimax.draw_tree import draw_tree
 
 players = ['Human', 'Bot']
@@ -88,7 +88,7 @@ gtree = GameTree(game)
 
 nim_tree = gtree.create_tree(game, players[0])  # le premier joueur est humain
 
-# draw_tree(nim_tree)
+draw_tree(nim_tree)
 
 minimax = Minimax(nim_tree)
 
