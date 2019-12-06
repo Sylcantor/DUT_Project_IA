@@ -11,7 +11,7 @@
 
 class Minimax:
     """
-    Minimax sans besoins de game tree sous forme de liste à fournir (plus optimisé)
+    Minimax sans besoin de game tree sous forme de liste à fournir (plus optimisé)
     """
 
     def __init__(self):

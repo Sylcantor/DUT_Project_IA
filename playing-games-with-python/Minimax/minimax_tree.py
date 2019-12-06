@@ -10,8 +10,12 @@
 
 
 class Minimax:
+    """
+    Minimax ayant besoin de game tree sous forme de liste à fournir (moins optimisé)
+    """
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
+
     def __init__(self, game_tree):
         """
         Constructeur où on donne l'arbre de jeu entier.
