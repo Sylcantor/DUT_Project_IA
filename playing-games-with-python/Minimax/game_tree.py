@@ -123,7 +123,6 @@ class GameTree:
                 game_tree.append(constructingnode)
                 continue  # skip over the part of the loop
 
-            moves = []
             empty_cells = []
 
             # On numérote les coups où l'on peut jouer (pas vides)

@@ -5,8 +5,9 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-from Minimax.minimax import Minimax
-from Minimax.minimax import Node
+from Minimax.game_tree import GameTree
+from Minimax.minimax_tree import Minimax
+from Minimax.draw_tree import draw_tree
 
 players = ['Human', 'Bot']
 
@@ -81,9 +82,15 @@ class Nim():
         return("Il n'y a plus d'allumette, victoire à " + str(self.check_current_state()[0]))
 
 
-game = Nim(6)  # le premier joueur est humain
+game = Nim(6)
 
-minimax = Minimax()
+gtree = GameTree(game)
+
+nim_tree = gtree.create_tree(game, players[0])  # le premier joueur est humain
+
+draw_tree(nim_tree)
+
+minimax = Minimax(nim_tree)
 
 i = 0
 
@@ -103,10 +110,9 @@ while((game.check_current_state()[1]) == False):
         player = players[1]  # bot
         print("___ " + player + " ___")
 
-        currentnode = Node(game, players[1])
-
-        choix = minimax.choose_move(currentnode)
-        game.play_move(choix, players[1])
+        nim_tree = gtree.create_tree(game, players[1])
+        choix = minimax.choose_move(nim_tree)
+        game.play_move(choix, player)
         print("\n")
 
     i ^= 1

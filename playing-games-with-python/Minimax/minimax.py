@@ -2,8 +2,10 @@
 ######   MINI-MAX   ######
 ##########################
 
-# https://tonypoer.io/2016/10/28/implementing-minimax-and-alpha-beta-pruning-using-python/
+from copy import deepcopy
 
+# https://tonypoer.io/2016/10/28/implementing-minimax-and-alpha-beta-pruning-using-python/
+# -*- coding: utf-8 -*-
 """
 @author: Aurelien
 """
@@ -38,10 +40,13 @@ class Minimax:
     Minimax sans besoin de game tree sous forme de liste à fournir (plus optimisé)
     """
 
-    def __init__(self):
+    def __init__(self, win_value=10, loss_value=-10, players=['Human', 'Bot']):
         """
         Constructeur.
         """
+        self.win_value = win_value
+        self.loss_value = loss_value
+        self.players = players
         return
 
     # ────────────────────────────────────────────────────────────────────────────────
@@ -73,7 +78,7 @@ class Minimax:
         return best_move.move
 
     def max_value(self, node):
-        print("MiniMax --> MAX: Visited Node :: " + str(node.my_id))
+        print("MiniMax --> MAX: Visited Node :: " + str(node.move))
         if self.isTerminal(node):  # si c'est une feuille
             # alors on retourne sa valeur (return node.value)
             return self.getUtility(node)
@@ -82,7 +87,8 @@ class Minimax:
         # on part de - l'infini pour trouver quelque chose de meilleur à chaque fois
         max_value = -infinity
 
-        successors_states = self.getSuccessors(node)  # successeurs en dessous
+        # successeurs en dessous à n + 1
+        successors_states = self.getSuccessors(node)
         """
           p     : 0 (max) (current)
          / \          v
@@ -98,11 +104,10 @@ class Minimax:
             """
             max_value = max(max_value, self.min_value(state))
 
-        node.value = max_value
-        return max_value
+        return node.value  # max_value
 
     def min_value(self, node):
-        print("MiniMax --> MIN: Visited Node :: " + str(node.my_id))
+        print("MiniMax --> MIN: Visited Node :: " + str(node.move))
         if self.isTerminal(node):
             return self.getUtility(node)
 
@@ -110,7 +115,8 @@ class Minimax:
         # on part de + l'infini pour trouver quelque chose de pire à chaque fois
         min_value = infinity
 
-        successor_states = self.getSuccessors(node)  # successeurs en dessous
+        # successeurs en dessous à n + 1
+        successor_states = self.getSuccessors(node)
         """
           p     : 0 (min) (current)
          / \          v
@@ -120,33 +126,129 @@ class Minimax:
         for state in successor_states:
             min_value = min(min_value, self.max_value(state))
 
-        node.value = min_value
-        return min_value
+        return node.value  # min_value
 
     #                     #
     #   UTILITY METHODS   #
     #                     #
 
     # successor states in a game tree are the child nodes...
-    def getSuccessors(self, node):
+    def getSuccessors(self, node):  # les enfants d'en dessous à n + 1
         """
         avoir les successeurs
         """
         assert node is not None
-        return node.children
+
+        game = node.game  # current game
+        player = node.player  # current player
+
+        new_nodes = []  # the next nodes at n + 1
+
+        # Si c'est une feuille: on return la valeur de victoire ou défaite
+        # winner_loser, done = game.check_current_state()
+        # if done == True or done == "Draw":
+
+        #     parent_move = node.move
+        #     constructingleaf = Node(game, player,
+        #                             parent_move, self.create_leaf(game))
+        #     print("leaf : " + str(constructingleaf))
+        #     new_nodes.append(constructingleaf)
+        #     return new_nodes
+
+        empty_cells = []  # l'ensemble des cases vides : tous les coups jouables en général
+
+        # On numérote les coups où l'on peut jouer (pas vides)
+        for i in range(game.minimal_move(), game.current_state() + 1):  # l'état actuel du jeu
+            if game.check_valid_move(i) == True:
+                empty_cells.append(i)
+        print("empty_cells " + str(empty_cells))
+
+        # Jeux imaginaires : tous les coups de jeu possibles selon le jeu que l'on a donné dans node
+        for empty_cell in [x for x in empty_cells if x not in game.invalid_moves()]:
+
+            print("empty_cell " + str(empty_cell))
+
+            copy_game = deepcopy(game)  # on copie le jeu
+            # on fait le coup sur cette copie de jeu
+            copy_game.play_move(empty_cell, player)
+
+            # Si c'est à l'IA de jouer.    players = ['Human', 'Bot']
+            if player == self.players[1]:  # == O
+                # make more depth tree for human
+                constructingnode = Node(copy_game, self.players[0], empty_cell)
+                # au tours de human à jouer
+                print("constructed node : " + str(constructingnode))
+
+            # Si c'est à l'humain de jouer.
+            if player == self.players[0]:  # == X
+                # make more depth tree for AI
+                constructingnode = Node(copy_game, self.players[1], empty_cell)
+                # au tours de bot à jouer
+                print("constructed node : " + str(constructingnode))
+
+            new_nodes.append(constructingnode)
+
+        return new_nodes
 
     # return true if the node has NO children (successor states)
     # return false if the node has children (successor states)
+
     def isTerminal(self, node):
         """
         si c'est une feuille
         """
         assert node is not None
-        return len(node.children) == 0
+        winner_loser, done = node.game.check_current_state()
+        return done == True or done == "Draw"
 
     def getUtility(self, node):
         """
         lorsqu'on veut return la valeur pour une feuille
         """
         assert node is not None
-        return node.value
+
+        # Si c'est une feuille: on return la valeur de victoire ou défaite
+
+        game = node.game  # current game
+        player = node.player  # current player
+
+        parent_move = node.move
+        constructingleaf = Node(game, player,
+                                parent_move, self.create_leaf_value(game))
+        print("leaf : " + str(constructingleaf))
+
+        return constructingleaf.value
+
+    def create_leaf_value(self, game):
+        """
+        Return the value of a leaf
+        """
+
+        # Si c'est des feuilles: on return la valeur de victoires ou défaite
+        winner_loser, done = game.check_current_state()
+
+        """
+        players = ['X', 'O']
+        # X = Human
+        # O = Bot
+
+        # Si le jeu est fini et que l'IA a gagné.
+        if done == "Done" and winner_loser == 'O':
+            return 1
+        # Si le jeu est fini et que l'IA a perdu.
+        elif done == "Done" and winner_loser == 'X':
+            return -1
+        # Si le jeu est fini et que personne n'a gagné.
+        elif done == "Draw":
+            return 0
+        """
+
+        # Si le jeu est fini et que l'IA a gagné.
+        if done == True and winner_loser == self.players[1]:  # IA O
+            return self.win_value
+        # Si le jeu est fini et que l'IA a perdu.
+        elif done == True and winner_loser == self.players[0]:  # Humain X
+            return self.loss_value
+        # Si le jeu est fini et que personne n'a gagné.
+        elif done == "Draw":
+            return 0
