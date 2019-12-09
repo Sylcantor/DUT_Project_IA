@@ -49,7 +49,7 @@ class Nim():
         if(self.allumette > 1):  # s'il reste une allumette alors on peut jouer le coup de 1
             invalid.append(self.allumette)
 
-        print("invalid moves" + str(invalid))
+        # print("invalid moves" + str(invalid))
         return invalid
 
     def minimal_move(self):

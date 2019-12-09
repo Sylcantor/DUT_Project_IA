@@ -78,7 +78,7 @@ class Minimax:
         return best_move.move
 
     def max_value(self, node):
-        print("MiniMax --> MAX: Visited Node :: " + str(node.move))
+        print("MiniMax --> MAX: Visited Node (move choice) :: " + str(node.move))
         if self.isTerminal(node):  # si c'est une feuille
             # alors on retourne sa valeur (return node.value)
             return self.getUtility(node)
@@ -107,7 +107,7 @@ class Minimax:
         return node.value  # max_value
 
     def min_value(self, node):
-        print("MiniMax --> MIN: Visited Node :: " + str(node.move))
+        print("MiniMax --> MIN: Visited Node (move choice) :: " + str(node.move))
         if self.isTerminal(node):
             return self.getUtility(node)
 
@@ -210,14 +210,12 @@ class Minimax:
         # Si c'est une feuille: on return la valeur de victoire ou défaite
 
         game = node.game  # current game
-        player = node.player  # current player
+        # FIXME '<' not supported between instances of 'NoneType' and 'float'
+        leaf_value = self.create_leaf_value(game)
 
-        parent_move = node.move
-        constructingleaf = Node(game, player,
-                                parent_move, self.create_leaf_value(game))
-        print("leaf : " + str(constructingleaf))
+        print("leaf : " + str(leaf_value))
 
-        return constructingleaf.value
+        return leaf_value
 
     def create_leaf_value(self, game):
         """
