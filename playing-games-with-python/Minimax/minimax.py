@@ -60,11 +60,13 @@ class Minimax:
           p     : 0 (max) (current) (with no move to choose from because this is a root)
          / \          v
         s   s   : 1 (min) (with no moves to choose from because they are node/leaf)
-            on prend donc le max
+            on prend donc le max des min...
         """
 
         # successeurs en dessous à n + 1
         successors_states = self.getSuccessors(node)
+
+        print(" the current children: " + str(successors_states))
 
         infinity = float('inf')
         # on part de - l'infini pour trouver quelque chose de meilleur à chaque fois
@@ -72,22 +74,24 @@ class Minimax:
 
         for state in successors_states:
 
-            max_value = max(max_value, self.max_value(state))
+            max_value = max(max_value, self.min_value(state))
             print(" > max_value: " + str(max_value))
 
         # second, find the node which HAS that max value
         #  --> means we need to propagate the values back up the
         #      tree as part of our minimax algorithm
-
         print("MiniMax:  Utility Value of Root Node: = " + str(max_value))
+
         # find the node with our best move
         best_move = None
-        for elem in successors_states:  # ---> propagate values up tree
+
+        for state in successors_states:  # ---> propagate values up tree
             """
             On cherche parmis nos élements lequel est celui avec la valeur max de max_value et on fait un break puis on la return
             """
-            if elem.value == max_value:
-                best_move = elem
+            # FIXME -- > MiniMax: Choosen move None (si 1)
+            if state.value == max_value:
+                best_move = state
                 break
 
         # return that best value that we've found
@@ -234,7 +238,7 @@ class Minimax:
         # Si c'est une feuille: on return la valeur de victoire ou défaite
 
         game = node.game  # current game
-        # FIXME '<' not supported between instances of 'NoneType' and 'float'
+
         leaf_value = self.create_leaf_value(game)
 
         print("leaf : " + str(leaf_value))

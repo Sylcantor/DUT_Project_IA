@@ -90,7 +90,7 @@ gtree = GameTree(game)
 
 nim_tree = gtree.create_tree(game, players[0])  # le premier joueur est humain
 
-# draw_tree(nim_tree) # pour dessiner l'arbre
+draw_tree(nim_tree)  # pour dessiner l'arbre
 
 minimax = Minimax(nim_tree)
 

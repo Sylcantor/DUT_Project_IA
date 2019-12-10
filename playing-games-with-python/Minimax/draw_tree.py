@@ -4,7 +4,6 @@ import types
 
 s = 70
 startpos = (0, 250)
-
 """
 @author: Aurelien
 """
@@ -17,13 +16,12 @@ def drawing(node, pos):
     for elem in successors:
         goto(pos)
         if not isinstance(elem, list):
-            newpos = (pos[0] + s * len(successors)/4 -
-                      s * i, pos[1] - s)
+            newpos = (pos[0] + s * len(successors) / 4 - s * i, pos[1] - s)
             down()
             goto((newpos[0], newpos[1] + 15))
             up()
             goto(newpos)
-            write(elem.move, 1)
+            write(elem.value, 1)
             # ^-- on peut changer ici ce qu'on veut afficher ici c'est les move
         if (elem.move):
             drawing(elem, newpos)
@@ -48,6 +46,7 @@ def draw_tree(list):
     up()
     drawing(list, startpos)
     exitonclick()
+
 
 # myTree = [1, [2, [3, [4, 5], 6], 7, 8]]
 # start_drawing(myTree)
