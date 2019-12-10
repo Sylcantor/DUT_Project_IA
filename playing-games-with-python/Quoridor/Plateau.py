@@ -6,6 +6,13 @@ Created on Sat Nov 23 12:44:48 2019
 """
 from Joueur import *
 
+"""
+TODO
+- play_move qui prend un état, le joueur qui joue et le coup à jouer et qui renvoi l'état après ce coup
+- check_current_state qui prend un état du jeu et qui renvoi le vainqueur et si le jeu est terminé/s'il y a une victoire
+- check_playable qui prend une case en argument pour savoir si on peut jouer dessus (ex: savoir si la case est vide dans le tic tac toe) on s'est basé sur le tic tac toe
+"""
+
 class Plateau():
     """
     Plateau de jeu représenté par une liste de listes (équivalent 
@@ -268,7 +275,21 @@ class Plateau():
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
 
+    # fonction qui copie le plateau
+    def copy_game_state(self):
+        """
+        Arguments : rien
+        Retour : Copie du plateau a l'instant T
+        """
+        new_state = []
 
+        for i in range(self.ligne):
+            new_state.append([])
+
+            for j in range(self.colonne):
+                new_state[i].append(self.tab[i][j])
+
+        return new_state        
 
 """
 Main.
@@ -277,6 +298,8 @@ Main.
 p = Plateau()
 
 count = 0
+
+print(p.copy_game_state())
 
 while(p.findejeu() == False):
     if(count % 2 == 0):
