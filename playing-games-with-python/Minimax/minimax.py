@@ -51,7 +51,7 @@ class Minimax:
         return
 
     # ────────────────────────────────────────────────────────────────────────────────
-
+    # TODO optimisation minmax
     def choose_move(self, node):
         """
         Méthode principale à appeler, on demande un noeud de l'arbre.
