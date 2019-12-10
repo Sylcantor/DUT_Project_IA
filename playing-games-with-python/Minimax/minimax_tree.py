@@ -3,7 +3,6 @@
 ##########################
 
 # https://tonypoer.io/2016/10/28/implementing-minimax-and-alpha-beta-pruning-using-python/
-
 """
 @author: Aurelien
 """
@@ -13,6 +12,7 @@ class Minimax:
     """
     Minimax ayant besoin de game tree sous forme de liste à fournir (moins optimisé)
     """
+
     # print utility value of root node (assuming it is max)
     # print names of all nodes visited during search
 
@@ -30,8 +30,8 @@ class Minimax:
         """
         self.game_tree = game_tree  # GameTree
         # self.root = game_tree.root  # GameRoot
-        self.currentNode = None     # GameNode
-        self.successors = []        # List of GameNodes
+        self.currentNode = None  # GameNode
+        self.successors = []  # List of GameNodes
         return
 
     # ────────────────────────────────────────────────────────────────────────────────
@@ -50,7 +50,7 @@ class Minimax:
         print("MiniMax:  Utility Value of Root Node: = " + str(best_val))
         # find the node with our best move
         best_move = None
-        for elem in successors:   # ---> propagate values up tree
+        for elem in successors:  # ---> propagate values up tree
             """
             On cherche parmis nos élements lequel est celui avec la valeur max de max_value et on fait un break puis on la return
             """

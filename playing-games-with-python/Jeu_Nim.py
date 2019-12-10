@@ -12,7 +12,6 @@ players = ['Human', 'Bot']
 
 
 class Nim():
-
     def __init__(self, nbAllumette, firstplayer=None):
         """
         Constructeur où on définit le jeu et le premier joueur
@@ -25,7 +24,8 @@ class Nim():
         Methode pour jouer au jeu
         """
         self.currentplayer = currentplayer
-        if (self.check_valid_move(choice)) and (choice not in self.invalid_moves()):
+        if (self.check_valid_move(choice)) and (
+                choice not in self.invalid_moves()):
             self.allumette -= choice
         else:
             print("Vous ne pouvez pas effectuer cette action")
@@ -35,7 +35,7 @@ class Nim():
         """
         Methode qui vérifie si le coup est valide
         """
-        if(self.allumette - choice < 0 or self.allumette == 0):
+        if (self.allumette - choice < 0 or self.allumette == 0):
             return False
         else:
             return True
@@ -46,7 +46,8 @@ class Nim():
         """
         invalid = []
         invalid.append(0)
-        if(self.allumette > 1):  # s'il reste une allumette alors on peut jouer le coup de 1
+        if (self.allumette > 1
+            ):  # s'il reste une allumette alors on peut jouer le coup de 1
             invalid.append(self.allumette)
 
         # print("invalid moves" + str(invalid))
@@ -62,7 +63,7 @@ class Nim():
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         """
-        if(self.allumette != 0):
+        if (self.allumette != 0):
             return self.currentplayer, False
         else:
             # return le joueur courant: donc le gagnant et un booléen True: la partie est finie
@@ -78,7 +79,8 @@ class Nim():
         """
         Message de fin de jeu
         """
-        return("Il n'y a plus d'allumette, victoire à " + str(self.check_current_state()[0]))
+        return ("Il n'y a plus d'allumette, victoire à " +
+                str(self.check_current_state()[0]))
 
 
 game = Nim(6)  # le premier joueur est humain
@@ -89,7 +91,7 @@ i = 0
 
 player = players[0]
 
-while((game.check_current_state()[1]) == False):
+while ((game.check_current_state()[1]) == False):
 
     if i == 0:
         player = players[0]  # human
@@ -110,6 +112,5 @@ while((game.check_current_state()[1]) == False):
         print("\n")
 
     i ^= 1
-
 
 print(game.gameover())
