@@ -18,6 +18,7 @@ class Node:
     leaf_value est à none au début pour les noeuds. On fait remonter
     le leaf_value des feuilles vers le haut de l'arbre dans l'algorithme Minimax.
     """
+
     def __init__(self, game, player, move=None, leaf_value=None):
         self.game = game
         self.player = player
@@ -39,6 +40,7 @@ class Minimax:
     """
     Minimax sans besoin de game tree sous forme de liste à fournir (plus optimisé)
     """
+
     def __init__(self, win_value=10, loss_value=-10, players=['Human', 'Bot']):
         """
         Constructeur.
@@ -55,7 +57,7 @@ class Minimax:
         Méthode principale à appeler, on demande un noeud de l'arbre.
         """
 
-        print("___ MINIMAX ___")
+        print("_/v MINIMAX v\_")
         """
           p     : 0 (max) (current) (with no move to choose from because this is a root)
          / \          v
@@ -75,7 +77,7 @@ class Minimax:
         for state in successors_states:
 
             max_value = max(max_value, self.min_value(state))
-            print(" > max_value: " + str(max_value))
+            print(" MAX: max_value: " + str(max_value))
 
         # second, find the node which HAS that max value
         #  --> means we need to propagate the values back up the
@@ -89,14 +91,14 @@ class Minimax:
             """
             On cherche parmis nos élements lequel est celui avec la valeur max de max_value et on fait un break puis on la return
             """
-            # FIXME -- > MiniMax: Choosen move None (si 1)
+            # FIXME AttributeError: 'NoneType' object has no attribute 'move'
             if state.value == max_value:
                 best_move = state
                 break
 
         # return that best value that we've found
         print(" -- > MiniMax: Choosen move " + str(best_move))
-        print("___ MINIMAX ___")
+        print("_/^ MINIMAX ^\_")
         return best_move.move
 
     # ────────────────────────────────────────────────────────────────────────────────
@@ -127,7 +129,7 @@ class Minimax:
             Le programme fonctionne de façon naturelle : voir Plminmax.gif, MinMax.png.
             """
             max_value = max(max_value, self.min_value(state))
-            print(" > max_value: " + str(max_value))
+            print(" MAX: max_value: " + str(max_value))
 
         print(" choosen max: " + str(max_value))
         node.value = max_value
@@ -155,7 +157,7 @@ class Minimax:
         """
         for state in successor_states:
             min_value = min(min_value, self.max_value(state))
-            print(" < min_value: " + str(min_value))
+            print(" MIN: min_value: " + str(min_value))
 
         print(" choosen min: " + str(min_value))
         node.value = min_value
