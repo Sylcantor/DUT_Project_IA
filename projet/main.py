@@ -7,9 +7,9 @@ from copy import deepcopy
 from Minimax.minimax import Minimax
 from Minimax.minimax import Node
 
-from Joueur.Human.human import Human
+from human import Human
 
-from Jeu_Nim import Nim
+from Jeux.Jeu_Nim import Nim
 
 
 def TurnBased(inital_game,
@@ -58,7 +58,6 @@ def TurnBased(inital_game,
 game = Nim(6)
 
 human = Human()
-
 minimax = Minimax()
 
 TurnBased(game, human, minimax, 10)
