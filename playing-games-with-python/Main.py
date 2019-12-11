@@ -2,6 +2,7 @@
 """
 @author: Aurélien
 """
+from copy import deepcopy
 
 from Minimax.minimax import Minimax
 from Minimax.minimax import Node
@@ -11,7 +12,11 @@ from Joueur.Human.human import Human
 from Jeu_Nim import Nim
 
 
-def TurnBased(game, player1, player2, numGames=1, players=['Human', 'Bot']):
+def TurnBased(inital_game,
+              player1,
+              player2,
+              numGames=1,
+              players=['Human', 'Bot']):
     """
     Joueur 1 est le premier joueur à jouer et Joueur 2 est le second
     """
@@ -19,6 +24,8 @@ def TurnBased(game, player1, player2, numGames=1, players=['Human', 'Bot']):
     for numGame in range(numGames):
 
         i = 0
+
+        game = deepcopy(inital_game)
 
         player = players[0]  # pour initialiser, le premier joueur est Joueur 1
 

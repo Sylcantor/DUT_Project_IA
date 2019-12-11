@@ -21,7 +21,7 @@ def drawing(node, pos):
             goto((newpos[0], newpos[1] + 15))
             up()
             goto(newpos)
-            write(elem.value, 1)
+            write(elem.move, 1)
             # ^-- on peut changer ici ce qu'on veut afficher ici c'est les move
         if (elem.move):
             drawing(elem, newpos)
