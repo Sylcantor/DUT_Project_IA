@@ -1,4 +1,4 @@
-from Minimax.game_tree import Node
+from Minimax.tree.game_tree import Node
 from turtle import *
 import types
 
@@ -21,8 +21,14 @@ def drawing(node, pos):
             goto((newpos[0], newpos[1] + 15))
             up()
             goto(newpos)
-            write(elem.move, 1)
-            # ^-- on peut changer ici ce qu'on veut afficher ici c'est les move
+
+            if len(getSuccessors(elem)) != 0:
+                write(elem.move, 1)
+            else:
+                write(elem.value, 1)
+            # ^-- on peut changer ici ce qu'on veut afficher ici c'est les move pour les noeuds
+            # et les values pour les feuilles
+
         if (elem.move):
             drawing(elem, newpos)
 

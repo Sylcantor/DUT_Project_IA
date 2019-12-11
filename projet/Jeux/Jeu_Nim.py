@@ -5,9 +5,6 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-from Minimax.minimax import Minimax
-from Minimax.minimax import Node
-
 players = ['Human', 'Bot']
 
 
@@ -80,5 +77,4 @@ class Nim():
         """
         Message de fin de jeu
         """
-        return ("Il n'y a plus d'allumette, victoire à " +
-                str(self.check_current_state()[0]))
+        return self.check_current_state()[0]

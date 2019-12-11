@@ -9,7 +9,8 @@ class Human():
         """
         Constructeur où on définit l'humain
         """
-    def choose_move(self, consigne="Entrez votre choix : "):
+
+    def choose_move(self, currentnode, consigne="Entrez votre choix : "):
         """
         Methode faire des choix en tant qu'humain
         """
