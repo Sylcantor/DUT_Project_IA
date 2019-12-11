@@ -29,7 +29,8 @@ class Nim():
             self.allumette -= choice
         else:
             print("Vous ne pouvez pas effectuer cette action")
-            self.play_move(int(input("Donnez un nombre valide : ")), player[0])
+            self.play_move(int(input("Donnez un nombre valide : ")),
+                           players[0])
 
     def check_valid_move(self, choice):
         """
@@ -81,36 +82,3 @@ class Nim():
         """
         return ("Il n'y a plus d'allumette, victoire à " +
                 str(self.check_current_state()[0]))
-
-
-game = Nim(6)  # le premier joueur est humain
-
-minimax = Minimax()
-
-i = 0
-
-player = players[0]
-
-while ((game.check_current_state()[1]) == False):
-
-    if i == 0:
-        player = players[0]  # human
-        print("___ " + player + " ___")
-
-        print("Nombre restant d'allumettes " + str(game.current_state()))
-        choix = int(input("Donner le nombre d'allumette : "))
-        game.play_move(choix, player)
-        print("\n")
-    else:
-        player = players[1]  # bot
-        print("___ " + player + " ___")
-
-        currentnode = Node(game, players[1])
-
-        choix = minimax.choose_move(currentnode)
-        game.play_move(choix, players[1])
-        print("\n")
-
-    i ^= 1
-
-print(game.gameover())
