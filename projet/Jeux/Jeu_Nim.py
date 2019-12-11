@@ -5,15 +5,14 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-players = ['Human', 'Bot']
-
 
 class Nim():
-    def __init__(self, nbAllumette, firstplayer=None):
+    def __init__(self, nbAllumette, players=['Player1', 'Player2'], firstplayer=None):
         """
         Constructeur où on définit le jeu et le premier joueur
         """
         self.allumette = nbAllumette
+        self.players = players
         self.currentplayer = firstplayer
 
     def play_move(self, choice, currentplayer):
@@ -27,7 +26,7 @@ class Nim():
         else:
             print("Vous ne pouvez pas effectuer cette action")
             self.play_move(int(input("Donnez un nombre valide : ")),
-                           players[0])
+                           self.players[0])
 
     def check_valid_move(self, choice):
         """
@@ -45,7 +44,7 @@ class Nim():
         invalid = []
         invalid.append(0)
         if (self.allumette > 1
-            ):  # s'il reste une allumette alors on peut jouer le coup de 1
+                ):  # s'il reste une allumette alors on peut jouer le coup de 1
             invalid.append(self.allumette)
 
         # print("invalid moves" + str(invalid))

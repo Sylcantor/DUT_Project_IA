@@ -5,9 +5,9 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-from Minimax.tree.draw_tree import draw_tree
-from Minimax.tree.minimax_tree import Minimax
-from Minimax.tree.game_tree import GameTree
+from draw_tree import draw_tree
+from minimax_tree import Minimax
+from game_tree import GameTree
 
 
 players = ['Human', 'Bot']

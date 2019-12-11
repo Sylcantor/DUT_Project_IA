@@ -9,6 +9,7 @@ from copy import deepcopy
 """
 @author: Aurelien
 """
+from Minimax.node import Node
 
 
 class Minimax:
@@ -16,7 +17,7 @@ class Minimax:
     Minimax sans besoin de game tree sous forme de liste à fournir (plus optimisé)
     """
 
-    def __init__(self, win_value=10, loss_value=-10, players=['Human', 'Bot']):
+    def __init__(self, win_value=10, loss_value=-10, players=['Player1', 'Player2']):
         """
         Constructeur.
         """

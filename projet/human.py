@@ -14,6 +14,7 @@ class Human():
         """
         Methode faire des choix en tant qu'humain
         """
+        print("Etat du jeu : " + str(currentnode.game.current_state()))
         choix = int(input(consigne))
         print("\n")
         return choix

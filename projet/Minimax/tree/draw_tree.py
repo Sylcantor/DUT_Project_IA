@@ -1,4 +1,4 @@
-from Minimax.tree.game_tree import Node
+from game_tree import Node
 from turtle import *
 import types
 
