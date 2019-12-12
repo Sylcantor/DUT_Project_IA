@@ -8,21 +8,11 @@ class QLearning:
     A class used for the QLearning algorithm
     """
 
-    def __init__(self, game, states_n, actions_n):
-        """
-        Parameters
-        ----------
-        game      : an object
-            a game
-        states_n  : int
-            represents the different states
-        actions_n : int
-            represents the possible actions       
-        """
-
+    def __init__(self, game):
+        # On définit le nombre d’états, et d’actions pour chaque état
         self.game = game
-        self.states_n = states_n
-        self.actions_n = actions_n
+        self.states_n = game
+        self.actions_n = len(game.valid_moves())
         self.generate_QLearning()
 
     def generate_QLearning(self):
@@ -85,3 +75,6 @@ class QLearning:
         self.game.reset()
 
         diag = QDiagram(cumul_reward_list)
+
+        def choose_move(self):
+            diag = QDiagram(cumul_reward_list)

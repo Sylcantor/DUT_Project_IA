@@ -48,7 +48,7 @@ class Nim():
 
         return moves
 
-    def check_valid_move(self, choice):  # utilisé par minmax
+    def check_valid_move(self, choice):
         """
         Methode qui vérifie si le coup est valide
         """
@@ -88,7 +88,7 @@ class Nim():
         Pour printer le jeu
         """
         if not self.rules:
-            print("\nJeu de Nim:\nÀ tour de rôle choisissez au maximum 3 allumettes. Le gagnant\nest celui qui parviendra ne pas tirer la dernière allumette.\n")
+            print("\nJeu de Nim:\nÀ tour de rôle saisissez au maximum 3 allumettes. Le gagnant\nest celui qui parviendra ne pas tirer la dernière allumette.\n")
             self.rules = True
 
         print("Allumettes restantes : " + str(self.allumette))
