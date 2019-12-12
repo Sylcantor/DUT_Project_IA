@@ -10,7 +10,7 @@ from Joueur import *
 TODO
 - play_move qui prend un état, le joueur qui joue et le coup à jouer et qui renvoi l'état après ce coup
 - check_current_state qui prend un état du jeu et qui renvoi le vainqueur et si le jeu est terminé/s'il y a une victoire
-- check_playable qui prend une case en argument pour savoir si on peut jouer dessus (ex: savoir si la case est vide dans le tic tac toe) on s'est basé sur le tic tac toe
+- check_playable qui prend une case en argument pour savoir si on peut jouer dessus (ex: savoir si la case est vide dans le tic tac toe)
 """
 
 class Plateau():
@@ -20,6 +20,7 @@ class Plateau():
     """
     
     tab = []
+    tabMurs = []
     
     def __init__(self):
         """
@@ -35,7 +36,7 @@ class Plateau():
         self.j2 = Joueur('B', 8, 17)
         
 
-        #Ajout de la liste pour obtenir un tableau à 2 dimensions.
+        # Ajout de la liste pour obtenir un tableau à 2 dimensions.
 
         for i in range(self.ligne):
             self.tab.append([])
@@ -67,19 +68,37 @@ class Plateau():
                         self.tab[i].append('m')
         
 
-        #Ajout des joueurs au centre de chaque extrémité du plateau.
+        # Ajout des joueurs au centre de chaque extrémité du plateau.
 
         self.tab[self.j1.y][self.j1.x] = self.j1.letter
         self.tab[self.j2.y][self.j2.x] = self.j2.letter
-        
     
+    
+    def initTabMurs(self):
+        """
+        Attribution d'un numéro pour chaque case où l'on peut poser un mur.
+        """
+
+        num = 0
+
+        for i in range(1, self.ligne-2):
+            for j in range(self.colonne):
+                if(((i % 2 != 0) and (j % 2 != 0)) or (i % 2 == 0)):
+                    num += 1
+                    dictCoordonnees = {'coordonneeY': i, 'coordonneeX': j}
+                    self.tabMurs.append(dictCoordonnees)
+                    print(num, " ", dictCoordonnees)
+        
+            print("\n")
+
+
     def findejeu(self):
         """
         On vérifie si l'un des joueur a atteint une zone d'arrivée.
         Autrement dit, si le joueur A a atteint la ligne de 7 ou que
         le joueur B a atteint la ligne de 5.
 
-        return : boolean
+        Return : boolean
         """
 
         if((self.j1.y == 0) or (self.j2.y == 18)):
@@ -92,7 +111,7 @@ class Plateau():
         """
         On affiche le message de victoire.
 
-        arguments : Joueur
+        Arguments : Joueur
         """
 
         print("\n-------------------------------------------------------------------------------")
@@ -142,7 +161,7 @@ class Plateau():
         """
         Enlève le caractère du joueur de la cellule.
 
-        arguments : Joueur
+        Arguments : Joueur
         """
 
         self.tab[joueur.y][joueur.x] = 0
@@ -152,7 +171,7 @@ class Plateau():
         """
         Ajoute le caractère du joueur sur la cellule.
 
-        arguments : Joueur
+        Arguments : Joueur
         """
 
         self.tab[joueur.y][joueur.x] = joueur.letter
@@ -162,7 +181,7 @@ class Plateau():
         """
         Délimite les déplacements du joueur.
 
-        arguments : Joueur, int
+        Arguments : Joueur, int
         """
 
         if((joueur.x == 0 and choix == 3) or (joueur.x == self.colonne - 1 and choix == 4)):
@@ -175,7 +194,7 @@ class Plateau():
         """
         Pose du mur aux coordonnées choisies par le joueur.
 
-        arguments : Joueur, int, int
+        Arguments : Joueur, int, int
         """
 
         if(self.tab[murY][murX] == 'm'):
@@ -192,54 +211,91 @@ class Plateau():
                         self.tab[murY][murX+1] = 1
                     else:
                         print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+
+                        """
                         coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
 
                         murYtmp = int(coordonnees[0])
                         murXtmp = int(coordonnees[1])
 
                         self.poserMur(joueur, murYtmp, murXtmp)
+                        """
+
+                        numero = int(input("Donnez le numéro de la position du mur à poser : "))
+                        self.poserMurIA(joueur, numero)
+
                 elif(direction == 'v' or direction == 'V'):
                     if(self.tab[murY+1][murX] == 'm'):
                         self.tab[murY+1][murX] = 1
                     else:
                         print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+
+                        """
                         coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
 
                         murYtmp = int(coordonnees[0])
                         murXtmp = int(coordonnees[1])
 
                         self.poserMur(joueur, murYtmp, murXtmp)
+                        """
+
+                        numero = int(input("Donnez le numéro de la position du mur à poser : "))
+                        self.poserMurIA(joueur, numero)
+
                 else:
                     print("Réponse invalide, nous vous prions de recommencer...")
                     self.tour(joueur)
 
             else:
                 print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+
+                """
                 coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
 
                 murYtmp = int(coordonnees[0])
                 murXtmp = int(coordonnees[1])
                 
                 self.poserMur(joueur, murYtmp, murXtmp)
+                """
                 
+                numero = int(input("Donnez le numéro de la position du mur à poser : "))
+                self.poserMurIA(joueur, numero)
+
             self.tab[murY][murX] = 1
             joueur.retraitMur()
 
         else:
             print("Vous ne pouvez pas poser de mur à cet endroit-là...")
+
+            """
             coordonnees = input("Veuillez indiquer d'autres coordonnées : ").split(" ")
 
             murYtmp = int(coordonnees[0])
             murXtmp = int(coordonnees[1])
 
             self.poserMur(joueur, murYtmp, murXtmp)
+            """
+
+            numero = int(input("Donnez le numéro de la position du mur à poser : "))
+            self.poserMurIA(joueur, numero)
+
+
+    def poserMurIA(self, joueur, num):
+        """
+        Récupère les coordonnées du mur à poser à partir de son numéro.
+        """
+
+        murY = self.tabMurs[num-1]['coordonneeY']
+        murX = self.tabMurs[num-1]['coordonneeX']
+
+        self.poserMur(joueur, murY, murX)
 
 
     def tour(self, joueur):
         """
         Tour de jeu pour un joueur (se déplacer ou poser un mur).
 
-        arguments : Joueur
+        Arguments : Joueur
         """
 
         print("\n-------------------------------------------------------------------------------")
@@ -263,24 +319,30 @@ class Plateau():
                 self.tour(joueur)
 
         elif(deplacerPion == 'n' or deplacerPion == "N"):
+            """
             coordonnees = input("Donnez les coordonnées du mur à poser (ligne puis colonne) séparées par un espace : ").split(" ")
 
             murY = int(coordonnees[0])
             murX = int(coordonnees[1])
 
             self.poserMur(joueur, murY, murX)
+            """
+
+            numero = int(input("Donnez le numéro de la position du mur à poser : "))
+            self.poserMurIA(joueur, numero)
 
         # Dans le cas d'une réponse erronée.
         else:
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
 
-    # fonction qui copie le plateau
+
+    # Fonction qui copie le plateau.
     def copy_game_state(self):
         """
-        Arguments : rien
-        Retour : Copie du plateau a l'instant T
+        Return : copie du plateau a l'instant t
         """
+
         new_state = []
 
         for i in range(self.ligne):
@@ -289,13 +351,15 @@ class Plateau():
             for j in range(self.colonne):
                 new_state[i].append(self.tab[i][j])
 
-        return new_state        
+        return new_state
+
 
 """
 Main.
 """
 
 p = Plateau()
+p.initTabMurs()
 
 count = 0
 
