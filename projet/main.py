@@ -32,7 +32,7 @@ def TurnBased(inital_game,
 
         player = players[0]  # pour initialiser, le premier joueur est Joueur 1
 
-        while ((game.check_current_state()[1]) == False):
+        while ((game.check_current_state()) == False):
 
             if i == 0:
                 player = players[0]  # human
@@ -54,10 +54,11 @@ def TurnBased(inital_game,
                 print("\n")
 
             i ^= 1
+        print("#____#____#____#____#____#")
+        print("Le gagnant est : " + game.winner())
+        print("#____#____#____#____#____#\n")
 
-        print("Le gagnant est : " + game.gameover())
-
-        if game.gameover() == players[0]:
+        if game.winner() == players[0]:
             games_won_J1 += 1
         else:
             games_won_J2 += 1

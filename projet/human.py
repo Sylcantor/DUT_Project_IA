@@ -10,15 +10,16 @@ class Human():
         Constructeur où on définit l'humain
         """
 
-    def choose_move(self, currentnode, consigne="Entrez votre choix : "):
+    def choose_move(self, node, consigne="Entrez votre choix : "):
         """
         Methode faire des choix en tant qu'humain
         """
-        print("Etat du jeu : " + str(currentnode.game.current_state()))
-        choix = int(input(consigne))
-        print("\n")
-        return choix
 
-        print("Vous ne pouvez pas effectuer cette action")
-        self.play_move(int(input("Donnez un nombre valide : ")),
-                       self.players[0])
+        node.game.print_game()
+        print("Coups jouables : " + str(node.game.valid_moves()))
+        choix = None
+
+        while choix not in node.game.valid_moves():
+            choix = int(input(consigne))
+
+        return choix
