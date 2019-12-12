@@ -75,8 +75,8 @@ game = Nim(6)
 human = Human()
 minimax = Minimax()
 
-qlearning = QLearning(game, 6)
-qlearning.generate_QLearning()
+# qlearning = QLearning(game, minimax, 6)
+# qlearning.training(minimax)
 
 number_games = 5
 

@@ -15,6 +15,7 @@ class Nim():
         self.players = players        # liste des joueurs
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         self.rules = False            # booléen pour afficher les règles au démarrage
+        return
 
     def play_move(self, choice, currentplayer):  # utilisé par minmax
         """
