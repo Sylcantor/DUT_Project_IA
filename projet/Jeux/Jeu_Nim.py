@@ -7,21 +7,21 @@ Created on Thu Nov 21 22:51:50 2019
 
 
 class Nim():
-    def __init__(self, nbAllumette, players=['Player1', 'Player2'], firstplayer=None):
+    def __init__(self, nbAllumette, players=['Player1', 'Player2']):
         """
         Constructeur où on définit le jeu
         """
-        self.allumette = nbAllumette
-        self.players = players
-        self.currentplayer = firstplayer
-        self.rules = False
+        self.allumette = nbAllumette  # le plateau
+        self.players = players        # liste des joueurs
+        self.currentplayer = None     # caractérise le dernier joueur qui a joué
+        self.rules = False            # booléen pour afficher les règles au démarrage
 
     def play_move(self, choice, currentplayer):
         """
         Methode pour jouer au jeu
         """
         self.currentplayer = currentplayer
-        if choice in self.valid_moves():   # vérification supplémentaire mais normalement c'est forcément vrai
+        if choice in self.valid_moves():        # vérification supplémentaire mais normalement c'est forcément vrai
                                                 # si on choisit un move parmis les valid_moves()
             self.allumette -= choice            # si ok on change l'état du jeu
 
