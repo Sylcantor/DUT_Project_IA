@@ -8,12 +8,11 @@ class QLearning:
     A class used for the QLearning algorithm
     """
 
-    def __init__(self, game):
+    def __init__(self, game, states_n):
         # On définit le nombre d’états, et d’actions pour chaque état
         self.game = game
-        self.states_n = game
+        self.states_n = states_n
         self.actions_n = len(game.valid_moves())
-        self.generate_QLearning()
 
     def generate_QLearning(self):
         """

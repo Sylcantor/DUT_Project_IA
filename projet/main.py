@@ -9,6 +9,8 @@ from human import Human
 from Minimax.minimax import Minimax
 from Minimax.node import Node
 
+from QLearning.QLearning import QLearning
+
 from Jeux.Jeu_Nim import Nim
 
 
@@ -72,6 +74,9 @@ game = Nim(6)
 
 human = Human()
 minimax = Minimax()
+
+qlearning = QLearning(game, 6)
+qlearning.generate_QLearning()
 
 number_games = 5
 

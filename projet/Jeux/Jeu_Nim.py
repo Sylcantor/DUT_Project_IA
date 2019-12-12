@@ -33,8 +33,8 @@ class Nim():
         ]  # tous les coups jouables sous forme de liste de nombres
 
         # On numérote les coups où l'on peut jouer
-        if self.allumette <= 3:                      # on peut choisir au maximum 3 allumettes
-            for i in range(self.minimal_move(),
+        if self.allumette <= 3:
+            for i in range(self.minimal_move(),      # on peut choisir au maximum le reste des allumettes
                            self.allumette + 1):      # l'état actuel du jeu
                 if (self.check_valid_move(i)):       # vérifie si ce move est valide
                     moves.append(i)
