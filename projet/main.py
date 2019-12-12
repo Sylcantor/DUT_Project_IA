@@ -54,9 +54,9 @@ def TurnBased(inital_game,
                 print("\n")
 
             i ^= 1
-        print("#____#____#____#____#____#")
+        print("#________________________#")
         print("Le gagnant est : " + game.winner())
-        print("#____#____#____#____#____#\n")
+        print("#________________________#\n")
 
         if game.winner() == players[0]:
             games_won_J1 += 1
@@ -77,5 +77,5 @@ number_games = 5
 
 resultsJ1, resultsJ2 = TurnBased(game, human, minimax, number_games, players)
 
-print(" Win rate " + players[0] + " : " + str((resultsJ1/number_games)*100) + " %" +
+print("Win rate " + players[0] + " : " + str((resultsJ1/number_games)*100) + " %" +
       " | "+"Win rate " + players[1] + " : " + str((resultsJ2/number_games)*100) + " % ")

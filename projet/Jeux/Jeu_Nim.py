@@ -16,7 +16,7 @@ class Nim():
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         self.rules = False            # booléen pour afficher les règles au démarrage
 
-    def play_move(self, choice, currentplayer):
+    def play_move(self, choice, currentplayer):  # utilisé par minmax
         """
         Methode pour jouer au jeu
         """
@@ -25,7 +25,7 @@ class Nim():
                                                 # si on choisit un move parmis les valid_moves()
             self.allumette -= choice            # si ok on change l'état du jeu
 
-    def valid_moves(self):
+    def valid_moves(self):  # utilisé par minmax
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -48,7 +48,7 @@ class Nim():
 
         return moves
 
-    def check_valid_move(self, choice):
+    def check_valid_move(self, choice):  # utilisé par minmax
         """
         Methode qui vérifie si le coup est valide
         """
@@ -57,7 +57,7 @@ class Nim():
         else:
             return True
 
-    def check_current_state(self):
+    def check_current_state(self):  # utilisé par minmax
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         On renvoit un booléen qui représente si le jeu est terminé: true sinon false
@@ -67,7 +67,7 @@ class Nim():
         else:
             return True
 
-    def winner(self):
+    def winner(self):  # utilisé par minmax
         """
         Methode pour récupérer le joueur victorieux
         """
@@ -83,7 +83,7 @@ class Nim():
         """
         return 1
 
-    def print_game(self):
+    def print_game(self):  # utilisé par l'humain
         """
         Pour printer le jeu
         """
