@@ -9,7 +9,7 @@ Created on Thu Nov 21 22:51:50 2019
 class Nim():
     def __init__(self, nbAllumette, players=['Player1', 'Player2'], firstplayer=None):
         """
-        Constructeur où on définit le jeu et le premier joueur
+        Constructeur où on définit le jeu
         """
         self.allumette = nbAllumette
         self.players = players
@@ -20,41 +20,40 @@ class Nim():
         Methode pour jouer au jeu
         """
         self.currentplayer = currentplayer
-        if (self.check_valid_move(choice)) and (
-                choice not in self.invalid_moves()):
-            self.allumette -= choice
+        if self.choice in self.valid_moves():   # vérification supplémentaire mais normalement c'est forcément vrai
+                                                # si on choisit un move parmis les valid_moves()
+            self.allumette -= choice            # si ok on change l'état du jeu
+
+    def valid_moves(self):
+        """
+        Methode qui donne sous forme de liste tous les coups jouables actuellement
+        """
+        moves = [
+        ]  # tous les coups jouables sous forme de liste de nombres
+
+        # On numérote les coups où l'on peut jouer
+        if self.allumette <= 3:                      # on peut choisir au maximum 3 alluemettes
+            for i in range(self.minimal_move(),
+                           self.current_state()):    # l'état actuel du jeu
+                if (self.check_valid_move(i)):       # vérifie si ce move est valide
+                    moves.append(i)
         else:
-            print("Vous ne pouvez pas effectuer cette action")
-            self.play_move(int(input("Donnez un nombre valide : ")),
-                           self.players[0])
+            for i in range(self.minimal_move(), 3):  # l'état actuel du jeu
+                if (self.check_valid_move(i)):       # vérifie si ce move est valide
+                    moves.append(i)
+
+        print("Coups jouables : " + str(moves))
+
+        return moves
 
     def check_valid_move(self, choice):
         """
         Methode qui vérifie si le coup est valide
         """
-        if (self.allumette - choice < 0 or self.allumette == 0):
+        if (self.allumette - choice < 0):  # or self.allumette == 0):
             return False
         else:
             return True
-
-    def invalid_moves(self):
-        """
-        Methode qui renvoie les coups impossibles
-        """
-        invalid = []
-        invalid.append(0)
-        if (self.allumette > 1
-                ):  # s'il reste une allumette alors on peut jouer le coup de 1
-            invalid.append(self.allumette)
-
-        # print("invalid moves" + str(invalid))
-        return invalid
-
-    def minimal_move(self):
-        """
-        Le coup minimal qu'on peut faire
-        """
-        return 1
 
     def check_current_state(self):
         """
@@ -72,8 +71,8 @@ class Nim():
         """
         return self.allumette
 
-    def gameover(self):
+    def minimal_move(self):
         """
-        Message de fin de jeu
+        Le coup minimal qu'on peut faire
         """
-        return self.check_current_state()[0]
+        return 1

@@ -18,3 +18,7 @@ class Human():
         choix = int(input(consigne))
         print("\n")
         return choix
+
+        print("Vous ne pouvez pas effectuer cette action")
+        self.play_move(int(input("Donnez un nombre valide : ")),
+                       self.players[0])
