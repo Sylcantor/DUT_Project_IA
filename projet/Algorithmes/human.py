@@ -2,9 +2,10 @@
 """
 @author: Aurélien
 """
+from Algorithmes.AbstractAlgo import AbstractAlgo
 
 
-class Human():
+class Human(AbstractAlgo):
     def __init__(self):
         """
         Constructeur où on définit l'humain

@@ -4,13 +4,13 @@
 """
 from copy import deepcopy
 
-# pour jouer en tant qu'utilisateur:
-from human import Human
-
 # les algorithmes:
-from Minimax.minimax import Minimax
-from Minimax.node import Node
-from QLearning.QLearning import QLearning
+from Algorithmes.Minimax.minimax import Minimax
+from Algorithmes.Minimax.node import Node
+# from Algorithmes.QLearning.QLearning import QLearning
+
+# pour jouer en tant qu'utilisateur:
+from Algorithmes.human import Human
 
 # les jeux à importer:
 from Jeux.Jeu_Nim import Nim
@@ -75,6 +75,15 @@ def TurnBased(inital_game,
 # ────────────────────────────────────────────────────────────────────────────────
 # main:
 
+"""
+Mode d'emploi:
+1. importer deux algorithmes ou un algorithme et la classe humain
+   contenant la méthode choose_move()
+2. importer un jeu suivant la structure du jeu de nim
+3. dans TurnBased() y mettre en argument le jeu, le joueur n°1, le joueur n°2
+   et le nombre de parties
+"""
+
 players = ['Player1', 'Player2']
 
 game = Nim(6)
@@ -89,5 +98,6 @@ number_games = 2
 
 resultsJ1, resultsJ2 = TurnBased(game, human, minimax, number_games, players)
 
+# les résultats en % des parties gagnées sur le nombre total de parties
 print("Win rate " + players[0] + " : " + str((resultsJ1/number_games)*100) + " %" +
       " | "+"Win rate " + players[1] + " : " + str((resultsJ2/number_games)*100) + " % ")

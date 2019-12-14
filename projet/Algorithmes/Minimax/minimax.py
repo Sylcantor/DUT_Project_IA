@@ -9,10 +9,11 @@ from copy import deepcopy
 """
 @author: Aurelien
 """
-from Minimax.node import Node
+from Algorithmes.AbstractAlgo import AbstractAlgo
+from Algorithmes.Minimax.node import Node
 
 
-class Minimax:
+class Minimax(AbstractAlgo):
     """
     Minimax sans besoin de game tree sous forme de liste à fournir (plus optimisé)
     """

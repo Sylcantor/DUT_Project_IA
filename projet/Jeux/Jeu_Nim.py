@@ -5,8 +5,10 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
+from Jeux.AbstractJeu import AbstractJeu
 
-class Nim():
+
+class Nim(AbstractJeu):
     def __init__(self, nbAllumette, players=['Player1', 'Player2']):
         """
         Constructeur où on définit le jeu
