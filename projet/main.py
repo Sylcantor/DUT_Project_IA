@@ -4,14 +4,18 @@
 """
 from copy import deepcopy
 
+# pour jouer en tant qu'utilisateur:
 from human import Human
 
+# les algorithmes:
 from Minimax.minimax import Minimax
 from Minimax.node import Node
-
 from QLearning.QLearning import QLearning
 
+# les jeux à importer:
 from Jeux.Jeu_Nim import Nim
+
+# ────────────────────────────────────────────────────────────────────────────────
 
 
 def TurnBased(inital_game,
@@ -68,6 +72,9 @@ def TurnBased(inital_game,
     return games_won_J1, games_won_J2
 
 
+# ────────────────────────────────────────────────────────────────────────────────
+# main:
+
 players = ['Player1', 'Player2']
 
 game = Nim(6)
@@ -75,10 +82,10 @@ game = Nim(6)
 human = Human()
 minimax = Minimax()
 
-# qlearning = QLearning(game, minimax, 6)
+# qlearning = QLearning(game, 6)
 # qlearning.training(minimax)
 
-number_games = 5
+number_games = 2
 
 resultsJ1, resultsJ2 = TurnBased(game, human, minimax, number_games, players)
 

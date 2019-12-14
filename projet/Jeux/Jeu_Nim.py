@@ -72,6 +72,7 @@ class Nim():
         """
         Methode pour récupérer le joueur victorieux
         """
+        # le dernier joueur à avoir tiré la dernière allumette est le perdant
         if self.currentplayer == self.players[0]:
             winner = self.players[1]
         else:
