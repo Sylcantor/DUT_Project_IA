@@ -15,6 +15,7 @@ class Random(AbstractAlgo):
 
     def choose_move(self, node):
         # rand = np.random.choice(node.game.valid_moves())
+        # FIXME RecursionError: maximum recursion depth exceeded while calling a Python object
         random_index = randrange(len(node.game.valid_moves()))
         print("Coup décidé : " + str(node.game.valid_moves()[random_index]))
         return node.game.valid_moves()[random_index]
