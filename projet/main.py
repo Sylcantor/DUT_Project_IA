@@ -105,11 +105,12 @@ Mode d'emploi:
 
 players = ['Player1', 'Player2']
 
-game = TicTacToe()
-# game = Nim(6)
+#game = TicTacToe()
+game = Nim(6)
 
 human = Human()
 random = Random()
+# FIXME RecursionError: maximum recursion depth exceeded while calling a Python object
 minimax = Minimax()
 
 # qlearning = QLearning(game, 6)
@@ -118,11 +119,11 @@ minimax = Minimax()
 number_games = 3
 
 resultsJ1, resultsJ2, draw = TurnBased(
-    game, human, random, number_games, players)
+    game, human, minimax, number_games, players)
 PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 number_games = 3
 
 resultsJ1, resultsJ2, draw = TurnBased(
-    game, human, minimax, number_games, players)
+    game, minimax, random, number_games, players)
 PrintResults(resultsJ1, resultsJ2, draw, number_games)

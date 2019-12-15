@@ -161,7 +161,7 @@ class Minimax(AbstractAlgo):
 
         # L'ensemble des coups possibles pour cette node
         moves = game.valid_moves()
-
+        # FIXME RecursionError: maximum recursion depth exceeded while calling a Python object
         # Jeux imaginaires : tous les coups de jeu possibles selon le jeu que l'on a donné dans node
         for move in moves:
 
@@ -169,7 +169,7 @@ class Minimax(AbstractAlgo):
 
             copy_game = deepcopy(game)  # on copie le jeu
             # on fait le coup sur cette copie de jeu
-            copy_game.play_move(moves.index(move), player)
+            copy_game.play_move(move, player)
 
             # Si c'est à l'IA de jouer.    players = ['Human', 'Bot']
             if player == self.players[1]:  # == O
