@@ -7,7 +7,7 @@ from copy import deepcopy
 # les algorithmes:
 from Algorithmes.Minimax.minimax import Minimax
 from Algorithmes.Minimax.node import Node
-# from Algorithmes.QLearning.QLearning import QLearning
+# from Algorithmes.QLearning.qLearning import QLearning
 
 # pour jouer en tant qu'utilisateur ou random:
 from Algorithmes.human import Human
@@ -15,6 +15,7 @@ from Algorithmes.random import Random
 
 # les jeux à importer:
 from Jeux.Jeu_Nim import Nim
+from Jeux.Jeu_TicTacToe import TicTacToe
 
 # ────────────────────────────────────────────────────────────────────────────────
 
@@ -30,6 +31,7 @@ def TurnBased(inital_game,
     """
     games_won_J1 = 0
     games_won_J2 = 0
+    draw = 0
 
     for numGame in range(numGames):
 
@@ -38,6 +40,8 @@ def TurnBased(inital_game,
         game = deepcopy(inital_game)
 
         player = players[0]  # pour initialiser, le premier joueur est Joueur 1
+
+        print("#_______#NEW_GAME#_______#")
 
         while ((game.check_current_state()) == False):
 
@@ -62,19 +66,33 @@ def TurnBased(inital_game,
 
             i ^= 1
         print("#________________________#")
-        print("Le gagnant est : " + game.winner())
-        print("#________________________#\n")
+        print("Le gagnant est : " + game.winner() + "\n")
+
+        print("Affichage de fin : ")
+        print(game.print_game())
 
         if game.winner() == players[0]:
             games_won_J1 += 1
-        else:
+        elif game.winner() == players[1]:
             games_won_J2 += 1
+        else:
+            draw += 1
 
-    return games_won_J1, games_won_J2
+    return games_won_J1, games_won_J2, draw
 
+
+def PrintResults(resultsJ1, resultsJ2, draw, number_games):
+    # les résultats en % des parties gagnées sur le nombre total de parties
+    print("Win rate " + players[0] + " : " +
+          str((resultsJ1/number_games)*100) + " %" +
+          " | "+"Win rate " + players[1] + " : " +
+          str((resultsJ2/number_games)*100) + " % "
+          " | "+"Draw rate " + " : " +
+          str((draw/number_games)*100) + " % ")
 
 # ────────────────────────────────────────────────────────────────────────────────
 # main:
+
 
 """
 Mode d'emploi:
@@ -87,19 +105,24 @@ Mode d'emploi:
 
 players = ['Player1', 'Player2']
 
-game = Nim(6)
+game = TicTacToe()
+# game = Nim(6)
 
-# human = Human()
+human = Human()
 random = Random()
 minimax = Minimax()
 
 # qlearning = QLearning(game, 6)
 # qlearning.training(minimax)
 
-number_games = 2
+number_games = 3
 
-resultsJ1, resultsJ2 = TurnBased(game, random, minimax, number_games, players)
+resultsJ1, resultsJ2, draw = TurnBased(
+    game, human, random, number_games, players)
+PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
-# les résultats en % des parties gagnées sur le nombre total de parties
-print("Win rate " + players[0] + " : " + str((resultsJ1/number_games)*100) + " %" +
-      " | "+"Win rate " + players[1] + " : " + str((resultsJ2/number_games)*100) + " % ")
+number_games = 3
+
+resultsJ1, resultsJ2, draw = TurnBased(
+    game, human, minimax, number_games, players)
+PrintResults(resultsJ1, resultsJ2, draw, number_games)

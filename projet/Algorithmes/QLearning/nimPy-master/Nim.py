@@ -50,9 +50,8 @@ class Nim:
 
         qAgent = Q_Learning(0.35, 0.9, 0.35)
         optAgent = Optimal()
-        # random = Random()
 
-        q_vs_opt_train = Nim(qAgent, optAgent, 1)
+        q_vs_opt_train = Nim(qAgent, optAgent, 100)  # 100000
 
         res = random.sample(range(1, 10), 3)
 
@@ -61,7 +60,7 @@ class Nim:
               "Losses: ", q_vs_opt_train.losses)
 
         qAgent.epsilon = 0
-        q_vs_opt_test = Nim(qAgent, optAgent, 1)
+        q_vs_opt_test = Nim(qAgent, optAgent, 100)
 
         res = random.sample(range(1, 10), 3)
 

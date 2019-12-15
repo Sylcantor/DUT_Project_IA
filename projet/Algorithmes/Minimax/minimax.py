@@ -169,7 +169,7 @@ class Minimax(AbstractAlgo):
 
             copy_game = deepcopy(game)  # on copie le jeu
             # on fait le coup sur cette copie de jeu
-            copy_game.play_move(move, player)
+            copy_game.play_move(moves.index(move), player)
 
             # Si c'est à l'IA de jouer.    players = ['Human', 'Bot']
             if player == self.players[1]:  # == O

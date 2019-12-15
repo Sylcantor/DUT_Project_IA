@@ -9,11 +9,11 @@ from Jeux.AbstractJeu import AbstractJeu
 
 
 class Nim(AbstractJeu):
-    def __init__(self, nbAllumette, players=['Player1', 'Player2']):
+    def __init__(self, size, players=['Player1', 'Player2']):
         """
         Constructeur où on définit le jeu
         """
-        self.allumette = nbAllumette  # le plateau
+        self.allumette = size         # le plateau
         self.players = players        # liste des joueurs
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         self.rules = False            # booléen pour afficher les règles au démarrage
