@@ -352,6 +352,40 @@ class Plateau():
                 new_state[i].append(self.tab[i][j])
 
         return new_state
+"""
+    def check_is_stuck(self, Joueur):
+        l'algoithme:
+        On simule un personnage qui va d'abord aller tout droit vers le haut jusqu'a rencontrer un mur on marque la case ou il a rencontré le mur.
+        Puis lorsqu'il rencontre le mur on va à droite et on longe le mur,
+        Si il retrouve la case marquée on considèrera que le pion est bloqué
+        Sinon après un certain nombre de deplacement on considera que le joueur n'est pas bloqué
+
+        on doit faire les methodes de deplacements pour le pionAventurier. Car les methodes de deplacements sont pour les joueurs les methodes demandent l'argument
+        joueur
+    
+
+        posXAventurier = Joueur.x
+        posYAventurier = Joueur.y
+        caseX_rencontre
+        caseY_rencontre
+        haut = 1
+        droite = 4
+        nbrDeplacement = 10
+        i = 1
+
+        
+        while(limitesDep == true):
+            Joueur.seDeplacer(haut, self)
+        
+        caseX_rencontre = posXAventurier
+        caseY_rencontre = posYAventurier
+
+        while(i < nbrDeplacement):
+            Joueur.seDelacer(drote, self)
+            
+        
+"""
+
 
 
 """
