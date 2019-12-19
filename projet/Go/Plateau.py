@@ -11,6 +11,7 @@ TODO
 - victoire qui compte les points de chaque joueur et qui renvoie le gagnant
 """
 
+
 class Plateau():
     """
     Plateau de jeu représenté par une liste de listes (équivalent 
@@ -37,7 +38,9 @@ class Plateau():
         # Ajout de la liste pour obtenir un tableau à 2 dimensions.
 
         for i in range(self.ligne):
-            self.tab.append([0])
+            self.tab.append([])
+            for j in range(self.colonne):
+                self.tab[i].append('.')
 
     def afficheJeu(self):
         """
@@ -50,7 +53,7 @@ class Plateau():
 
         for i in range(self.ligne):
             for j in range(self.colonne):
-                print(self.tab[i][j], end='')
+                print(self.tab[i][j], end=' ')
             print()
 
     def verifChoix(self,ligne,colonne):
@@ -59,7 +62,8 @@ class Plateau():
 
         Arguments : int, int
         """
-        if(self.tab[ligne][colonne]==0):
+        print(self.tab[ligne][colonne])
+        if(self.tab[ligne][colonne]=='.'):
             return True
         else:
             return False
@@ -73,16 +77,20 @@ class Plateau():
         self.tab[ligne][colonne]=joueur
 
     def finDeJeu(self):
-        if fin==2:
+        if self.fin==2:
             return True
         else:
             return False
 
     def coupe(self):
         #TODO verifier si il y a une coupe sur le plateau
+        print("Coupe !")
+        return True
 
     def victoire(self): #TODO
-
+        print("Victoire !")
+        return True
+        
     def tour(self, joueur):
         """
         Tour de jeu pour un joueur (poser une pierre).
@@ -95,35 +103,42 @@ class Plateau():
         print("-------------------------------------------------------------------------------\n")
 
         # Choix du joueur.
-        choix = input("Voulez vous jouer votre tour ? (o/n")
+        choix = input("Voulez vous jouer votre tour ? (o/n) ")
+        print()
+
         while True:
-            if(choix=='o'):
+            if choix=='o':
                 self.fin=0
 
-                placerPierre = input("Ou placez-vous votre pierre ? (ligne,colonne)")
-
+                placerPierre = input("Ou placez-vous votre pierre ? (ligne,colonne) ")
+                print()
+                '''
                 while lens(placePierre)<2:
-                    placerPierre = input("Respecter la syntaxe (ligne,colonne)")
-
-                ligne = placePierre[0]
-                colonne = placePierre[3]
+                    placerPierre = input("Respecter la syntaxe (ligne,colonne) ")
+                    print()
+                '''
+                ligne = int(placerPierre[0])
+                colonne = int(placerPierre[2])
 
                 while True:
                     if(self.verifChoix(ligne,colonne)):
                         self.placerPierre(ligne,colonne,joueur)
                         break
-                    else:
-                        placerPierre = input("Cette case est dejà occupé, ou placez-vous votre pierre ? (ligne,colonne)")
-						ligne = placePierre[0]
-                        colonne = placePierre[3]
+                    else:   
+                        placerPierre = input("Cette case est dejà occupé, ou placez-vous votre pierre ? (ligne,colonne) ")
+                        print()
+                        ligne = int(placerPierre[0])
+                        colonne = int(placerPierre[2])
                         
                 self.coupe()
-
-            else if choix != 'o' or choix != 'n' :
-                input("Veuillez respecter la syntaxe (o/n)")
-            else:
+                break
+            elif choix == 'n':
                 self.fin+=1
                 break
+            else:
+                choix = input("Veuillez respecter la syntaxe (o/n) ")
+                print()
+
 """
 Main.
 """
@@ -141,6 +156,7 @@ while p.finDeJeu() == False:
         if p.finDeJeu():
             break 
     else:
+        p.afficheJeu()
         p.tour(p.j2)
 
     count += 1
