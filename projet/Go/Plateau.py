@@ -114,7 +114,9 @@ class Plateau():
                         break
                     else:
                         placerPierre = input("Cette case est dejà occupé, ou placez-vous votre pierre ? (ligne,colonne)")
-
+						ligne = placePierre[0]
+                        colonne = placePierre[3]
+                        
                 self.coupe()
 
             else if choix != 'o' or choix != 'n' :
