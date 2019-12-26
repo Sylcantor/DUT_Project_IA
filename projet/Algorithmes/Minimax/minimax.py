@@ -161,7 +161,6 @@ class Minimax(AbstractAlgo):
 
         # L'ensemble des coups possibles pour cette node
         moves = game.valid_moves()
-        # FIXME RecursionError: maximum recursion depth exceeded while calling a Python object
         # Jeux imaginaires : tous les coups de jeu possibles selon le jeu que l'on a donné dans node
         for move in moves:
 
@@ -198,7 +197,7 @@ class Minimax(AbstractAlgo):
         """
         assert node is not None
         done = node.game.check_current_state()
-        return done == True or done == "Draw"
+        return done == True
 
     def getUtility(self, node):
         """
@@ -232,5 +231,5 @@ class Minimax(AbstractAlgo):
         elif done == True and winner == self.players[0]:  # Humain X
             return self.loss_value
         # Si le jeu est fini et que personne n'a gagné.
-        elif done == "Draw":
+        elif done == True and winner == 'Draw':
             return 0

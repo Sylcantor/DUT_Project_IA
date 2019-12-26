@@ -29,7 +29,7 @@ class TicTacToe(AbstractJeu):
             if self.currentplayer == self.players[0]:
                 self.board[row][col] = 'X'
             else: 
-                self.board[row][col] = '0'
+                self.board[row][col] = 'O'
         # print("test : ", self.board)
                 
     def valid_moves(self):  # utilisé par minmax
@@ -99,7 +99,7 @@ class TicTacToe(AbstractJeu):
         elif self.checkForDraw():
             
                 # print("It's a draw!")
-                return 'Draw'
+                return "Draw"
 
     def checkForWin(self, key):
         """
