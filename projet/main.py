@@ -3,6 +3,7 @@
 @author: Aurélien
 """
 import sys
+import os
 import argparse
 
 from copy import deepcopy
@@ -10,7 +11,8 @@ from copy import deepcopy
 # les algorithmes:
 from Algorithmes.Minimax.minimax import Minimax
 from Algorithmes.Minimax.node import Node
-# from Algorithmes.QLearning.qLearning import QLearning
+# Reinforcement learning:
+from Algorithmes.RL.GameLearning import GameLearning
 
 # pour jouer en tant qu'utilisateur ou random:
 from Algorithmes.human import Human
@@ -122,9 +124,6 @@ if __name__ == "__main__":
         random = Random()
         minimax = Minimax()
 
-        # qlearning = QLearning(game, 6)
-        # qlearning.training(minimax)
-
         number_games = 3
 
         resultsJ1, resultsJ2, draw = TurnBased(
@@ -132,6 +131,7 @@ if __name__ == "__main__":
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 # ────────────────────────────────────────────────────────────────────────────────
+# Reinforcement learning:
 
     else:  # avec argument: lancement des options du reinforcement learning
 
@@ -153,12 +153,46 @@ if __name__ == "__main__":
 
         assert args.agent_type == 'q' or args.agent_type == 's', \
             "learner type must be either 'q' or 's'."
-
         if args.plot:
             assert args.load, "Must load an agent to plot reward."
             assert args.teacher_episodes is None, \
                 "Cannot plot and teach concurrently; must chose one or the other."
 
+        # ─────────────────────────────────────────────────────────────────
+        # start training
         gl = GameLearning(args)
+
         if args.teacher_episodes is not None:
-            gl.beginTeaching(args.teacher_episodes)
+
+            players = ['Player1', 'Player2']
+
+            game = TicTacToe()
+
+            # teachers
+            random = Random()
+            minimax = Minimax()
+
+            games_played = 0
+
+            while games_played < args.teacher_episodes:
+
+                resultsJ1, resultsJ2, draw = 0
+
+                sys.stdout = open(os.devnull, 'w')  # disable standard output
+                # During teaching, chose who goes first randomly with equal probability
+                if random.random() < 0.5:
+                    resultsJ1, resultsJ2, draw = TurnBased(
+                        game, gl, random, 1, players)
+                else:
+                    resultsJ1, resultsJ2, draw = TurnBased(
+                        game, random, gl, 1, players)
+
+                # Monitor progress
+                if games_played % 1000 == 0:
+                    sys.stdout = sys.__stdout__  # restore standard output
+                    print("Games played: %i" % games_played)
+                    PrintResults(resultsJ1, resultsJ2, draw, number_games)
+
+                games_played += 1
+
+            gl.plot_agent_reward()
