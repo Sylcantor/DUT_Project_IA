@@ -10,13 +10,14 @@ class AbstractAlgo:
     @abstractmethod
     def choose_move(self): pass
     """
-    Methode faire des choix en tant qu'humainselon l'agent
+    Methode pour faire des choix selon l'agent
+    Les argurments n'ont pas d'importantce
     """
 
 
 """
-QLearning:
-Let’s get introduced to some terminologies to get on the same page.
+RL: Reinforcement Learning
+Let’s get introduced to some terminologies.
 1. Agent: The problem solver, can perform some actions.
 2. Environment: An agent resides here. An environment provides responses to an agent based on the actions it performs.
 3. Reward: When an agent performs an action in an environment, there is an associated reward; rewards can be positive, negative(punishment) or zero.

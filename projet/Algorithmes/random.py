@@ -14,7 +14,9 @@ from random import randrange
 class Random(AbstractAlgo):
 
     def choose_move(self, node):
-        # rand = np.random.choice(node.game.valid_moves())
+        """
+        Methode pour faire des choix aléatoires
+        """
         random_index = randrange(len(node.game.valid_moves()))
         print("Coup décidé : " + str(node.game.valid_moves()[random_index]))
         return node.game.valid_moves()[random_index]

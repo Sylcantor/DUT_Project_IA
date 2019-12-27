@@ -2,6 +2,9 @@
 """
 @author: Aurélien
 """
+import sys
+import argparse
+
 from copy import deepcopy
 
 # les algorithmes:
@@ -18,6 +21,7 @@ from Jeux.Jeu_Nim import Nim
 from Jeux.Jeu_TicTacToe import TicTacToe
 
 # ────────────────────────────────────────────────────────────────────────────────
+# utilities:
 
 
 def TurnBased(inital_game,
@@ -90,39 +94,70 @@ def PrintResults(resultsJ1, resultsJ2, draw, number_games):
           " | "+"Draw rate " + " : " +
           str((draw/number_games)*100) + " % ")
 
+
 # ────────────────────────────────────────────────────────────────────────────────
 # main:
 
+if __name__ == "__main__":
 
-"""
-Mode d'emploi:
-1. importer deux algorithmes ou un algorithme et choose_move de la classe humain
-   contenant la méthode choose_move()
-2. importer un jeu suivant la structure du jeu de nim
-3. dans TurnBased() y mettre en argument le jeu, le joueur n°1, le joueur n°2
-   et le nombre de parties
-"""
+    if len(sys.argv) == 1:  # sans argument: lancement normal
 
-players = ['Player1', 'Player2']
+        """
+        Mode d'emploi:
+        1. importer deux algorithmes ou un algorithme et la classe human
+        tous contenant la méthode choose_move()
+        2. importer un jeu suivant la structure du jeu de nim
+        3. dans TurnBased() y mettant en argument le jeu, le joueur n°1, le joueur n°2
+        et le nombre de parties
+        4. vous pouvez récupérer les résultats grâce à la méthode PrintResults()
+        """
 
-game = TicTacToe()
-#game = Nim(6)
+        players = ['Player1', 'Player2']
 
-human = Human()
-random = Random()
-minimax = Minimax()
+        game = TicTacToe()
+        #game = Nim(6)
 
-# qlearning = QLearning(game, 6)
-# qlearning.training(minimax)
+        human = Human()
+        random = Random()
+        minimax = Minimax()
 
-number_games = 3
+        # qlearning = QLearning(game, 6)
+        # qlearning.training(minimax)
 
-resultsJ1, resultsJ2, draw = TurnBased(
-    game, human, minimax, number_games, players)
-PrintResults(resultsJ1, resultsJ2, draw, number_games)
+        number_games = 3
 
-number_games = 3
+        resultsJ1, resultsJ2, draw = TurnBased(
+            game, human, minimax, number_games, players)
+        PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
-resultsJ1, resultsJ2, draw = TurnBased(
-    game, human, minimax, number_games, players)
-PrintResults(resultsJ1, resultsJ2, draw, number_games)
+# ────────────────────────────────────────────────────────────────────────────────
+
+    else:  # avec argument: lancement des options du reinforcement learning
+
+        parser = argparse.ArgumentParser(
+            description="Options du reinforcement learning.")
+        parser.add_argument('-a', "--agent_type", type=str, default="q",
+                            help="Specify the computer agent learning algorithm. "
+                            "AGENT_TYPE='q' for Q-learning and ='s' for Sarsa-learning")
+        parser.add_argument("-l", "--load", action="store_true",
+                            help="whether to load trained agent")
+        parser.add_argument("-t", "--teacher_episodes", default=None, type=int,
+                            help="employ teacher agent who knows the optimal "
+                            "strategy and will play for TEACHER_EPISODES games")
+        parser.add_argument("-p", "--plot", action="store_true",
+                            help="whether to plot reward vs. episode of stored agent "
+                            "and quit")
+
+        args = parser.parse_args()
+
+        assert args.agent_type == 'q' or args.agent_type == 's', \
+            "learner type must be either 'q' or 's'."
+
+        if args.plot:
+            assert args.load, "Must load an agent to plot reward."
+            assert args.teacher_episodes is None, \
+                "Cannot plot and teach concurrently; must chose one or the other."
+
+        gl = GameLearning(args)
+        if args.teacher_episodes is not None:
+            gl.beginTeaching(args.teacher_episodes)
