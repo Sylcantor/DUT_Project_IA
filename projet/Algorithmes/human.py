@@ -16,10 +16,15 @@ class Human(AbstractAlgo):
         print("Coups jouables : " + str(node.game.valid_moves()))
         print("[Help] Choisissez selon l'index : de ",
               0, "à", len(node.game.valid_moves())-1)
-        choix = int(input(consigne))
+        choix = input(consigne)
 
         while True:
-            if 0 <= choix < len(node.game.valid_moves()):
-                return node.game.valid_moves()[choix]
+
+            if choix.isdigit():
+                choix = int(choix)
+                if 0 <= choix < len(node.game.valid_moves()):
+                    return node.game.valid_moves()[choix]
+                else:
+                    choix = input(consigne)
             else:
-                choix = int(input(consigne))
+                choix = input(consigne)

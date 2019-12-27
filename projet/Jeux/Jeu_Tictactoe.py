@@ -141,7 +141,7 @@ class TicTacToe(AbstractJeu):
         Prints the game board as text output to the terminal.
         """
         if not self.rules:
-            print("Your move! Please select a row and column from 0-2 : ")
+            print("Player1 -> X\nPlayer2 -> O\nYour move! Please select a row and column from 0-2 : \n")
             self.rules = True
             
         print('    0   1   2\n')

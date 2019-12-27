@@ -104,12 +104,13 @@ if __name__ == "__main__":
 
         """
         Mode d'emploi:
-        1. importer deux algorithmes ou un algorithme et la classe human
-        tous contenant la méthode choose_move()
-        2. importer un jeu suivant la structure du jeu de nim
-        3. dans TurnBased() y mettant en argument le jeu, le joueur n°1, le joueur n°2
-        et le nombre de parties
-        4. vous pouvez récupérer les résultats grâce à la méthode PrintResults()
+        1.  importer deux algorithmes ou un algorithme et la classe human
+            tous contenant la méthode choose_move()
+        2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
+        3.  dans TurnBased() y mettant en argument le jeu, le joueur n°1, le joueur n°2
+            et le nombre de parties
+        4.  vous pouvez récupérer les résultats des parties gagnées grâce à la méthode 
+            PrintResults()
         """
 
         players = ['Player1', 'Player2']
@@ -127,7 +128,7 @@ if __name__ == "__main__":
         number_games = 3
 
         resultsJ1, resultsJ2, draw = TurnBased(
-            game, human, minimax, number_games, players)
+            game, human, human, number_games, players)
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 # ────────────────────────────────────────────────────────────────────────────────
