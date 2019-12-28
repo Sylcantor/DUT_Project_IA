@@ -30,6 +30,7 @@ class Minimax(AbstractAlgo):
     # ────────────────────────────────────────────────────────────────────────────────
     # TODO optimisation minmax
     def choose_move(self, node):
+        assert node is not isinstance(node, Node)
         """
         Méthode principale à appeler, on demande un noeud de l'arbre.
         """

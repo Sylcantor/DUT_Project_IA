@@ -11,12 +11,11 @@ class AbstractAlgo:
     def choose_move(self): pass
     """
     Methode pour faire des choix selon l'agent
-    Les argurments n'ont pas d'importantce
+    Pas d'argument imposé, cela dépend de l'algorithme
     """
 
 
 """
-RL: Reinforcement Learning
 Let’s get introduced to some terminologies.
 1. Agent: The problem solver, can perform some actions.
 2. Environment: An agent resides here. An environment provides responses to an agent based on the actions it performs.

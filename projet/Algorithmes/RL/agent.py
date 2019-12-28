@@ -5,8 +5,10 @@ import collections
 import numpy as np
 import random
 
+from Algorithmes.AbstractAlgo import AbstractAlgo
 
-class Learner(ABC):
+
+class Learner(ABC, AbstractAlgo):
     """
     Parent class for Q-learning and SARSA agents.
 
@@ -21,6 +23,7 @@ class Learner(ABC):
     eps_decay : float
         epsilon decay rate. Larger value = more decay
     """
+
     def __init__(self, alpha, gamma, eps, eps_decay=0.):
         # Agent parameters
         self.alpha = alpha
@@ -31,7 +34,7 @@ class Learner(ABC):
         self.actions = []
         for i in range(3):
             for j in range(3):
-                self.actions.append((i,j))
+                self.actions.append((i, j))
         # Initialize Q values to 0 for all state-action pairs.
         # Access value for action a, state s via Q[a][s]
         self.Q = {}
@@ -40,7 +43,7 @@ class Learner(ABC):
         # Keep a list of reward received at each episode
         self.rewards = []
 
-    def get_action(self, s):
+    def choose_move(self, node):
         """
         Select an action given the current game state.
 
@@ -49,14 +52,21 @@ class Learner(ABC):
         s : string
             state
         """
+        # state -> all the actions
+        game = node.game  # current game
+
+        # L'ensemble des coups possibles pour cette node
+        moves = game.valid_moves()
+
         # Only consider the allowed actions (empty board spaces)
-        possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
+        # possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
         if random.random() < self.eps:
             # Random choose.
-            action = possible_actions[random.randint(0,len(possible_actions)-1)]
+            action = moves[random.randint(
+                0, len(moves)-1)]
         else:
             # Greedy choose.
-            values = np.array([self.Q[a][s] for a in possible_actions])
+            values = np.array([self.Q[a][s] for a in moves])
             # Find location of max
             ix_max = np.where(values == np.max(values))[0]
             if len(ix_max) > 1:
@@ -89,6 +99,7 @@ class Qlearner(Learner):
     """
     A class to implement the Q-learning agent.
     """
+
     def __init__(self, alpha, gamma, eps, eps_decay=0.):
         super().__init__(alpha, gamma, eps, eps_decay)
 
@@ -112,10 +123,12 @@ class Qlearner(Learner):
         # Update Q(s,a)
         if s_ is not None:
             # hold list of Q values for all a_,s_ pairs. We will access the max later
-            possible_actions = [action for action in self.actions if s_[action[0]*3 + action[1]] == '-']
+            possible_actions = [action for action in self.actions if s_[
+                action[0]*3 + action[1]] == '-']
             Q_options = [self.Q[action][s_] for action in possible_actions]
             # update
-            self.Q[a][s] += self.alpha*(r + self.gamma*max(Q_options) - self.Q[a][s])
+            self.Q[a][s] += self.alpha * \
+                (r + self.gamma*max(Q_options) - self.Q[a][s])
         else:
             # terminal state update
             self.Q[a][s] += self.alpha*(r - self.Q[a][s])
@@ -128,6 +141,7 @@ class SARSAlearner(Learner):
     """
     A class to implement the SARSA agent.
     """
+
     def __init__(self, alpha, gamma, eps, eps_decay=0.):
         super().__init__(alpha, gamma, eps, eps_decay)
 
@@ -150,7 +164,8 @@ class SARSAlearner(Learner):
         """
         # Update Q(s,a)
         if s_ is not None:
-            self.Q[a][s] += self.alpha*(r + self.gamma*self.Q[a_][s_] - self.Q[a][s])
+            self.Q[a][s] += self.alpha * \
+                (r + self.gamma*self.Q[a_][s_] - self.Q[a][s])
         else:
             # terminal state update
             self.Q[a][s] += self.alpha*(r - self.Q[a][s])

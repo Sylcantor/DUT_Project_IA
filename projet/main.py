@@ -13,6 +13,7 @@ from Algorithmes.Minimax.minimax import Minimax
 from Algorithmes.Minimax.node import Node
 # Reinforcement learning:
 from Algorithmes.RL.GameLearning import GameLearning
+from Algorithmes.RL.utilities import TurnBasedRL
 
 # pour jouer en tant qu'utilisateur ou random:
 from Algorithmes.human import Human
@@ -117,17 +118,17 @@ if __name__ == "__main__":
 
         players = ['Player1', 'Player2']
 
-        game = TicTacToe()
-        #game = Nim(6)
+        # game = TicTacToe()
+        game = Nim(6)
 
         human = Human()
         random = Random()
         minimax = Minimax()
 
-        number_games = 3
+        number_games = 2
 
         resultsJ1, resultsJ2, draw = TurnBased(
-            game, human, human, number_games, players)
+            game, human, minimax, number_games, players)
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 # ────────────────────────────────────────────────────────────────────────────────
@@ -164,9 +165,8 @@ if __name__ == "__main__":
 
         if args.teacher_episodes is not None:
 
-            players = ['Player1', 'Player2']
-
             game = TicTacToe()
+            # game = Nim(6)
 
             # teachers
             random = Random()
@@ -181,11 +181,11 @@ if __name__ == "__main__":
                 sys.stdout = open(os.devnull, 'w')  # disable standard output
                 # During teaching, chose who goes first randomly with equal probability
                 if random.random() < 0.5:
-                    resultsJ1, resultsJ2, draw = TurnBased(
-                        game, gl, random, 1, players)
+                    resultsJ1, resultsJ2, draw = TurnBasedRL(
+                        game, gl, random, 1)
                 else:
-                    resultsJ1, resultsJ2, draw = TurnBased(
-                        game, random, gl, 1, players)
+                    resultsJ1, resultsJ2, draw = TurnBasedRL(
+                        game, random, gl, 1)
 
                 # Monitor progress
                 if games_played % 1000 == 0:
