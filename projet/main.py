@@ -42,15 +42,13 @@ def TurnBased(inital_game,
 
     for numGame in range(numGames):
 
-        i = 0
+        i = 0  # pour initialiser, le premier joueur est Joueur 1
 
         game = deepcopy(inital_game)
 
-        player = players[0]  # pour initialiser, le premier joueur est Joueur 1
-
         print("#_______#NEW_GAME#_______#")
 
-        while ((game.check_current_state()) == False):
+        while (game.check_current_state()) == False:
 
             if i == 0:
                 player = players[0]  # human
@@ -72,6 +70,7 @@ def TurnBased(inital_game,
                 print("\n")
 
             i ^= 1
+
         print("#________________________#")
         print("Le gagnant est : " + game.winner() + "\n")
 
@@ -121,6 +120,7 @@ if __name__ == "__main__":
         # game = TicTacToe()
         game = Nim(6)
 
+        # algorithms
         human = Human()
         random = Random()
         minimax = Minimax()
@@ -165,6 +165,17 @@ if __name__ == "__main__":
 
         if args.teacher_episodes is not None:
 
+            """
+            Mode d'emploi:
+            1.  importer un professeur: algorithme un déterministe par exemple
+            2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
+            3.  dans TurnBasedRL() y mettant en argument le jeu, le professeur et l'agent
+            4.  vous pouvez récupérer les résultats des parties gagnées grâce à la méthode 
+                plot_agent_reward() de la classe GameLearning en rapport avec l'objet
+                GameLearning créé
+            5.  lancer au terminal: python main.py -a q -t 5000
+            """
+
             game = TicTacToe()
             # game = Nim(6)
 
@@ -176,22 +187,13 @@ if __name__ == "__main__":
 
             while games_played < args.teacher_episodes:
 
-                resultsJ1, resultsJ2, draw = 0
-
-                sys.stdout = open(os.devnull, 'w')  # disable standard output
-                # During teaching, chose who goes first randomly with equal probability
-                if random.random() < 0.5:
-                    resultsJ1, resultsJ2, draw = TurnBasedRL(
-                        game, gl, random, 1)
-                else:
-                    resultsJ1, resultsJ2, draw = TurnBasedRL(
-                        game, random, gl, 1)
+                sys.stdout = open(os.devnull, 'w')  # disable print out
+                TurnBasedRL(game, random, gl)
+                sys.stdout = sys.__stdout__  # restore print out
 
                 # Monitor progress
                 if games_played % 1000 == 0:
-                    sys.stdout = sys.__stdout__  # restore standard output
                     print("Games played: %i" % games_played)
-                    PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
                 games_played += 1
 

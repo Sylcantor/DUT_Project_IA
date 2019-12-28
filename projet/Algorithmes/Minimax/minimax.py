@@ -34,7 +34,6 @@ class Minimax(AbstractAlgo):
         """
         Méthode principale à appeler, on demande un noeud de l'arbre.
         """
-
         print("~~~ Start MiniMax ~~~")
         """
           p     : 0 (max) (current) (with no move to choose from because this is a root)

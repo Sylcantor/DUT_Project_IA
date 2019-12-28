@@ -5,10 +5,8 @@ import collections
 import numpy as np
 import random
 
-from Algorithmes.AbstractAlgo import AbstractAlgo
 
-
-class Learner(ABC, AbstractAlgo):
+class Learner(ABC):
     """
     Parent class for Q-learning and SARSA agents.
 
@@ -43,7 +41,7 @@ class Learner(ABC, AbstractAlgo):
         # Keep a list of reward received at each episode
         self.rewards = []
 
-    def choose_move(self, node):
+    def get_action(self, s):
         """
         Select an action given the current game state.
 
@@ -52,21 +50,15 @@ class Learner(ABC, AbstractAlgo):
         s : string
             state
         """
-        # state -> all the actions
-        game = node.game  # current game
-
-        # L'ensemble des coups possibles pour cette node
-        moves = game.valid_moves()
-
         # Only consider the allowed actions (empty board spaces)
-        # possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
+        possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
         if random.random() < self.eps:
             # Random choose.
-            action = moves[random.randint(
-                0, len(moves)-1)]
+            action = possible_actions[random.randint(
+                0, len(possible_actions)-1)]
         else:
             # Greedy choose.
-            values = np.array([self.Q[a][s] for a in moves])
+            values = np.array([self.Q[a][s] for a in possible_actions])
             # Find location of max
             ix_max = np.where(values == np.max(values))[0]
             if len(ix_max) > 1:

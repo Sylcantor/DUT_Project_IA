@@ -83,23 +83,26 @@ class TicTacToe(AbstractJeu):
         Methode pour récupérer le joueur victorieux
         Si match nul on récupère: "Draw"
         """
-        if self.currentplayer == self.players[0]:
-            key = 'X'
+        if self.check_current_state():
+            if self.currentplayer == self.players[0]:
+                key = 'X'
+            else:
+                key = 'O'
+            
+            if self.checkForWin(key):
+                
+                    if key == 'X':
+                        # print("Player wins!")
+                        return self.players[0]
+                    else:
+                        # print("RL agent wins!")
+                        return self.players[1]
+            elif self.checkForDraw():
+                
+                    # print("It's a draw!")
+                    return "Draw"
         else:
-            key = 'O'
-        
-        if self.checkForWin(key):
-            
-                if key == 'X':
-                    # print("Player wins!")
-                    return self.players[0]
-                else:
-                    # print("RL agent wins!")
-                    return self.players[1]
-        elif self.checkForDraw():
-            
-                # print("It's a draw!")
-                return "Draw"
+            return None
 
     def checkForWin(self, key):
         """
@@ -150,6 +153,45 @@ class TicTacToe(AbstractJeu):
             for elt in row:
                 print('%s   ' % elt, end='')
             print('\n')
+            
+    # ────────────────────────────────────────────────────────────────────────────────
 
+    def getStateKey(self, board):
+        """
+        Converts 2D list representing the board state into a string key
+        for that state. Keys are used for Q-value hashing.
 
+        Parameters
+        ----------
+        board : list of lists
+            the current game board
+        """
+        key = ''
+        for row in board:
+            for elt in row:
+                key += elt
+        return key
+    
+    def agentMove(self, action):
+        """
+        Update board according to agent's move.
+        """
+        self.board[action[0]][action[1]] = 'O'
+        
+    def checkForEnd(self, key):
+        """
+        Checks if player/agent with token 'key' has ended the game. Returns -1
+        if the game is still going, 0 if it is a draw, and 1 if the player/agent
+        has won.
+
+        Parameters
+        ----------
+        key : string
+            token of most recent player. Either 'O' or 'X'
+        """
+        if self.checkForWin(key):
+            return 1
+        elif self.checkForDraw():
+            return 0
+        return -1
 
