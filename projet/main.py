@@ -170,7 +170,7 @@ if __name__ == "__main__":
             1.  importer un professeur: algorithme un déterministe par exemple
             2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
             3.  dans TurnBasedRL() y mettant en argument le jeu, le professeur et l'agent
-            4.  vous pouvez récupérer les résultats des parties gagnées grâce à la méthode 
+            4.  vous pouvez récupérer les résultats des récompenses grâce à la méthode 
                 plot_agent_reward() de la classe GameLearning en rapport avec l'objet
                 GameLearning créé
             5.  lancer au terminal: python main.py -a q -t 5000
@@ -180,6 +180,7 @@ if __name__ == "__main__":
             # game = Nim(6)
 
             # teachers
+            human = Human()
             random = Random()
             minimax = Minimax()
 
@@ -188,7 +189,7 @@ if __name__ == "__main__":
             while games_played < args.teacher_episodes:
 
                 sys.stdout = open(os.devnull, 'w')  # disable print out
-                TurnBasedRL(game, random, gl)
+                TurnBasedRL(game, gl, minimax)
                 sys.stdout = sys.__stdout__  # restore print out
 
                 # Monitor progress
@@ -198,3 +199,5 @@ if __name__ == "__main__":
                 games_played += 1
 
             gl.plot_agent_reward()
+
+            TurnBasedRL(game, gl, human)

@@ -5,6 +5,9 @@ import collections
 import numpy as np
 import random
 
+# les algorithmes:
+from Algorithmes.Minimax.node import Node
+
 
 class Learner(ABC):
     """
@@ -12,11 +15,11 @@ class Learner(ABC):
 
     Parameters
     ----------
-    alpha : float 
+    alpha : float
         learning rate
     gamma : float
         temporal discounting rate
-    eps : float 
+    eps : float
         probability of random action vs. greedy action
     eps_decay : float
         epsilon decay rate. Larger value = more decay
@@ -41,7 +44,7 @@ class Learner(ABC):
         # Keep a list of reward received at each episode
         self.rewards = []
 
-    def get_action(self, s):
+    def get_action(self, s, node):
         """
         Select an action given the current game state.
 
@@ -50,8 +53,16 @@ class Learner(ABC):
         s : string
             state
         """
+        assert node is not isinstance(node, Node)
+
+        game = node.game  # current game
+
         # Only consider the allowed actions (empty board spaces)
-        possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
+        # possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
+        # L'ensemble des coups possibles pour cette node
+        possible_actions = game.valid_moves()
+
+        print("tst", s, possible_actions)
         if random.random() < self.eps:
             # Random choose.
             action = possible_actions[random.randint(
@@ -59,6 +70,7 @@ class Learner(ABC):
         else:
             # Greedy choose.
             values = np.array([self.Q[a][s] for a in possible_actions])
+            print("tst2", values)
             # Find location of max
             ix_max = np.where(values == np.max(values))[0]
             if len(ix_max) > 1:
@@ -83,7 +95,7 @@ class Learner(ABC):
         f.close()
 
     @abstractmethod
-    def update(self, s, s_, a, a_, r):
+    def update(self, s, s_, a, a_, r, node):
         pass
 
 
@@ -95,7 +107,7 @@ class Qlearner(Learner):
     def __init__(self, alpha, gamma, eps, eps_decay=0.):
         super().__init__(alpha, gamma, eps, eps_decay)
 
-    def update(self, s, s_, a, a_, r):
+    def update(self, s, s_, a, a_, r, node):
         """
         Perform the Q-Learning update of Q values.
 
@@ -112,11 +124,16 @@ class Qlearner(Learner):
         r : int
             reward received after executing action "a" in state "s"
         """
+        game = node.game  # current game
         # Update Q(s,a)
         if s_ is not None:
             # hold list of Q values for all a_,s_ pairs. We will access the max later
-            possible_actions = [action for action in self.actions if s_[
-                action[0]*3 + action[1]] == '-']
+
+            # possible_actions = [action for action in self.actions if s_[
+            #    action[0]*3 + action[1]] == '-']
+            possible_actions = game.valid_moves()
+
+            print("tst3", possible_actions)
             Q_options = [self.Q[action][s_] for action in possible_actions]
             # update
             self.Q[a][s] += self.alpha * \

@@ -171,12 +171,6 @@ class TicTacToe(AbstractJeu):
             for elt in row:
                 key += elt
         return key
-    
-    def agentMove(self, action):
-        """
-        Update board according to agent's move.
-        """
-        self.board[action[0]][action[1]] = 'O'
         
     def checkForEnd(self, key):
         """
