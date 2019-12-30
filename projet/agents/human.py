@@ -30,7 +30,7 @@ class Human(AbstractAgent):
             self.rules = False
 
         print(node.game.print_game())
-        print("[Aide] Choix disponibles :")
+        print("Choix disponibles :")
         # ───────────────────────────────────────────────────────────────── coups jouables
         i = 0
         j = 0

@@ -18,7 +18,7 @@ class GameLearning(object):
     games that have been played.
     """
 
-    def __init__(self, args, alpha=0.5, gamma=0.9, epsilon=0.1):
+    def __init__(self, args, game, alpha=0.5, gamma=0.9, epsilon=0.1):
 
         if args.load:
             # load agent
@@ -57,9 +57,11 @@ class GameLearning(object):
                     else:
                         print("Invalid input. Please choose 'y' or 'n'.")
             if args.agent_type == "q":
-                self.agent = Qlearner(alpha, gamma, epsilon)
+                self.agent = Qlearner(game.valid_moves(),
+                                      alpha, gamma, epsilon)
             else:
-                self.agent = SARSAlearner(alpha, gamma, epsilon)
+                self.agent = SARSAlearner(game.valid_moves(),
+                                          alpha, gamma, epsilon)
 
     def plot_agent_reward(self):
         """ Function to plot agent's accumulated reward vs. iteration """

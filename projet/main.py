@@ -118,10 +118,10 @@ if __name__ == "__main__":
 
         players = ['Player1', 'Player2']
 
-        # game = TicTacToe()
-        game = Nim(6)
+        game = TicTacToe()
+        # game = Nim(6)
 
-        # algorithmes
+        # algorithmes/agents
         human = Human()
         random = Random()
         minimax = Minimax()
@@ -133,7 +133,7 @@ if __name__ == "__main__":
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 # ──────────────────────────────────────────────────────────────────────────────── options
-# des algorithmes d'apprentissage
+# algorithmes d'apprentissage
 
     else:  # avec argument: lancement des options
 
@@ -161,7 +161,6 @@ if __name__ == "__main__":
                 "Cannot plot and teach concurrently; must chose one or the other."
 
         # ───────────────────────────────────────────────────────────────── start training
-        gl = GameLearning(args)
 
         if args.teacher_episodes is not None:
 
@@ -182,6 +181,9 @@ if __name__ == "__main__":
             # teachers
             human = Human()
             random = Random()
+
+            # the game learner
+            gl = GameLearning(args, game)
 
             games_played = 0
 

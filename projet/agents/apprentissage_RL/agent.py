@@ -16,6 +16,8 @@ class Learner(ABC):
 
     Parameters
     ----------
+    actions : List
+        the list of all the valid_moves() at the beginning of the game
     alpha : float 
         learning rate
     gamma : float
@@ -26,17 +28,14 @@ class Learner(ABC):
         epsilon decay rate. Larger value = more decay
     """
 
-    def __init__(self, alpha, gamma, eps, eps_decay=0.):
+    def __init__(self, actions, alpha, gamma, eps, eps_decay=0.):
         # Agent parameters
         self.alpha = alpha
         self.gamma = gamma
         self.eps = eps
         self.eps_decay = eps_decay
-        # Possible actions correspond to the set of all x,y coordinate pairs
-        self.actions = []
-        for i in range(3):
-            for j in range(3):
-                self.actions.append((i, j))
+        # Possible actions correspond to the set of all possible moves
+        self.actions = actions
         # Initialize Q values to 0 for all state-action pairs.
         # Access value for action a, state s via Q[a][s]
         self.Q = {}
@@ -53,6 +52,8 @@ class Learner(ABC):
         ----------
         s : string
             state
+        node : Node
+            contain the game where you can have the valid_moves()
         """
 
         assert node is not isinstance(node, Node)
@@ -64,14 +65,14 @@ class Learner(ABC):
         # L'ensemble des coups possibles pour cette node
         possible_actions = game.valid_moves()
         print("Les actions possibles (1)", possible_actions)
-        print("state (2)", s)
+        print("state (2)\n", s)
 
         if random.random() < self.eps:
             # Random choose.
             action = possible_actions[random.randint(
                 0, len(possible_actions)-1)]
         else:
-            # Greedy choose.
+            # Greedy choose. Pour chaque action de cet état --v
             values = np.array([self.Q[a][s] for a in possible_actions])
             print("Les valeurs de la matrice Q : ", values)
             # Find location of max
@@ -107,8 +108,8 @@ class Qlearner(Learner):
     A class to implement the Q-learning agent.
     """
 
-    def __init__(self, alpha, gamma, eps, eps_decay=0.):
-        super().__init__(alpha, gamma, eps, eps_decay)
+    def __init__(self, actions, alpha, gamma, eps, eps_decay=0.):
+        super().__init__(actions, alpha, gamma, eps, eps_decay)
 
     def update(self, s, s_, a, a_, r, node):
         """
@@ -157,10 +158,10 @@ class SARSAlearner(Learner):
     A class to implement the SARSA agent.
     """
 
-    def __init__(self, alpha, gamma, eps, eps_decay=0.):
-        super().__init__(alpha, gamma, eps, eps_decay)
+    def __init__(self, actions,  alpha, gamma, eps, eps_decay=0.):
+        super().__init__(actions, alpha, gamma, eps, eps_decay)
 
-    def update(self, s, s_, a, a_, r):
+    def update(self, s, s_, a, a_, r, node):
         """
         Perform the SARSA update of Q values.
 
