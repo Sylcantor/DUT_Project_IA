@@ -117,8 +117,8 @@ if __name__ == "__main__":
 
         players = ['Player1', 'Player2']
 
-        game = TicTacToe()
-        # game = Nim(6)
+        # game = TicTacToe()
+        game = Nim(6)
 
         # algorithms
         human = Human()
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         number_games = 2
 
         resultsJ1, resultsJ2, draw = TurnBased(
-            game, human, random, number_games, players)
+            game, human, minimax, number_games, players)
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 # ────────────────────────────────────────────────────────────────────────────────

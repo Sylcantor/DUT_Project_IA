@@ -81,7 +81,7 @@ class Minimax(AbstractAlgo):
                 break
 
         # return that best value that we've found
-        print("\n == > MiniMax: Choosen move " + str(best_move) + "\n")
+        print("\n == > MiniMax: Coup décidé : " + str(best_move) + "\n")
         print("~~~~ End MiniMax ~~~~")
         return best_move.move
 
