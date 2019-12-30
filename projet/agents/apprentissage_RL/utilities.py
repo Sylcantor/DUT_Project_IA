@@ -5,11 +5,8 @@
 import random
 from copy import deepcopy
 
-# les algorithmes:
-from Algorithmes.Minimax.node import Node
-
-# Reinforcement learning:
-from Algorithmes.RL.GameLearning import GameLearning
+# les noeuds:
+from agents.node import Node
 
 
 def TurnBasedRL(inital_game,
@@ -17,6 +14,9 @@ def TurnBasedRL(inital_game,
                 teacher,
                 players=['Player1', 'Player2']):
     """
+    Fonction pour jouer à tour de role en permettant à un objet de
+    type GameLearning d'apprendre.
+    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
     Player1 -> 'X' -> gl.agent
     Player2 -> 'O' -> teacher
     """

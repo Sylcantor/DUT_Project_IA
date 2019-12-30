@@ -2,19 +2,28 @@
 """
 @author: Aurélien
 """
-from Algorithmes.AbstractAlgo import AbstractAlgo
+
+from agents.AbstractAgent import AbstractAgent
+# les noeuds:
+from agents.node import Node
 
 
-class Human(AbstractAlgo):
+class Human(AbstractAgent):
+    """
+    Agent humain, pour jouer manuellement
+    """
 
     def __init__(self):
         self.rules = True     # Booléen pour printer ou non les règles
         return
 
-    def choose_move(self, node, consigne="Entrez votre choix : "):
+    def choose_move(self, node):
         """
         Methode pour faire des choix en tant qu'humain
         """
+        assert node is not isinstance(node, Node)
+
+        consigne = "Entrez votre choix : "
 
         if self.rules:
             print(node.game.print_rules())

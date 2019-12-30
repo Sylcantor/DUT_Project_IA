@@ -5,8 +5,9 @@ import collections
 import numpy as np
 import random
 
-# les algorithmes:
-from Algorithmes.Minimax.node import Node
+from agents.AbstractAgent import AbstractAgent
+# les noeuds:
+from agents.node import Node
 
 
 class Learner(ABC):

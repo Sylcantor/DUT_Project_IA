@@ -5,7 +5,7 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-from Jeux.AbstractJeu import AbstractJeu
+from jeux.AbstractJeu import AbstractJeu
 
 
 class Nim(AbstractJeu):
@@ -18,7 +18,7 @@ class Nim(AbstractJeu):
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 
-    def play_move(self, choice, currentplayer):  # utilisé par les algorithmes
+    def play_move(self, choice, currentplayer):  # utilisé par les agents
         """
         Methode pour jouer au jeu
         """
@@ -27,7 +27,7 @@ class Nim(AbstractJeu):
                                                 # si on choisit un move parmis les valid_moves()
             self.allumette -= choice            # si ok on change l'état du jeu
 
-    def valid_moves(self):  # utilisé par les algorithmes
+    def valid_moves(self):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -59,7 +59,7 @@ class Nim(AbstractJeu):
         else:
             return True
 
-    def check_current_state(self):  # utilisé par les algorithmes
+    def check_current_state(self):  # utilisé par les agents
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         On renvoit un booléen qui représente si le jeu est terminé: true sinon false
@@ -69,16 +69,20 @@ class Nim(AbstractJeu):
         else:
             return True
 
-    def winner(self):  # utilisé par les algorithmes
+    def winner(self):  # utilisé par les agents
         """
         Methode pour récupérer le joueur victorieux
+        Si le match est toujours en cours on retourne "None"
         """
         # le dernier joueur à avoir tiré la dernière allumette est le perdant
-        if self.currentplayer == self.players[0]:
-            winner = self.players[1]
+        if self.check_current_state():
+            if self.currentplayer == self.players[0]:
+                winner = self.players[1]
+            else:
+                winner = self.players[0]
+            return winner
         else:
-            winner = self.players[0]
-        return winner
+            return None
 
     def minimal_move(self):
         """
@@ -86,7 +90,7 @@ class Nim(AbstractJeu):
         """
         return 1
 
-    def print_game(self):  # utilisé par l'humain et RL
+    def print_game(self):  # utilisé par l'humain et les algorithmes d'apprentissage
         """
         Return the game board as string.
         Représente l'état du jeu pour le reinforcement learning.

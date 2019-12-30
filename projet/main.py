@@ -8,23 +8,24 @@ import argparse
 
 from copy import deepcopy
 
-# les algorithmes:
-from Algorithmes.Minimax.minimax import Minimax
-from Algorithmes.Minimax.node import Node
-# Reinforcement learning:
-from Algorithmes.RL.GameLearning import GameLearning
-from Algorithmes.RL.utilities import TurnBasedRL
+# algorithme d'optimisation:
+from agents.optimisation_MinMax.minimax import Minimax
+# algorithmes d'apprentissage:
+from agents.apprentissage_RL.GameLearning import GameLearning
+from agents.apprentissage_RL.utilities import TurnBasedRL
+
+# les noeuds:
+from agents.node import Node
 
 # pour jouer en tant qu'utilisateur ou random:
-from Algorithmes.human import Human
-from Algorithmes.random import Random
+from agents.human import Human
+from agents.random import Random
 
 # les jeux à importer:
-from Jeux.Jeu_Nim import Nim
-from Jeux.Jeu_TicTacToe import TicTacToe
+from jeux.Jeu_Nim import Nim
+from jeux.Jeu_TicTacToe import TicTacToe
 
-# ────────────────────────────────────────────────────────────────────────────────
-# utilities:
+# ──────────────────────────────────────────────────────────────────────────────── utilities
 
 
 def TurnBased(inital_game,
@@ -33,8 +34,8 @@ def TurnBased(inital_game,
               numGames=1,
               players=['Player1', 'Player2']):
     """
-    Fonction pour jouer à tour de role
-    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second
+    Fonction pour jouer à tour de role.
+    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
     """
     games_won_J1 = 0
     games_won_J2 = 0
@@ -97,8 +98,8 @@ def PrintResults(resultsJ1, resultsJ2, draw, number_games):
           str((draw/number_games)*100) + " % ")
 
 
-# ────────────────────────────────────────────────────────────────────────────────
-# main:
+# ──────────────────────────────────────────────────────────────────────────────── main
+# lancement des jeux avec les algorithmes
 
 if __name__ == "__main__":
 
@@ -120,7 +121,7 @@ if __name__ == "__main__":
         # game = TicTacToe()
         game = Nim(6)
 
-        # algorithms
+        # algorithmes
         human = Human()
         random = Random()
         minimax = Minimax()
@@ -131,10 +132,10 @@ if __name__ == "__main__":
             game, human, minimax, number_games, players)
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
-# ────────────────────────────────────────────────────────────────────────────────
-# Reinforcement learning:
+# ──────────────────────────────────────────────────────────────────────────────── options
+# des algorithmes d'apprentissage
 
-    else:  # avec argument: lancement des options du reinforcement learning
+    else:  # avec argument: lancement des options
 
         parser = argparse.ArgumentParser(
             description="Options du reinforcement learning.")
@@ -159,15 +160,14 @@ if __name__ == "__main__":
             assert args.teacher_episodes is None, \
                 "Cannot plot and teach concurrently; must chose one or the other."
 
-        # ─────────────────────────────────────────────────────────────────
-        # start training
+        # ───────────────────────────────────────────────────────────────── start training
         gl = GameLearning(args)
 
         if args.teacher_episodes is not None:
 
             """
             Mode d'emploi:
-            1.  importer un professeur: algorithme un déterministe par exemple
+            1.  importer un professeur: algorithme aléatoire par exemple
             2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
             3.  dans TurnBasedRL() y mettant en argument le jeu, le professeur et l'agent
             4.  vous pouvez récupérer les résultats des récompenses grâce à la méthode 
@@ -182,7 +182,6 @@ if __name__ == "__main__":
             # teachers
             human = Human()
             random = Random()
-            minimax = Minimax()
 
             games_played = 0
 
@@ -200,5 +199,5 @@ if __name__ == "__main__":
 
             gl.plot_agent_reward()
 
-            for i in range(2):  # pour tester des parties après l'entrainement manuellement
+            for i in range(3):  # pour tester manuellement des parties après l'entrainement
                 TurnBasedRL(game, gl, human)

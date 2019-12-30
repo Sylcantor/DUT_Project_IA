@@ -4,7 +4,11 @@ import sys
 import numpy as np
 import matplotlib.pylab as plt
 
-from Algorithmes.RL.agent import Qlearner, SARSAlearner
+from agents.apprentissage_RL.agent import Qlearner, SARSAlearner
+
+from agents.AbstractAgent import AbstractAgent
+# les noeuds:
+from agents.node import Node
 
 
 class GameLearning(object):

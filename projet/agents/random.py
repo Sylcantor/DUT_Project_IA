@@ -3,20 +3,24 @@
 """
 
 import numpy as np
-
-from Algorithmes.AbstractAlgo import AbstractAlgo
-
 from random import randrange
 
-# Agent which selects its actions at random
+from agents.AbstractAgent import AbstractAgent
+# les noeuds:
+from agents.node import Node
 
 
-class Random(AbstractAlgo):
+class Random(AbstractAgent):
+    """
+    Agent qui sélectionne aléatoirement
+    """
 
     def choose_move(self, node):
         """
         Methode pour faire des choix aléatoires
         """
+        assert node is not isinstance(node, Node)
+
         random_index = randrange(len(node.game.valid_moves()))
         print("Coup décidé : " + str(node.game.valid_moves()[random_index]))
         return node.game.valid_moves()[random_index]

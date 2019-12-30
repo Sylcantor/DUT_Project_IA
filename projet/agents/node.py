@@ -6,10 +6,11 @@
 
 class Node:
     """
-    Class qui caractérise un noeud qui a:
+    Tous les agents ont les mêmes informations du jeu qui sont contenues dans un objet de type Node.
+    Classe qui caractérise un noeud du jeu qui a:
     game, player, move=None, leaf_value=None
-    leaf_value est à none au début pour les noeuds. On fait remonter
-    le leaf_value des feuilles vers le haut de l'arbre dans l'algorithme Minimax.
+    leaf_value est à none au début pour les noeuds.
+    On fait remonter le leaf_value des feuilles vers le haut de l'arbre dans l'algorithme Minimax.
     """
 
     def __init__(self, game, player, move=None, leaf_value=None):
@@ -24,6 +25,3 @@ class Node:
         """
         return str((object.__repr__(self), self.game, self.player, self.move,
                     self.value))[1:-1]
-
-    # return str((object.__repr__(self), self.name, self.my_id, self.parent, self.children))[1:-1]
-    # return str((object.__repr__(self), self.name, self.my_id, self.parent))[1:-1]

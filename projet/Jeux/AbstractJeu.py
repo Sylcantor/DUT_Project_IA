@@ -8,34 +8,35 @@ class AbstractJeu:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    # utilisé par les algorithmes
-    def play_move(self, choice, currentplayer): pass
+    def play_move(self, choice, currentplayer): pass  # utilisé par les agents
     """
     Methode pour jouer au jeu
     """
 
     @abstractmethod
-    def valid_moves(self): pass  # utilisé par les algorithmes
+    def valid_moves(self): pass  # utilisé par les agents
     """
     Methode qui donne sous forme de liste tous les coups jouables possibles
     """
 
     @abstractmethod
-    def check_current_state(self): pass  # utilisé par les algorithmes
+    def check_current_state(self): pass  # utilisé par les agents
     """
     Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
     On renvoit un booléen qui représente si le jeu est terminé: true sinon false
     """
 
     @abstractmethod
-    def winner(self): pass  # utilisé par les algorithmes
+    def winner(self): pass  # utilisé par les agents
     """
     Methode pour récupérer le joueur victorieux
     Si match nul on récupère: "Draw"
+    Si le match est toujours en cours on retourne "None"
     """
 
     @abstractmethod
-    def print_game(self): pass  # utilisé par l'humain et RL
+    # utilisé par l'humain et les algorithmes d'apprentissage
+    def print_game(self): pass
     """
     Return the game board as string.
     Représente l'état du jeu pour le reinforcement learning.

@@ -9,13 +9,16 @@ from copy import deepcopy
 """
 @author: Aurelien
 """
-from Algorithmes.AbstractAlgo import AbstractAlgo
-from Algorithmes.Minimax.node import Node
+from agents.AbstractAgent import AbstractAgent
+# les noeuds:
+from agents.node import Node
 
 
-class Minimax(AbstractAlgo):
+class Minimax(AbstractAgent):
     """
-    Minimax sans besoin de game tree sous forme de liste à fournir (plus optimisé)
+    Minimax est un algorithme d'optimisation déterminant le meilleur
+    chemin pour atteindre la victoire en construisant un arbre 
+    représentant toutes les parties possibles.
     """
 
     def __init__(self, win_value=10, loss_value=-10, players=['Player1', 'Player2']):

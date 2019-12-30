@@ -1,6 +1,6 @@
 import random
 
-from Jeux.AbstractJeu import AbstractJeu
+from jeux.AbstractJeu import AbstractJeu
 
 class TicTacToe(AbstractJeu):
     """ The game class. New instance created for each new game. """
@@ -16,7 +16,7 @@ class TicTacToe(AbstractJeu):
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 
-    def play_move(self, choice, currentplayer):  # utilisé par les algorithmes
+    def play_move(self, choice, currentplayer):  # utilisé par les agents
         """
         Methode pour jouer au jeu
         """
@@ -31,7 +31,7 @@ class TicTacToe(AbstractJeu):
                 self.board[row][col] = 'O'
         # print("test : ", self.board)
                 
-    def valid_moves(self):  # utilisé par les algorithmes
+    def valid_moves(self):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -61,7 +61,7 @@ class TicTacToe(AbstractJeu):
         else:
             return False
         
-    def check_current_state(self):  # utilisé par les algorithmes
+    def check_current_state(self):  # utilisé par les agents
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         On renvoit un booléen qui représente si le jeu est terminé: true sinon false
@@ -77,10 +77,11 @@ class TicTacToe(AbstractJeu):
             return True
         return False
 
-    def winner(self):  # utilisé par les algorithmes
+    def winner(self):  # utilisé par les agents
         """
         Methode pour récupérer le joueur victorieux
         Si match nul on récupère: "Draw"
+        Si le match est toujours en cours on retourne "None"
         """
         if self.check_current_state():
             if self.currentplayer == self.players[0]:
@@ -138,7 +139,7 @@ class TicTacToe(AbstractJeu):
                     draw = False
         return draw
 
-    def print_game(self):  # utilisé par l'humain et RL
+    def print_game(self):  # utilisé par l'humain et les algorithmes d'apprentissage
         """
         Return the game board as string.
         Représente l'état du jeu pour le reinforcement learning.
