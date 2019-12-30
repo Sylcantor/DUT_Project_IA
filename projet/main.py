@@ -173,7 +173,7 @@ if __name__ == "__main__":
             4.  vous pouvez récupérer les résultats des récompenses grâce à la méthode 
                 plot_agent_reward() de la classe GameLearning en rapport avec l'objet
                 GameLearning créé
-            5.  lancer au terminal: python main.py -a q -t 5000
+            5.  lancer au terminal: python main.py -a q -t 10000
             """
 
             game = TicTacToe()
@@ -200,4 +200,5 @@ if __name__ == "__main__":
 
             gl.plot_agent_reward()
 
-            TurnBasedRL(game, gl, human)
+            for i in range(2):  # pour tester des parties après l'entrainement manuellement
+                TurnBasedRL(game, gl, human)

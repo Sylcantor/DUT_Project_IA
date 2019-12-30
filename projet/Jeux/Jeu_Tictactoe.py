@@ -16,7 +16,7 @@ class TicTacToe(AbstractJeu):
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 
-    def play_move(self, choice, currentplayer):
+    def play_move(self, choice, currentplayer):  # utilisé par les algorithmes
         """
         Methode pour jouer au jeu
         """
@@ -31,7 +31,7 @@ class TicTacToe(AbstractJeu):
                 self.board[row][col] = 'O'
         # print("test : ", self.board)
                 
-    def valid_moves(self):  # utilisé par minmax
+    def valid_moves(self):  # utilisé par les algorithmes
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -61,7 +61,7 @@ class TicTacToe(AbstractJeu):
         else:
             return False
         
-    def check_current_state(self):
+    def check_current_state(self):  # utilisé par les algorithmes
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         On renvoit un booléen qui représente si le jeu est terminé: true sinon false
@@ -77,7 +77,7 @@ class TicTacToe(AbstractJeu):
             return True
         return False
 
-    def winner(self):  # utilisé par minmax
+    def winner(self):  # utilisé par les algorithmes
         """
         Methode pour récupérer le joueur victorieux
         Si match nul on récupère: "Draw"
@@ -138,9 +138,10 @@ class TicTacToe(AbstractJeu):
                     draw = False
         return draw
 
-    def print_game(self):
+    def print_game(self):  # utilisé par l'humain et RL
         """
         Return the game board as string.
+        Représente l'état du jeu pour le reinforcement learning.
         """   
         string = str('    0   1   2')   
         string += str('\n\n')      
@@ -151,45 +152,8 @@ class TicTacToe(AbstractJeu):
             string += str('\n\n')
         return string
     
-    def print_rules(self):
+    def print_rules(self):  # utilisé par l'humain
         """
         Return the game rules as string.
         """ 
         return str("Player1 -> X\nPlayer2 -> O\n\nSélectionnez une ligne et une colonne de 0 à 2 : \n")
-        
-            
-    # ────────────────────────────────────────────────────────────────────────────────
-
-    def getStateKey(self, board):
-        """
-        Converts 2D list representing the board state into a string key
-        for that state. Keys are used for Q-value hashing.
-
-        Parameters
-        ----------
-        board : list of lists
-            the current game board
-        """
-        key = ''
-        for row in board:
-            for elt in row:
-                key += elt
-        return key
-        
-    def checkForEnd(self, key):
-        """
-        Checks if player/agent with token 'key' has ended the game. Returns -1
-        if the game is still going, 0 if it is a draw, and 1 if the player/agent
-        has won.
-
-        Parameters
-        ----------
-        key : string
-            token of most recent player. Either 'O' or 'X'
-        """
-        if self.checkForWin(key):
-            return 1
-        elif self.checkForDraw():
-            return 0
-        return -1
-

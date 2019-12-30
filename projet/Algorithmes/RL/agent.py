@@ -63,7 +63,7 @@ class Learner(ABC):
         # L'ensemble des coups possibles pour cette node
         possible_actions = game.valid_moves()
         print("Les actions possibles (1)", possible_actions)
-        print("test (2)", s)
+        print("state (2)", s)
 
         if random.random() < self.eps:
             # Random choose.

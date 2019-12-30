@@ -18,7 +18,7 @@ class Nim(AbstractJeu):
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 
-    def play_move(self, choice, currentplayer):  # utilisé par minmax
+    def play_move(self, choice, currentplayer):  # utilisé par les algorithmes
         """
         Methode pour jouer au jeu
         """
@@ -27,7 +27,7 @@ class Nim(AbstractJeu):
                                                 # si on choisit un move parmis les valid_moves()
             self.allumette -= choice            # si ok on change l'état du jeu
 
-    def valid_moves(self):  # utilisé par minmax
+    def valid_moves(self):  # utilisé par les algorithmes
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -59,7 +59,7 @@ class Nim(AbstractJeu):
         else:
             return True
 
-    def check_current_state(self):  # utilisé par minmax
+    def check_current_state(self):  # utilisé par les algorithmes
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
         On renvoit un booléen qui représente si le jeu est terminé: true sinon false
@@ -69,7 +69,7 @@ class Nim(AbstractJeu):
         else:
             return True
 
-    def winner(self):  # utilisé par minmax
+    def winner(self):  # utilisé par les algorithmes
         """
         Methode pour récupérer le joueur victorieux
         """
@@ -89,6 +89,7 @@ class Nim(AbstractJeu):
     def print_game(self):  # utilisé par l'humain et RL
         """
         Return the game board as string.
+        Représente l'état du jeu pour le reinforcement learning.
         """
         return str("Allumettes restantes : " + str(self.allumette))
 
