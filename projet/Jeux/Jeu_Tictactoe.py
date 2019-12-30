@@ -14,7 +14,6 @@ class TicTacToe(AbstractJeu):
                                       # le plateau
         self.players = players        # liste des joueurs
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
-        self.rules = False            # booléen pour afficher les règles au démarrage
         return
 
     def play_move(self, choice, currentplayer):
@@ -141,18 +140,23 @@ class TicTacToe(AbstractJeu):
 
     def print_game(self):
         """
-        Prints the game board as text output to the terminal.
-        """
-        if not self.rules:
-            print("Player1 -> X\nPlayer2 -> O\nYour move! Please select a row and column from 0-2 : \n")
-            self.rules = True
-            
-        print('    0   1   2\n')
+        Prints the game board as text output.
+        """   
+        string = str('    0   1   2')   
+        string += str('\n\n')      
         for i, row in enumerate(self.board):
-            print('%i   ' % i, end='')
+            string += str('%i   ' % i)
             for elt in row:
-                print('%s   ' % elt, end='')
-            print('\n')
+                string += str('%s   ' % elt)
+            string += str('\n\n')
+        return string
+    
+    def print_rules(self):
+        """
+        Prints the game rules as text output.
+        """ 
+        return str("Player1 -> X\nPlayer2 -> O\n\nSélectionnez une ligne et une colonne de 0 à 2 : \n")
+        
             
     # ────────────────────────────────────────────────────────────────────────────────
 

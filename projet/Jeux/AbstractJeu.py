@@ -36,5 +36,11 @@ class AbstractJeu:
     @abstractmethod
     def print_game(self): pass  # utilisé par l'humain
     """
-    Pour printer le jeu
+    Prints the game board as text output.
+    """
+
+    @abstractmethod
+    def print_rules(self): pass  # utilisé par l'humain
+    """
+    Prints the game rules as text output.
     """

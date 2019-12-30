@@ -46,7 +46,7 @@ def TurnBased(inital_game,
 
         game = deepcopy(inital_game)
 
-        print("#_______#NEW_GAME#_______#")
+        print("#_______#NEW_GAME#_______#\n")
 
         while (game.check_current_state()) == False:
 
@@ -117,8 +117,8 @@ if __name__ == "__main__":
 
         players = ['Player1', 'Player2']
 
-        # game = TicTacToe()
-        game = Nim(6)
+        game = TicTacToe()
+        # game = Nim(6)
 
         # algorithms
         human = Human()
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         number_games = 2
 
         resultsJ1, resultsJ2, draw = TurnBased(
-            game, human, minimax, number_games, players)
+            game, human, random, number_games, players)
         PrintResults(resultsJ1, resultsJ2, draw, number_games)
 
 # ────────────────────────────────────────────────────────────────────────────────
@@ -189,7 +189,7 @@ if __name__ == "__main__":
             while games_played < args.teacher_episodes:
 
                 sys.stdout = open(os.devnull, 'w')  # disable print out
-                TurnBasedRL(game, gl, minimax)
+                TurnBasedRL(game, gl, random)
                 sys.stdout = sys.__stdout__  # restore print out
 
                 # Monitor progress

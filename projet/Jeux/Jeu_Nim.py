@@ -16,7 +16,6 @@ class Nim(AbstractJeu):
         self.allumette = size         # le plateau
         self.players = players        # liste des joueurs
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
-        self.rules = False            # booléen pour afficher les règles au démarrage
         return
 
     def play_move(self, choice, currentplayer):  # utilisé par minmax
@@ -91,8 +90,10 @@ class Nim(AbstractJeu):
         """
         Pour printer le jeu
         """
-        if not self.rules:
-            print("\nJeu de Nim:\nÀ tour de rôle saisissez au maximum 3 allumettes. Le gagnant\nest celui qui parviendra ne pas tirer la dernière allumette.\n")
-            self.rules = True
+        return str("Allumettes restantes : " + str(self.allumette))
 
-        print("Allumettes restantes : " + str(self.allumette))
+    def print_rules(self):
+        """
+        Prints the game rules as text output.
+        """
+        return str("\nJeu de Nim:\nÀ tour de rôle saisissez au maximum 3 allumettes. Le gagnant\nest celui qui parviendra ne pas tirer la dernière allumette.\n")
