@@ -86,14 +86,14 @@ class Nim(AbstractJeu):
         """
         return 1
 
-    def print_game(self):  # utilisé par l'humain
+    def print_game(self):  # utilisé par l'humain et RL
         """
-        Pour printer le jeu
+        Return the game board as string.
         """
         return str("Allumettes restantes : " + str(self.allumette))
 
-    def print_rules(self):
+    def print_rules(self):  # utilisé par l'humain
         """
-        Prints the game rules as text output.
+        Return the game rules as string.
         """
         return str("\nJeu de Nim:\nÀ tour de rôle saisissez au maximum 3 allumettes. Le gagnant\nest celui qui parviendra ne pas tirer la dernière allumette.\n")

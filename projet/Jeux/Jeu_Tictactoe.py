@@ -140,7 +140,7 @@ class TicTacToe(AbstractJeu):
 
     def print_game(self):
         """
-        Prints the game board as text output.
+        Return the game board as string.
         """   
         string = str('    0   1   2')   
         string += str('\n\n')      
@@ -153,7 +153,7 @@ class TicTacToe(AbstractJeu):
     
     def print_rules(self):
         """
-        Prints the game rules as text output.
+        Return the game rules as string.
         """ 
         return str("Player1 -> X\nPlayer2 -> O\n\nSélectionnez une ligne et une colonne de 0 à 2 : \n")
         

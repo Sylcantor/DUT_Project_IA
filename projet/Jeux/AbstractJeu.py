@@ -34,13 +34,13 @@ class AbstractJeu:
     """
 
     @abstractmethod
-    def print_game(self): pass  # utilisé par l'humain
+    def print_game(self): pass  # utilisé par l'humain et RL
     """
-    Prints the game board as text output.
+    Return the game board as string.
     """
 
     @abstractmethod
     def print_rules(self): pass  # utilisé par l'humain
     """
-    Prints the game rules as text output.
+    Return the game rules as string.
     """

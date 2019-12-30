@@ -33,6 +33,7 @@ def TurnBasedRL(inital_game,
 
     # Initialize the agent's state and action
     prev_state = game.getStateKey(game.board)
+    prev_state = game.getStateKey(game.board)
     prev_action = gl.agent.get_action(prev_state, currentnode)
 
     # iterate until game is over
