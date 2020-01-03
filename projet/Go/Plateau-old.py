@@ -7,8 +7,7 @@ Created on Thu Dec 19 01:15:48 2019
 
 """
 TODO
-- Verification si il y a un mur des murs pendant la coupe : le mur doit etre considéré comme étant une pierre adversaire pendant la coupe
-- Verifier si la coupe marche (sans etre a proximité d'un mur): coupe qui verifie si il y a une coupe 
+- coupe qui verifie si il y a une coupe
 - victoire qui compte les points de chaque joueur et qui renvoie le gagnant
 """
 
@@ -81,70 +80,92 @@ class Plateau():
             return True
         else:
             return False
-    
-    def verifCoupe(self,ligne,colonne,joueur):
-        liste = []
-        tabCheckPoint = []
-        liste.append([ligne,colonne])
-        pierreUndo = 0
-        while self.tab[ligne][colonne-1] != '.' or self.tab[ligne-1][colonne] != '.' or self.tab[ligne][colonne+1] != '.' or self.tab[ligne+1][colonne] != '.':
-            
-            if self.tab[ligne][colonne-1] != joueur and pierreUndo != 1:
-
-                tabCheckPoint.append(ligne)
-                tabCheckPoint.append(colonne-1)
-                pierreUndo = 1
-            
-            if self.tab[ligne-1][colonne] != joueur and pierreUndo != 2:
-
-                tabCheckPoint.append(ligne-1)
-                tabCheckPoint.append(colonne)
-                pierreUndo = 2
-
-            if self.tab[ligne][colonne+1] != joueur and pierreUndo != 3:
-                tabCheckPoint.append(ligne)
-                tabCheckPoint.append(colonne+1)
-                pierreUndo = 3
-
-            if self.tab[ligne+1][colonne] != joueur and pierreUndo != 4:
-                tabCheckPoint.append(ligne+1)
-                tabCheckPoint.append(colonne)
-                pierreUndo = 4
-
-            elif len(tabCheckPoint) != 0:
-                colonne = tabCheckPoint.pop()
-                ligne = tabCheckPoint.pop()
-
-            else:
-                for i in range(len(liste)):
-                    self.tab[liste[i][0]][liste[i][1]] = '.'
-                break
-            liste.append([ligne,colonne]) 
-
 
     def coupe(self,ligne,colonne,joueur):
-        
+        liste = []
+
         if self.tab[ligne][colonne-1] != '.' or self.tab[ligne][colonne-1] != joueur:
             colonne-=1
+            liste.append([ligne,colonne])
 
+            #TODO : methode
+            while self.tab[ligne][colonne-1] != '.' or self.tab[ligne-1][colonne] != '.' or self.tab[ligne][colonne+1] != '.' or self.tab[ligne+1][colonne] != '.':
 
-            self.verifCoupe(ligne,colonne,joueur)
+                if self.tab[ligne][colonne-1] != joueur:
+                    colonne-=1
+                elif self.tab[ligne-1][colonne] != joueur:
+                    ligne-=1
+                elif self.tab[ligne][colonne+1] != joueur:
+                    colonne+=1
+                elif self.tab[ligne+1][colonne] != joueur:
+                    ligne+=1
+                else:
+                    for i in range(len(liste)):
+                        self.tab[liste[i][0]][liste[i][1]] = '.'
+                    break
+                liste.append([ligne,colonne])        
 
         if self.tab[ligne-1][colonne] != '.' or self.tab[ligne-1][colonne] != joueur:
             ligne-=1
-            self.verifCoupe(ligne,colonne,joueur)
-   
+
+            #TODO : methode
+            while self.tab[ligne][colonne-1] != '.' or self.tab[ligne-1][colonne] != '.' or self.tab[ligne][colonne+1] != '.' or self.tab[ligne+1][colonne] != '.':
+
+                if self.tab[ligne][colonne-1] != joueur:
+                    colonne-=1
+                elif self.tab[ligne-1][colonne] != joueur:
+                    ligne-=1
+                elif self.tab[ligne][colonne+1] != joueur:
+                    colonne+=1
+                elif self.tab[ligne+1][colonne] != joueur:
+                    ligne+=1
+                else:
+                    for i in range(len(liste)):
+                        self.tab[liste[i][0]][liste[i][1]] = '.'
+                    break
+                liste.append([ligne,colonne])    
 
         if self.tab[ligne][colonne+1] != '.' or self.tab[ligne][colonne+1] != joueur:
             colonne+=1
-            self.verifCoupe(ligne,colonne,joueur)
+
+            #TODO : methode
+            while self.tab[ligne][colonne-1] != '.' or self.tab[ligne-1][colonne] != '.' or self.tab[ligne][colonne+1] != '.' or self.tab[ligne+1][colonne] != '.':
+
+                if self.tab[ligne][colonne-1] != joueur:
+                    colonne-=1
+                elif self.tab[ligne-1][colonne] != joueur:
+                    ligne-=1
+                elif self.tab[ligne][colonne+1] != joueur:
+                    colonne+=1
+                elif self.tab[ligne+1][colonne] != joueur:
+                    ligne+=1
+                else:
+                    for i in range(len(liste)):
+                        self.tab[liste[i][0]][liste[i][1]] = '.'
+                    break
+                liste.append([ligne,colonne])   
 
         if self.tab[ligne+1][colonne]!= '.' or self.tab[ligne+1][colonne != joueur]:
             ligne+=1
-            self.verifCoupe(ligne,colonne,joueur)
+
+            #TODO : methode
+            while self.tab[ligne][colonne-1] != '.' or self.tab[ligne-1][colonne] != '.' or self.tab[ligne][colonne+1] != '.' or self.tab[ligne+1][colonne] != '.':
+
+                if self.tab[ligne][colonne-1] != joueur:
+                    colonne-=1
+                elif self.tab[ligne-1][colonne] != joueur:
+                    ligne-=1
+                elif self.tab[ligne][colonne+1] != joueur:
+                    colonne+=1
+                elif self.tab[ligne+1][colonne] != joueur:
+                    ligne+=1
+                else:
+                    for i in range(len(liste)):
+                        self.tab[liste[i][0]][liste[i][1]] = '.'
+                    break
+                liste.append([ligne,colonne]) 
             
         else:
-            #useless
             return True
 
         print("Coupe !")
