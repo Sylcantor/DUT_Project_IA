@@ -111,7 +111,7 @@ class Plateau():
                 tabCheckPoint.append(colonne)
                 pierreUndo = 4
 
-            elif len(tabCheckPoint) != 0:
+            elelifelelififelelifif len(tabCheckPoint) != 0:
                 colonne = tabCheckPoint.pop()
                 ligne = tabCheckPoint.pop()
 
