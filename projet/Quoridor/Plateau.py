@@ -331,16 +331,27 @@ class Plateau():
             numero = int(input("Donnez le numéro de la position du mur à poser : "))
             self.poserMurIA(joueur, numero)
 
+            # Dans le cas où le joueur A pose le mur.
+            if(joueur.letter == 'A'):
+            	if(check_is_stuck(self.j2)):
+            		self.victoire(self.j2)
+            
+            # Dans le cas où le joueur B pose le mur.
+            else:
+            	if(check_is_stuck(self.j1)):
+            		self.victoire(self.j1)
+            
+
         # Dans le cas d'une réponse erronée.
         else:
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
 
 
-    # Fonction qui copie le plateau.
     def copy_game_state(self):
         """
-        Return : copie du plateau a l'instant t
+        Fonction qui copie le plateau.
+        Return : copie du plateau à l'instant t
         """
 
         new_state = []
@@ -352,39 +363,76 @@ class Plateau():
                 new_state[i].append(self.tab[i][j])
 
         return new_state
-"""
-    def check_is_stuck(self, Joueur):
-        l'algoithme:
-        On simule un personnage qui va d'abord aller tout droit vers le haut jusqu'a rencontrer un mur on marque la case ou il a rencontré le mur.
-        Puis lorsqu'il rencontre le mur on va à droite et on longe le mur,
-        Si il retrouve la case marquée on considèrera que le pion est bloqué
-        Sinon après un certain nombre de deplacement on considera que le joueur n'est pas bloqué
 
-        on doit faire les methodes de deplacements pour le pionAventurier. Car les methodes de deplacements sont pour les joueurs les methodes demandent l'argument
-        joueur
-    
 
-        posXAventurier = Joueur.x
-        posYAventurier = Joueur.y
-        caseX_rencontre
-        caseY_rencontre
+    def check_is_stuck(self, joueur):
+    	"""
+        L'algorithme:
+
+        On simule un personnage qui va d'abord aller tout droit vers le haut jusqu'à rencontrer un mur et on marque la case où il a rencontré le mur.
+        A partir de cette case, il va à droite et il longe le mur.
+        S'il retrouve la case marquée, on considèrera que le pion est bloqué.
+        Sinon, après un certain nombre de déplacements, on considèrera que le joueur n'est pas bloqué.
+        """
+
+
+        jAventurier = Joueur('T', joueur.x, joueur.y)
+
         haut = 1
+        bas = 2
+        gauche = 3
         droite = 4
-        nbrDeplacement = 10
-        i = 1
 
-        
-        while(limitesDep == true):
-            Joueur.seDeplacer(haut, self)
-        
-        caseX_rencontre = posXAventurier
-        caseY_rencontre = posYAventurier
+        nbMaxDeplacements = 10
+        count = 0
 
-        while(i < nbrDeplacement):
-            Joueur.seDelacer(drote, self)
-            
-        
-"""
+        posXPremierMur
+        posYPremierMur
+
+        while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 && count < 10):
+        	if(self.limitesDep(jAventurier, haut) == True):
+            	joueur.seDeplacer(haut, self)
+            	count++
+
+        posXPremierMur = jAventurier.x
+        posYPremierMur = jAventurier.y
+
+        while(self.tab[jAventurier.y][jAventurier.x + 1] != 1 && count < 10):
+        	if(self.limitesDep(jAventurier, droite) == True):
+            	joueur.seDeplacer(droite, self)
+            	count++
+            if(self.tab[jAventurier.y - 1][jAventurier.x] != 1):
+            	return False
+
+        while(self.tab[jAventurier.y + 1][jAventurier.x] != 1 && count < 10):
+        	if(self.limitesDep(jAventurier, bas) == True):
+            	joueur.seDeplacer(bas, self)
+            	count++
+            if(self.tab[jAventurier.y][jAventurier.x + 1] != 1):
+            	return False
+
+        while(self.tab[jAventurier.y][jAventurier.x - 1] != 1 && count < 10):
+        	if(self.limitesDep(jAventurier, gauche) == True):
+            	joueur.seDeplacer(gauche, self)
+            	count++
+            if(self.tab[jAventurier.y + 1][jAventurier.x] != 1):
+            	return False
+
+        while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 && count < 10):
+        	if(self.limitesDep(jAventurier, haut) == True):
+            	joueur.seDeplacer(haut, self)
+            	count++
+            if(self.tab[jAventurier.y][jAventurier.x - 1] != 1):
+            	return False
+
+        if(jAventurier.x == posXPremierMur && jAventurier.y == posYPremierMur):
+            return True
+        else:
+        	return False
+
+
+
+
 
 
 
