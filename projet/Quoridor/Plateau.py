@@ -92,31 +92,29 @@ class Plateau():
             print("\n")
 
 
-    def findejeu(self):
+    def victoire(self, joueur):
         """
         On vérifie si l'un des joueur a atteint une zone d'arrivée.
         Autrement dit, si le joueur A a atteint la ligne de 7 ou que
         le joueur B a atteint la ligne de 5.
 
-        Return : boolean
-        """
-
-        if((self.j1.y == 0) or (self.j2.y == 18)):
-            return True
-        else:
-            return False
-
-
-    def victoire(self, joueur):
-        """
         On affiche le message de victoire.
 
         Arguments : Joueur
+        Return : boolean
         """
 
-        print("\n-------------------------------------------------------------------------------")
-        print("Joueur ", joueur.letter, ", vous avez gagné !")
-        print("-------------------------------------------------------------------------------\n")
+
+        if(((joueur.letter == 'A') and (joueur.y == 18)) or ((joueur.letter == 'B') and (joueur.y == 0))):
+            print("\n-------------------------------------------------------------------------------")
+            print("Joueur ", joueur.letter, ", vous avez gagné !")
+            print("-------------------------------------------------------------------------------\n")
+            
+            return True
+        elif(check_is_stuck(joueur)):
+
+        else:
+            return False
         
     
     def affichejeu(self):
@@ -346,6 +344,8 @@ class Plateau():
         else:
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
+        
+        self.victoire(joueur)
 
 
     def copy_game_state(self):
@@ -455,9 +455,4 @@ while(p.findejeu() == False):
         p.tour(p.j2)
 
     count += 1
-
-if(count % 2 == 0):
-    p.victoire(p.j1)
-else:
-    p.victoire(p.j2)
 
