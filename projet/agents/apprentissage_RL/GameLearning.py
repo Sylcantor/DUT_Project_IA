@@ -25,14 +25,16 @@ class GameLearning(object):
             if args.agent_type == 'q':
                 # QLearner
                 try:
-                    f = open('./qlearner_agent.pkl', 'rb')
+                    f = open('./qlearner_agent_' +
+                             game.__class__.__name__+'.pkl', 'rb')
                 except IOError:
                     print("The agent file does not exist. Quitting.")
                     sys.exit(0)
-            else:
+            elif args.agent_type == 's':
                 # SarsaLearner
                 try:
-                    f = open('./sarsa_agent.pkl', 'rb')
+                    f = open('./sarsa_agent_' +
+                             game.__class__.__name__+'.pkl', 'rb')
                 except IOError:
                     print("The agent file does not exist. Quitting.")
                     sys.exit(0)
@@ -43,19 +45,6 @@ class GameLearning(object):
                 self.plot_agent_reward()
                 sys.exit(0)
         else:
-            # check if agent state file already exists, and ask user whether to overwrite if so
-            if ((args.agent_type == "q" and os.path.isfile('./qlearner_agent.pkl')) or
-                    (args.agent_type == "s" and os.path.isfile('./qlearner_agent.pkl'))):
-                while True:
-                    response = input("An agent state is already saved for this type. "
-                                     "Are you sure you want to overwrite? [y/n]: ")
-                    if response == 'y' or response == 'yes':
-                        break
-                    elif response == 'n' or response == 'no':
-                        print("OK. Quitting.")
-                        sys.exit(0)
-                    else:
-                        print("Invalid input. Please choose 'y' or 'n'.")
             if args.agent_type == "q":
                 self.agent = Qlearner(game.valid_moves(),
                                       alpha, gamma, epsilon)

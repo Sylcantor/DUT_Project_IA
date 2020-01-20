@@ -112,7 +112,7 @@ if __name__ == "__main__":
         2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
         3.  dans TurnBased() y mettant en argument le jeu, le joueur n°1, le joueur n°2
             et le nombre de parties
-        4.  vous pouvez récupérer les résultats des parties gagnées grâce à la méthode 
+        4.  vous pouvez récupérer les résultats des parties gagnées grâce à la méthode
             PrintResults()
         """
 
@@ -142,6 +142,8 @@ if __name__ == "__main__":
         parser.add_argument('-a', "--agent_type", type=str, default="q",
                             help="Specify the computer agent learning algorithm. "
                             "AGENT_TYPE='q' for Q-learning and ='s' for Sarsa-learning")
+        parser.add_argument("-s", "--save", action="store_true",
+                            help="whether to save trained agent")
         parser.add_argument("-l", "--load", action="store_true",
                             help="whether to load trained agent")
         parser.add_argument("-t", "--teacher_episodes", default=None, type=int,
@@ -169,7 +171,7 @@ if __name__ == "__main__":
             1.  importer un professeur: algorithme aléatoire par exemple
             2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
             3.  dans TurnBasedRL() y mettant en argument le jeu, le professeur et l'agent
-            4.  vous pouvez récupérer les résultats des récompenses grâce à la méthode 
+            4.  vous pouvez récupérer les résultats des récompenses grâce à la méthode
                 plot_agent_reward() de la classe GameLearning en rapport avec l'objet
                 GameLearning créé
             5.  lancer au terminal: python main.py -a q -t 10000
@@ -185,21 +187,42 @@ if __name__ == "__main__":
             # the game learner
             gl = GameLearning(args, game)
 
-            games_played = 0
+            if not args.load:
 
-            while games_played < args.teacher_episodes:
+                games_played = 0
 
-                sys.stdout = open(os.devnull, 'w')  # disable print out
-                TurnBasedRL(game, gl, random)
-                sys.stdout = sys.__stdout__  # restore print out
+                while games_played < args.teacher_episodes:
 
-                # Monitor progress
-                if games_played % 1000 == 0:
-                    print("Games played: %i" % games_played)
+                    sys.stdout = open(os.devnull, 'w')  # disable print out
+                    TurnBasedRL(game, gl, random)
+                    sys.stdout = sys.__stdout__  # restore print out
 
-                games_played += 1
+                    # Monitor progress
+                    if games_played % 1000 == 0:
+                        print("Games played: %i" % games_played)
 
-            gl.plot_agent_reward()
+                    games_played += 1
+
+                gl.plot_agent_reward()
+
+                if args.save:
+                    # check if agent state file already exists, and ask user whether to overwrite if so
+                    if os.path.isfile('./qlearner_agent_'+game.__class__.__name__+'.pkl'):
+                        while True:
+                            response = input("An agent state is already saved for this type. "
+                                             "Are you sure you want to overwrite? [y/n]: ")
+                            if response == 'y' or response == 'yes':
+                                gl.agent.save_agent(
+                                    './qlearner_agent_'+game.__class__.__name__+'.pkl')
+                                break
+                            elif response == 'n' or response == 'no':
+                                print("OK. Quitting.")
+                                break
+                            else:
+                                print("Invalid input. Please choose 'y' or 'n'.")
+                    else:
+                        gl.agent.save_agent(
+                            './qlearner_agent_'+game.__class__.__name__+'.pkl')
 
             for i in range(3):  # pour tester manuellement des parties après l'entrainement
                 TurnBasedRL(game, gl, human)
