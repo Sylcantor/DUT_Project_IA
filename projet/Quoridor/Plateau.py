@@ -21,6 +21,7 @@ class Plateau():
     
     tab = []
     tabMurs = []
+    finDeJeu = False
     
     def __init__(self):
         """
@@ -331,7 +332,8 @@ class Plateau():
             self.tour(joueur)
         
         # On vérifie à chaque fin de tour si le joueur actuel a gagné.
-        self.victoire(joueur)
+        if(self.victoire(joueur)):
+            self.finDeJeu = True
 
 
     def copy_game_state(self):
@@ -416,28 +418,4 @@ class Plateau():
         else:
         	return False
 
-
-
-
-
-
-"""
-Main.
-"""
-
-p = Plateau()
-p.initTabMurs()
-
-count = 0
-
-print(p.copy_game_state())
-
-while(p.victoire() == False):
-    if(count % 2 == 0):
-        p.affichejeu()
-        p.tour(p.j1)
-    else:
-        p.tour(p.j2)
-
-    count += 1
 
