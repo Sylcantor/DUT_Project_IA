@@ -94,29 +94,24 @@ class Plateau():
 
     def victoire(self, joueur):
         """
-        On vérifie si l'un des joueur a atteint une zone d'arrivée.
-        Autrement dit, si le joueur A a atteint la ligne de 7 ou que
-        le joueur B a atteint la ligne de 5.
-
-        On affiche le message de victoire.
+        On vérifie si le joueur actuel a atteint sa ligne d'arrivée (ligne de 
+        7 pour A et ligne de 5 pour B) puis on affiche le message de victoire.
 
         Arguments : Joueur
         Return : boolean
         """
 
 
-        if(((joueur.letter == 'A') and (joueur.y == 18)) or ((joueur.letter == 'B') and (joueur.y == 0))):
+        if(check_is_stuck(joueur) or (joueur.letter == 'A' and joueur.y == 18) or (joueur.letter == 'B' and joueur.y == 0)):
             print("\n-------------------------------------------------------------------------------")
             print("Joueur ", joueur.letter, ", vous avez gagné !")
             print("-------------------------------------------------------------------------------\n")
-            
-            return True
-        elif(check_is_stuck(joueur)):
 
+            return True
         else:
             return False
-        
-    
+
+
     def affichejeu(self):
         """
         Affichage du plateau avec numérotation des lignes et des
@@ -328,16 +323,6 @@ class Plateau():
 
             numero = int(input("Donnez le numéro de la position du mur à poser : "))
             self.poserMurIA(joueur, numero)
-
-            # Dans le cas où le joueur A pose le mur.
-            if(joueur.letter == 'A'):
-            	if(check_is_stuck(self.j2)):
-            		self.victoire(self.j2)
-            
-            # Dans le cas où le joueur B pose le mur.
-            else:
-            	if(check_is_stuck(self.j1)):
-            		self.victoire(self.j1)
             
 
         # Dans le cas d'une réponse erronée.
@@ -345,6 +330,7 @@ class Plateau():
             print("Réponse invalide, nous vous prions de recommencer...")
             self.tour(joueur)
         
+        # On vérifie à chaque fin de tour si le joueur actuel a gagné.
         self.victoire(joueur)
 
 
@@ -389,7 +375,7 @@ class Plateau():
         posXPremierMur
         posYPremierMur
 
-        while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 && count < 10):
+        while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 and count < 10):
         	if(self.limitesDep(jAventurier, haut) == True):
             	joueur.seDeplacer(haut, self)
             	count++
@@ -397,39 +383,38 @@ class Plateau():
         posXPremierMur = jAventurier.x
         posYPremierMur = jAventurier.y
 
-        while(self.tab[jAventurier.y][jAventurier.x + 1] != 1 && count < 10):
+        while(self.tab[jAventurier.y][jAventurier.x + 1] != 1 and count < 10):
         	if(self.limitesDep(jAventurier, droite) == True):
             	joueur.seDeplacer(droite, self)
             	count++
             if(self.tab[jAventurier.y - 1][jAventurier.x] != 1):
             	return False
 
-        while(self.tab[jAventurier.y + 1][jAventurier.x] != 1 && count < 10):
+        while(self.tab[jAventurier.y + 1][jAventurier.x] != 1 and count < 10):
         	if(self.limitesDep(jAventurier, bas) == True):
             	joueur.seDeplacer(bas, self)
             	count++
             if(self.tab[jAventurier.y][jAventurier.x + 1] != 1):
             	return False
 
-        while(self.tab[jAventurier.y][jAventurier.x - 1] != 1 && count < 10):
+        while(self.tab[jAventurier.y][jAventurier.x - 1] != 1 and count < 10):
         	if(self.limitesDep(jAventurier, gauche) == True):
             	joueur.seDeplacer(gauche, self)
             	count++
             if(self.tab[jAventurier.y + 1][jAventurier.x] != 1):
             	return False
 
-        while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 && count < 10):
+        while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 and count < 10):
         	if(self.limitesDep(jAventurier, haut) == True):
             	joueur.seDeplacer(haut, self)
             	count++
             if(self.tab[jAventurier.y][jAventurier.x - 1] != 1):
             	return False
 
-        if(jAventurier.x == posXPremierMur && jAventurier.y == posYPremierMur):
+        if(jAventurier.x == posXPremierMur and jAventurier.y == posYPremierMur):
             return True
         else:
         	return False
-
 
 
 
@@ -447,7 +432,7 @@ count = 0
 
 print(p.copy_game_state())
 
-while(p.findejeu() == False):
+while(p.victoire() == False):
     if(count % 2 == 0):
         p.affichejeu()
         p.tour(p.j1)
