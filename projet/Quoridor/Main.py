@@ -3,7 +3,7 @@
 from Plateau import *
 
 
-if __name__ == "__main__":
+class Main():
     """
     Crée un plateau de jeu.
     """
