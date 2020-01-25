@@ -33,7 +33,7 @@ def TurnBasedRL(inital_game,
 
     # Initialize the agent's state and action
     prev_state = game.print_game()
-    prev_action = gl.agent.get_action(prev_state, currentnode)
+    prev_action = gl.agent.choose_move(currentnode, prev_state)
 
     # iterate until game is over
     while True:
@@ -69,14 +69,14 @@ def TurnBasedRL(inital_game,
         currentnode = Node(game, players[0])  # ajouté
 
         # determine new action (epsilon-greedy)
-        new_action = gl.agent.get_action(new_state, currentnode)
+        new_action = gl.agent.choose_move(currentnode, new_state)
         # update Q-values
-        gl.agent.update(prev_state, new_state,
-                        prev_action, new_action, reward, currentnode)
+        gl.agent.update(currentnode, prev_state, new_state,
+                        prev_action, new_action, reward)
         # reset "previous" values
         prev_state = new_state
         prev_action = new_action
         # append reward
 
     # Game over. Perform final update
-    gl.agent.update(prev_state, None, prev_action, None, reward, currentnode)
+    gl.agent.update(currentnode, prev_state, None, prev_action, None, reward)

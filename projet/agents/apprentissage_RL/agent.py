@@ -44,7 +44,7 @@ class Learner(ABC):
         # Keep a list of reward received at each episode
         self.rewards = []
 
-    def get_action(self, s, node):
+    def choose_move(self, node, s):
         """
         Select an action given the current game state.
 
@@ -99,7 +99,7 @@ class Learner(ABC):
         f.close()
 
     @abstractmethod
-    def update(self, s, s_, a, a_, r, node):
+    def update(self, node, s, s_, a, a_, r):
         pass
 
 
@@ -111,7 +111,7 @@ class Qlearner(Learner):
     def __init__(self, actions, alpha, gamma, eps, eps_decay=0.):
         super().__init__(actions, alpha, gamma, eps, eps_decay)
 
-    def update(self, s, s_, a, a_, r, node):
+    def update(self, node, s, s_, a, a_, r):
         """
         Perform the Q-Learning update of Q values.
 
@@ -161,7 +161,7 @@ class SARSAlearner(Learner):
     def __init__(self, actions,  alpha, gamma, eps, eps_decay=0.):
         super().__init__(actions, alpha, gamma, eps, eps_decay)
 
-    def update(self, s, s_, a, a_, r, node):
+    def update(self, node, s, s_, a, a_, r):
         """
         Perform the SARSA update of Q values.
 
