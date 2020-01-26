@@ -134,6 +134,8 @@ if __name__ == "__main__":
     # TODO nettoyer le code
     # TODO Sarsa learning
     # TODO changer le learner random en qlearning
+    # TODO nettoyer les \n dans l'affichage
+    # TODO harmoniser les utilities
 
     games_won_J1 = 0
     games_won_J2 = 0
