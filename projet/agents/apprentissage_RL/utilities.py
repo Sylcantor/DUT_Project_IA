@@ -29,6 +29,8 @@ def TurnBasedRL(inital_game,
     else:
         i = 1
 
+    print("#_______#NEW_GAME#_______#\n")
+
     currentnode = Node(game, players[0])  # ajouté
 
     # Initialize the agent's state and action
@@ -39,16 +41,23 @@ def TurnBasedRL(inital_game,
     while True:
         # execute oldAction, observe reward and state
 
+        print("\n")
+
         if i == 0:
-            player = players[0]  # agent
+
+            player = players[0]  # agent - Player1
+            print("___ " + player + " ___")
             game.play_move(prev_action, player)
 
         else:
-            player = players[1]  # teacher
+
+            player = players[1]  # teacher - Player2
+            print("___ " + player + " ___")
             currentnode = Node(game, player)
             choix = teacher.choose_move(currentnode)
             game.play_move(choix, player)
 
+        print("\n")
         i ^= 1
 
         if not game.winner() == None:
@@ -80,3 +89,11 @@ def TurnBasedRL(inital_game,
 
     # Game over. Perform final update
     gl.agent.update(currentnode, prev_state, None, prev_action, None, reward)
+
+    print("#________________________#")
+    print("Le gagnant est : " + game.winner() + "\n")
+
+    print("Affichage de fin : ")
+    print(game.print_game())
+
+    return game.winner()

@@ -66,20 +66,17 @@ if __name__ == "__main__":
     # ───────────────────────────────── main
 
     """
-    (1) Mode d'emploi apprentissage:
-    1.  importer un professeur: algorithme aléatoire par exemple
-    2.  importer un jeu suivant la structure du jeu de nim ou le tic tac toe
-    3.  dans TurnBasedRL() y mettant en argument le jeu, le professeur et l'agent
-    4.  vous pouvez récupérer les résultats des récompenses grâce à la méthode
-        plot_agent_reward() de la classe GameLearning en rapport avec l'objet
-        GameLearning créé
-    5.  lancer au terminal: python main.py -a q -t 100000 -s
-        pour sauvegarder sous forme de fichier la matrice
-    6.  lancer au terminal: python main.py -a q -l
-        pour lancer le jeux depuis le fichier précédement créé
-    7.  vous pouvez récupérer les résultats des parties gagnées grâce à la méthode
-        PrintResults()     
-    """  # ───────────────────────────── v changer ci-dessous v
+    Mode d'emploi apprentissage:
+    1.  importer un jeu (game) suivant la structure du jeu de nim ou le tic tac toe
+    2.  importer un professeur: algorithme aléatoire par exemple
+        Avec sauvegarde (plus long):
+            3.  lancer au terminal: python main.py -a q -t 100000 -s
+                pour sauvegarder sous forme de fichier la matrice
+            4.  lancer au terminal: python main.py -a q -l
+                pour lancer le jeux depuis le fichier précédement créé
+        Sans sauvegarde (pour faire un rapide test):
+            3.  lancer au terminal: python main.py -a q -t 10000
+    """  # ───────────────────────────── v changer ci-dessous le jeu (game) souhaité v
 
     game = TicTacToe()
     # game = Nim(6)
@@ -131,12 +128,13 @@ if __name__ == "__main__":
                 gl.agent.save_agent(
                     './qlearner_agent_'+game.__class__.__name__+'.pkl')
 
-    # ───────────────────────────────── lancement normal
+    # ───────────────────────────────── partie tests manuels
 
-    for i in range(3):  # pour tester manuellement des parties après l'entrainement
-        TurnBasedRL(game, gl, human)
+    # TODO régler bug quand on change nom ['Player1', 'Player2'] dans TurnBasedRL
+    # TODO nettoyer le code
+    # TODO Sarsa learning
+    # TODO changer le learner random en qlearning
 
-"""
     games_won_J1 = 0
     games_won_J2 = 0
     draw = 0
@@ -144,11 +142,9 @@ if __name__ == "__main__":
     players = ['Player1', 'Player2']
 
     number_games = 3
-    games_played = 0
 
-    while games_played < number_games:
-
-        returned_winner = TurnBased(game, human, random, players)
+    for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
+        returned_winner = TurnBasedRL(game, gl, human)
 
         if returned_winner == players[0]:
             games_won_J1 += 1
@@ -157,7 +153,5 @@ if __name__ == "__main__":
         else:
             draw += 1
 
-        games_played += 1
-
-    PrintResults(games_won_J1, games_won_J2, draw, number_games)
-"""
+    PrintResults(games_won_J1, games_won_J2, draw,
+                 number_games, ['learner', 'agent'])

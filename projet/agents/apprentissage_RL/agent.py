@@ -64,8 +64,8 @@ class Learner(ABC):
 
         # L'ensemble des coups possibles pour cette node
         possible_actions = game.valid_moves()
-        print("Les actions possibles (1)", possible_actions)
-        print("state (2)\n", s)
+        print("Les actions possibles :\n", possible_actions)
+        # print("state (2)\n", s)
 
         if random.random() < self.eps:
             # Random choose.
@@ -74,7 +74,7 @@ class Learner(ABC):
         else:
             # Greedy choose. Pour chaque action de cet état --v
             values = np.array([self.Q[a][s] for a in possible_actions])
-            print("Les valeurs de la matrice Q : ", values)
+            print("Les valeurs de la matrice Q :\n", values)
             # Find location of max
             ix_max = np.where(values == np.max(values))[0]
             if len(ix_max) > 1:
@@ -139,7 +139,7 @@ class Qlearner(Learner):
             #    action[0]*3 + action[1]] == '-']
 
             possible_actions = game.valid_moves()
-            print("Les actions possibles (2)", possible_actions)
+            print("Les actions possibles après update :\n", possible_actions)
 
             Q_options = [self.Q[action][s_] for action in possible_actions]
             # update
