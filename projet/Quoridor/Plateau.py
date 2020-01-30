@@ -103,7 +103,7 @@ class Plateau():
 		"""
 
 
-		if(check_is_stuck(joueur) or (joueur.letter == 'A' and joueur.y == 18) or (joueur.letter == 'B' and joueur.y == 0)):
+		if(self.check_is_stuck(joueur) or (joueur.letter == 'A' and joueur.y == 18) or (joueur.letter == 'B' and joueur.y == 0)):
 			print("\n-------------------------------------------------------------------------------")
 			print("Joueur ", joueur.letter, ", vous avez gagné !")
 			print("-------------------------------------------------------------------------------\n")
@@ -374,10 +374,7 @@ class Plateau():
 		nbMaxDeplacements = 10
 		count = 0
 
-		posXPremierMur
-		posYPremierMur
-
-		while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 and count < 10):
+		while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 and count < nbMaxDeplacements):
 			if(self.limitesDep(jAventurier, haut) == True):
 				joueur.seDeplacer(haut, self)
 				count += 1
@@ -385,28 +382,28 @@ class Plateau():
 		posXPremierMur = jAventurier.x
 		posYPremierMur = jAventurier.y
 
-		while(self.tab[jAventurier.y][jAventurier.x + 1] != 1 and count < 10):
+		while(self.tab[jAventurier.y][jAventurier.x + 1] != 1 and count < nbMaxDeplacements):
 			if(self.limitesDep(jAventurier, droite) == True):
 				joueur.seDeplacer(droite, self)
 				count += 1
 			if(self.tab[jAventurier.y - 1][jAventurier.x] != 1):
 				return False
 
-		while(self.tab[jAventurier.y + 1][jAventurier.x] != 1 and count < 10):
+		while(self.tab[jAventurier.y + 1][jAventurier.x] != 1 and count < nbMaxDeplacements):
 			if(self.limitesDep(jAventurier, bas) == True):
 				joueur.seDeplacer(bas, self)
 				count += 1
 			if(self.tab[jAventurier.y][jAventurier.x + 1] != 1):
 				return False
 
-		while(self.tab[jAventurier.y][jAventurier.x - 1] != 1 and count < 10):
+		while(self.tab[jAventurier.y][jAventurier.x - 1] != 1 and count < nbMaxDeplacements):
 			if(self.limitesDep(jAventurier, gauche) == True):
 				joueur.seDeplacer(gauche, self)
 				count += 1
 			if(self.tab[jAventurier.y + 1][jAventurier.x] != 1):
 				return False
 
-		while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 and count < 10):
+		while(self.tab[jAventurier.y - 1][jAventurier.x] != 1 and count < nbMaxDeplacements):
 			if(self.limitesDep(jAventurier, haut) == True):
 				joueur.seDeplacer(haut, self)
 				count += 1
@@ -417,5 +414,4 @@ class Plateau():
 			return True
 		else:
 			return False
-
 
