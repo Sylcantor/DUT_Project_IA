@@ -8,18 +8,85 @@ from copy import deepcopy
 # les noeuds:
 from agents.node import Node
 
+# asserts:
+from agents.apprentissage_RL.agent import Learner
+from agents.AbstractAgent import AbstractAgent
 
-def TurnBasedRLvsAgent(inital_game,
-                       gl,
-                       teacher,
-                       players=['Player1', 'Player2']):
+
+def TurnBased(inital_game,  # AgentvsAgent
+              agent1,
+              agent2,
+              players=['Player1', 'Player2']):
     """
+    Agent avec un agent.
+    Fonction pour jouer à tour de role en permettant à un objet de
+    type GameLearning d'apprendre.
+    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
+    Player1 -> 'X' -> agent1
+    Player2 -> 'O' -> agent2
+    """
+    assert agent1 is not isinstance(agent1, AbstractAgent)
+    assert agent2 is not isinstance(agent2, AbstractAgent)
+
+    game = deepcopy(inital_game)
+
+    # During teaching, chose who goes first randomly with equal probability
+    if random.random() < 0.5:
+        i = 0
+    else:
+        i = 1
+
+    print("#_______#NEW_GAME#_______#\n")
+
+    # iterate until game is over
+    while True:
+        # execute oldAction, observe reward and state
+
+        print("\n")
+
+        if i == 0:
+
+            player = players[0]  # agent1 - Player1
+            print("___ " + player + " ___")
+            currentnode = Node(game, player)
+            choix = teacher.choose_move(currentnode)
+            game.play_move(choix, player)
+
+        else:
+
+            player = players[1]  # agent2 - Player2
+            print("___ " + player + " ___")
+            currentnode = Node(game, player)
+            choix = teacher.choose_move(currentnode)
+            game.play_move(choix, player)
+
+        print("\n")
+        i ^= 1
+
+    # Game over.
+    print("#________________________#")
+    print("Le gagnant est : " + game.winner() + "\n")
+
+    print("Affichage de fin : ")
+    print(game.print_game())
+
+    return game.winner()
+
+
+def TurnBasedRL(inital_game,  # vsAgent
+                gl,
+                teacher,
+                players=['Player1', 'Player2']):
+    """
+    Reinforcement learning avec un agent.
     Fonction pour jouer à tour de role en permettant à un objet de
     type GameLearning d'apprendre.
     Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
     Player1 -> 'X' -> gl.agent
     Player2 -> 'O' -> teacher
     """
+    assert gl is not isinstance(gl, Learner)
+    assert teacher is not isinstance(teacher, AbstractAgent)
 
     game = deepcopy(inital_game)
 
@@ -70,6 +137,8 @@ def TurnBasedRLvsAgent(inital_game,
                 reward = 0
             break
 
+        # partie mise à jour
+
         # game continues. 0 reward
         reward = 0
 
@@ -104,12 +173,16 @@ def TurnBasedRLvsRL(inital_game,
                     gl2,
                     players=['Player1', 'Player2']):
     """
-    Fonction pour jouer à tour de role en permettant à un objet de
+    Double reinforcement learning.
+    Fonction pour jouer à tour de role en permettant à deux objets de
     type GameLearning d'apprendre.
     Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
-    Player1 -> 'X' -> gl.agent
-    Player2 -> 'O' -> teacher
+    Player1 -> 'X' -> gl1.agent
+    Player2 -> 'O' -> gl2.agent
     """
+
+    assert gl1 is not isinstance(gl1, Learner)
+    assert gl2 is not isinstance(gl2, Learner)
 
     game = deepcopy(inital_game)
 
@@ -120,8 +193,8 @@ def TurnBasedRLvsRL(inital_game,
     # Initialize the agent's state and action
     prev_state = game.print_game()
 
-    prev_action1 = gl1.agent.choose_move(
-        currentnode, prev_state)  # pour initialiser
+    # pour initialiser
+    prev_action1 = gl1.agent.choose_move(currentnode, prev_state)
     prev_action2 = gl2.agent.choose_move(currentnode, prev_state)
 
     # During teaching, chose who goes first randomly with equal probability
@@ -165,6 +238,7 @@ def TurnBasedRLvsRL(inital_game,
 
         new_state = game.print_game()
 
+        # partie mise à jour
         if i == 0:
             currentnode = Node(game, players[0])  # ajouté
 

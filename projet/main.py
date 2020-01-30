@@ -9,7 +9,7 @@ import argparse
 from copy import deepcopy
 
 # fonctions utilitaires:
-from utilities import TurnBasedRLvsAgent
+from utilities import TurnBasedRL
 from utilities import TurnBasedRLvsRL
 from utilities import PrintResults
 
@@ -132,12 +132,24 @@ if __name__ == "__main__":
 
     # ───────────────────────────────── partie tests manuels
 
+    if len(sys.argv) == 1:
+        print("Mode d'emploi apprentissage:\n" +
+              "1.  importer un jeu(game) suivant la structure du jeu de nim ou le tic tac toe\n" +
+              "2.  importer un professeur: algorithme aléatoire par exemple\n" +
+              "    Avec sauvegarde(plus long):\n" +
+              "    3.  lancer au terminal: python main.py - a q - t 10000 - s\n" +
+              "    pour sauvegarder sous forme de fichier la matrice\n" +
+              "    4.  lancer au terminal: python main.py - a q - l\n" +
+              "    pour lancer le jeux depuis le fichier précédement créé\n" +
+              "Sans sauvegarde(pour faire un rapide test):\n" +
+              "3.  lancer au terminal: python main.py - a q - t 10000\n")
+
     # TODO régler bug quand on change nom ['Player1', 'Player2'] dans TurnBasedRL
     # TODO nettoyer le code
     # TODO Sarsa learning
-    # TODO changer le learner random en qlearning
     # TODO nettoyer les \n dans l'affichage
     # TODO harmoniser les utilities
+    # TODO faire plus d'asserts
 
     games_won_J1 = 0
     games_won_J2 = 0
