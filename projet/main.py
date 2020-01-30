@@ -9,7 +9,8 @@ import argparse
 from copy import deepcopy
 
 # fonctions utilitaires:
-from utilities import TurnBased
+from utilities import TurnBasedRLvsAgent
+from utilities import TurnBasedRLvsRL
 from utilities import PrintResults
 
 # ───────────────────────────────── imports agents
@@ -18,7 +19,6 @@ from utilities import PrintResults
 from agents.optimisation_MinMax.minimax import Minimax
 # algorithmes d'apprentissage:
 from agents.apprentissage_RL.GameLearning import GameLearning
-from agents.apprentissage_RL.utilities import TurnBasedRL
 
 # pour jouer en tant qu'utilisateur ou random:
 from agents.human import Human
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     1.  importer un jeu (game) suivant la structure du jeu de nim ou le tic tac toe
     2.  importer un professeur: algorithme aléatoire par exemple
         Avec sauvegarde (plus long):
-            3.  lancer au terminal: python main.py -a q -t 100000 -s
+            3.  lancer au terminal: python main.py -a q -t 10000 -s
                 pour sauvegarder sous forme de fichier la matrice
             4.  lancer au terminal: python main.py -a q -l
                 pour lancer le jeux depuis le fichier précédement créé
@@ -87,7 +87,8 @@ if __name__ == "__main__":
     minimax = Minimax()
 
     # the game learner
-    gl = GameLearning(args, game)
+    gl1 = GameLearning(args, game)
+    gl2 = GameLearning(args, game)
 
     games_played = 0
 
@@ -98,7 +99,7 @@ if __name__ == "__main__":
         while games_played < args.teacher_episodes:
 
             sys.stdout = open(os.devnull, 'w')  # disable print out
-            TurnBasedRL(game, gl, random)
+            TurnBasedRLvsRL(game, gl1, gl2)
             sys.stdout = sys.__stdout__  # restore print out
 
             # Monitor progress
@@ -107,7 +108,8 @@ if __name__ == "__main__":
 
             games_played += 1
 
-        gl.plot_agent_reward()
+        gl1.plot_agent_reward()
+        gl2.plot_agent_reward()
 
         if args.save:
             # check if agent state file already exists, and ask user whether to overwrite if so
@@ -116,7 +118,7 @@ if __name__ == "__main__":
                     response = input("An agent state is already saved for this type. "
                                      "Are you sure you want to overwrite? [y/n]: ")
                     if response == 'y' or response == 'yes':
-                        gl.agent.save_agent(
+                        gl1.agent.save_agent(
                             './qlearner_agent_'+game.__class__.__name__+'.pkl')
                         break
                     elif response == 'n' or response == 'no':
@@ -125,7 +127,7 @@ if __name__ == "__main__":
                     else:
                         print("Invalid input. Please choose 'y' or 'n'.")
             else:
-                gl.agent.save_agent(
+                gl1.agent.save_agent(
                     './qlearner_agent_'+game.__class__.__name__+'.pkl')
 
     # ───────────────────────────────── partie tests manuels
@@ -146,7 +148,7 @@ if __name__ == "__main__":
     number_games = 3
 
     for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
-        returned_winner = TurnBasedRL(game, gl, human)
+        returned_winner = TurnBasedRL(game, gl1, human)
 
         if returned_winner == players[0]:
             games_won_J1 += 1

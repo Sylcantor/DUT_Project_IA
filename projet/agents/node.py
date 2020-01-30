@@ -9,6 +9,7 @@ class Node:
     Tous les agents ont les mêmes informations du jeu qui sont contenues dans un objet de type Node.
     Classe qui caractérise un noeud du jeu qui a:
     game, player, move=None, leaf_value=None
+    On donne donc le jeu mais aussi le joueur qui a joué (pour bien se repérer dans le jeu)
     leaf_value est à none au début pour les noeuds.
     On fait remonter le leaf_value des feuilles vers le haut de l'arbre dans l'algorithme Minimax.
     """
