@@ -12,6 +12,7 @@ from copy import deepcopy
 from utilities import TurnBasedRL
 from utilities import TurnBasedRLvsRL
 from utilities import PrintResults
+from information import manuel
 
 # ───────────────────────────────── imports agents
 
@@ -33,6 +34,7 @@ from jeux.Jeu_TicTacToe import TicTacToe
 
 # ──────────────────────────────────────────────────────────────────────────────── main
 # lancement des jeux avec les algorithmes
+
 
 if __name__ == "__main__":
 
@@ -68,14 +70,13 @@ if __name__ == "__main__":
     """
     Mode d'emploi apprentissage:
     1.  importer un jeu (game) suivant la structure du jeu de nim ou le tic tac toe
-    2.  importer un professeur: algorithme aléatoire par exemple
         Avec sauvegarde (plus long):
-            3.  lancer au terminal: python main.py -a q -t 10000 -s
+            2.  lancer au terminal: python main.py -a q -t 10000 -s
                 pour sauvegarder sous forme de fichier la matrice
-            4.  lancer au terminal: python main.py -a q -l
+            3.  lancer au terminal: python main.py -a q -l
                 pour lancer le jeux depuis le fichier précédement créé
         Sans sauvegarde (pour faire un rapide test):
-            3.  lancer au terminal: python main.py -a q -t 10000
+            2.  lancer au terminal: python main.py -a q -t 10000
     """  # ───────────────────────────── v changer ci-dessous le jeu (game) souhaité v
 
     game = TicTacToe()
@@ -86,7 +87,7 @@ if __name__ == "__main__":
     random = Random()
     minimax = Minimax()
 
-    # the game learner
+    # the game learners
     gl1 = GameLearning(args, game)
     gl2 = GameLearning(args, game)
 
@@ -133,16 +134,7 @@ if __name__ == "__main__":
     # ───────────────────────────────── partie tests manuels
 
     if len(sys.argv) == 1:
-        print("Mode d'emploi apprentissage:\n" +
-              "1.  importer un jeu(game) suivant la structure du jeu de nim ou le tic tac toe\n" +
-              "2.  importer un professeur: algorithme aléatoire par exemple\n" +
-              "    Avec sauvegarde(plus long):\n" +
-              "    3.  lancer au terminal: python main.py - a q - t 10000 - s\n" +
-              "    pour sauvegarder sous forme de fichier la matrice\n" +
-              "    4.  lancer au terminal: python main.py - a q - l\n" +
-              "    pour lancer le jeux depuis le fichier précédement créé\n" +
-              "Sans sauvegarde(pour faire un rapide test):\n" +
-              "3.  lancer au terminal: python main.py - a q - t 10000\n")
+        manuel()
 
     # TODO régler bug quand on change nom ['Player1', 'Player2'] dans TurnBasedRL
     # TODO nettoyer le code
