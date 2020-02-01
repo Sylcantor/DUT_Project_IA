@@ -9,7 +9,7 @@ def manuel():
     ax = fig.add_subplot(111)
     fig.subplots_adjust(top=0.85)
 
-    ax.text(1, 8, 'Mode d`emploi apprentissage: ', style='italic',
+    ax.text(1, 8, 'Manuel apprentissage: ', style='italic',
             bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
 
     ax.text(1, 1,
@@ -20,9 +20,12 @@ def manuel():
             "    3.  lancer au terminal: python main.py - a q - l\n" +
             "    pour lancer le jeux depuis le fichier précédement créé\n\n" +
             "Sans sauvegarde (pour faire un rapide test):\n" +
-            "    2.  lancer au terminal: python main.py - a q - t 10000\n", style='italic',
+            "    2.  lancer au terminal: python main.py - a q - t 10000\n",
             bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
 
     ax.axis([0, 10, 0, 10])
+
+    ax.get_xaxis().set_visible(False)
+    ax.get_yaxis().set_visible(False)
 
     plt.show()

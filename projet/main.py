@@ -9,6 +9,7 @@ import argparse
 from copy import deepcopy
 
 # fonctions utilitaires:
+from utilities import TurnBased
 from utilities import TurnBasedRL
 from utilities import TurnBasedRLvsRL
 from utilities import PrintResults
@@ -152,6 +153,7 @@ if __name__ == "__main__":
     number_games = 3
 
     for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
+        # changer ici se besoins l'agent
         returned_winner = TurnBasedRL(game, gl1, human)
 
         if returned_winner == players[0]:
@@ -160,6 +162,8 @@ if __name__ == "__main__":
             games_won_J2 += 1
         else:
             draw += 1
+
+    # TurnBased(game, random, human)
 
     PrintResults(games_won_J1, games_won_J2, draw,
                  number_games, ['learner', 'agent'])

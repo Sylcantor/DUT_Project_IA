@@ -49,7 +49,7 @@ def TurnBased(inital_game,  # AgentvsAgent
             player = players[0]  # agent1 - Player1
             print("___ " + player + " ___")
             currentnode = Node(game, player)
-            choix = teacher.choose_move(currentnode)
+            choix = agent1.choose_move(currentnode)
             game.play_move(choix, player)
 
         else:
@@ -57,8 +57,18 @@ def TurnBased(inital_game,  # AgentvsAgent
             player = players[1]  # agent2 - Player2
             print("___ " + player + " ___")
             currentnode = Node(game, player)
-            choix = teacher.choose_move(currentnode)
+            choix = agent2.choose_move(currentnode)
             game.play_move(choix, player)
+
+        if not game.winner() == None:
+            # game is over. +10 reward if win, -10 if loss, 0 if draw
+            if game.winner() == players[0]:  # Player1 -> 'X' -> gl.agent
+                reward = 10
+            elif game.winner() == players[1]:  # Player2 -> 'O' -> teacher
+                reward = -10
+            else:
+                reward = 0
+            break
 
         print("\n")
         i ^= 1
