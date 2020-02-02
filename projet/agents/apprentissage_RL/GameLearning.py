@@ -18,11 +18,11 @@ class GameLearning(object):
     games that have been played.
     """
 
-    def __init__(self, args, game, alpha=0.5, gamma=0.9, epsilon=0.1):
+    def __init__(self, args, agent_type, game, alpha=0.5, gamma=0.9, epsilon=0.1):
 
         if args.load:
             # load agent
-            if args.agent_type == 'q':
+            if agent_type == 'q':
                 # QLearner
                 try:
                     f = open('./qlearner_agent_' +
@@ -30,7 +30,7 @@ class GameLearning(object):
                 except IOError:
                     print("The agent file does not exist. Quitting.")
                     sys.exit(0)
-            elif args.agent_type == 's':
+            elif agent_type == 's':
                 # SarsaLearner
                 try:
                     f = open('./sarsa_agent_' +
@@ -45,7 +45,7 @@ class GameLearning(object):
                 self.plot_agent_reward()
                 sys.exit(0)
         else:
-            if args.agent_type == "q":
+            if agent_type == "q":
                 self.agent = Qlearner(game.valid_moves(),
                                       alpha, gamma, epsilon)
             else:

@@ -1,8 +1,16 @@
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
+"""
+fonctions matplotlib
+"""
+
 
 def manuel():
+    """
+    manuel utilisateur
+    """
     fig = plt.figure()
     fig.suptitle('Démarrage', fontsize=14, fontweight='bold')
 
@@ -28,4 +36,22 @@ def manuel():
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
+    plt.show()
+
+
+def plot_multiple_agents_reward(*gls):
+    """ Function to plot agent's accumulated reward vs. iteration """
+
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
+              '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
+              '#bcbd22', '#17becf']
+    j = 0
+    for i in gls:
+        plt.plot(np.cumsum(i.agent.rewards), color=colors[j])
+        j += 1
+        if j is len(gls):
+            j = 0
+    plt.title('Two Agents Cumulative Reward vs. Iteration')
+    plt.ylabel('Reward')
+    plt.xlabel('Episode')
     plt.show()

@@ -2,18 +2,21 @@
 """
 @author: Aurélien
 """
+import multiprocessing
 import sys
-import os
 import argparse
-
-from copy import deepcopy
 
 # fonctions utilitaires:
 from utilities import TurnBased
 from utilities import TurnBasedRL
 from utilities import TurnBasedRLvsRL
 from utilities import PrintResults
-from information import manuel
+from utilities import TurnBasedRL_episodes
+from utilities import TurnBasedRL_PrintResults
+from utilities import SaveGL
+
+from plot import manuel
+from plot import plot_multiple_agents_reward
 
 # ───────────────────────────────── imports agents
 
@@ -45,7 +48,8 @@ if __name__ == "__main__":
         description="Options du reinforcement learning.")
     parser.add_argument('-a', "--agent_type", type=str, default="q",
                         help="Specify the computer agent learning algorithm. "
-                        "AGENT_TYPE='q' for Q-learning and ='s' for Sarsa-learning")
+                        "AGENT_TYPE='q' for Q-learning and ='s' for Sarsa-learning"
+                        "'b' both Sarsa and QLearning and compare them")
     parser.add_argument("-s", "--save", action="store_true",
                         help="whether to save trained agent")
     parser.add_argument("-l", "--load", action="store_true",
@@ -59,8 +63,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    assert args.agent_type == 'q' or args.agent_type == 's', \
-        "learner type must be either 'q' or 's'."
+    assert args.agent_type == 'q' or args.agent_type == 's' or args.agent_type == 'b', \
+        "learner type must be either 'q', 's' or 'b'."
     if args.plot:
         assert args.load, "Must load an agent to plot reward."
         assert args.teacher_episodes is None, \
@@ -89,81 +93,64 @@ if __name__ == "__main__":
     minimax = Minimax()
 
     # the game learners
-    gl1 = GameLearning(args, game)
-    gl2 = GameLearning(args, game)
-
-    games_played = 0
+    glQ = GameLearning(args, 'q', game)
+    glS = GameLearning(args, 's', game)
 
     # ───────────────────────────────── apprentissage
+    manual_games = 3
 
     if not args.load and args.teacher_episodes is not None:  # si on ne load pas: on apprend
+        if args.agent_type == "b":
 
-        while games_played < args.teacher_episodes:
+            # Création des processus
+            p1 = multiprocessing.Process(
+                target=TurnBasedRL_episodes, args=(game, glQ, random, args.teacher_episodes,))
+            p2 = multiprocessing.Process(
+                target=TurnBasedRL_episodes, args=(game, glS, random, args.teacher_episodes,))
 
-            sys.stdout = open(os.devnull, 'w')  # disable print out
-            TurnBasedRLvsRL(game, gl1, gl2)
-            sys.stdout = sys.__stdout__  # restore print out
+            # Lancement des processus
+            p1.start()
+            p2.start()
 
-            # Monitor progress
-            if games_played % 1000 == 0:
-                print("Games played: %i" % games_played)
+            # Attend que les processus se terminent
+            p1.join()
+            p2.join()
 
-            games_played += 1
+            # plot_multiple_agents_reward(glQ, glS)
+            glQ.plot_agent_reward()
+            glS.plot_agent_reward()
+            TurnBasedRL_PrintResults(game, glQ, human, manual_games)
+            TurnBasedRL_PrintResults(game, glS, human, manual_games)
+        else:
+            if args.agent_type == "q":
+                TurnBasedRL_episodes(game, glQ, random, args.teacher_episodes)
+                glQ.plot_agent_reward()
+                TurnBasedRL_PrintResults(game, glQ, human, manual_games)
+            elif args.agent_type == "s":
+                TurnBasedRL_episodes(game, glS, random, args.teacher_episodes)
+                glS.plot_agent_reward()
+                TurnBasedRL_PrintResults(game, glS, human, manual_games)
 
-        gl1.plot_agent_reward()
-        gl2.plot_agent_reward()
+    # ───────────────────────────────── partie tests à la main
 
-        if args.save:
-            # check if agent state file already exists, and ask user whether to overwrite if so
-            if os.path.isfile('./qlearner_agent_'+game.__class__.__name__+'.pkl'):
-                while True:
-                    response = input("An agent state is already saved for this type. "
-                                     "Are you sure you want to overwrite? [y/n]: ")
-                    if response == 'y' or response == 'yes':
-                        gl1.agent.save_agent(
-                            './qlearner_agent_'+game.__class__.__name__+'.pkl')
-                        break
-                    elif response == 'n' or response == 'no':
-                        print("OK. Quitting.")
-                        break
-                    else:
-                        print("Invalid input. Please choose 'y' or 'n'.")
-            else:
-                gl1.agent.save_agent(
-                    './qlearner_agent_'+game.__class__.__name__+'.pkl')
-
-    # ───────────────────────────────── partie tests manuels
-
-    if len(sys.argv) == 1:
+    if len(sys.argv) == 1:  # manuel utilisateur
         manuel()
+        TurnBased(game, human, random)
 
     # TODO régler bug quand on change nom ['Player1', 'Player2'] dans TurnBasedRL
     # TODO nettoyer le code
-    # TODO Sarsa learning
     # TODO nettoyer les \n dans l'affichage
-    # TODO harmoniser les utilities
     # TODO faire plus d'asserts
+    # TODO The agent file does not exist. Quitting. class GameLearning(object):
+    # TODO Commenter les fonctions
 
-    games_won_J1 = 0
-    games_won_J2 = 0
-    draw = 0
-
-    players = ['Player1', 'Player2']
-
-    number_games = 3
-
-    for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
-        # changer ici se besoins l'agent
-        returned_winner = TurnBasedRL(game, gl1, human)
-
-        if returned_winner == players[0]:
-            games_won_J1 += 1
-        elif returned_winner == players[1]:
-            games_won_J2 += 1
+    if args.save:
+            # check if agent state file already exists, and ask user whether to overwrite if so
+        if args.agent_type == "b":
+            SaveGL(glQ, game)
+            SaveGL(glS, game)
         else:
-            draw += 1
-
-    # TurnBased(game, random, human)
-
-    PrintResults(games_won_J1, games_won_J2, draw,
-                 number_games, ['learner', 'agent'])
+            if args.agent_type == "q":
+                SaveGL(glQ, game)
+            elif args.agent_type == "s":
+                SaveGL(glS, game)

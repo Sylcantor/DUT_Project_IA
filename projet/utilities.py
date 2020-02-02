@@ -2,6 +2,8 @@
 """
 @author: Aurélien
 """
+import sys
+import os
 import random
 from copy import deepcopy
 
@@ -11,6 +13,10 @@ from agents.node import Node
 # asserts:
 from agents.apprentissage_RL.agent import Learner
 from agents.AbstractAgent import AbstractAgent
+
+"""
+fonctions utilitaires
+"""
 
 
 def TurnBased(inital_game,  # AgentvsAgent
@@ -236,15 +242,17 @@ def TurnBasedRLvsRL(inital_game,
         if not game.winner() == None:
             # game is over. +10 reward if win, -10 if loss, 0 if draw
             if game.winner() == players[0]:  # Player1 -> 'X' -> gl.agent
-                reward = 10
+                reward1 = 10
+                reward2 = -10
             elif game.winner() == players[1]:  # Player2 -> 'O' -> teacher
-                reward = -10
+                reward1 = -10
+                reward2 = 10
             else:
-                reward = 0
+                reward1 = reward2 = 0
             break
 
         # game continues. 0 reward
-        reward = 0
+        reward1 = reward2 = 0
 
         new_state = game.print_game()
 
@@ -256,7 +264,7 @@ def TurnBasedRLvsRL(inital_game,
             new_action1 = gl1.agent.choose_move(currentnode, new_state)
             # update Q-values
             gl1.agent.update(currentnode, prev_state, new_state,
-                             prev_action1, new_action1, reward)
+                             prev_action1, new_action1, reward1)
             # reset "previous" values
             prev_state = new_state
             prev_action1 = new_action1
@@ -268,7 +276,7 @@ def TurnBasedRLvsRL(inital_game,
             new_action2 = gl2.agent.choose_move(currentnode, new_state)
             # update Q-values
             gl2.agent.update(currentnode, prev_state, new_state,
-                             prev_action2, new_action2, reward)
+                             prev_action2, new_action2, reward2)
             # reset "previous" values
             prev_state = new_state
             prev_action2 = new_action2
@@ -278,10 +286,10 @@ def TurnBasedRLvsRL(inital_game,
 
     # Game over. Perform final update
     gl1.agent.update(currentnode, prev_state, None,
-                     prev_action1, None, reward)
+                     prev_action1, None, reward1)
 
     gl2.agent.update(currentnode, prev_state, None,
-                     prev_action2, None, reward)
+                     prev_action2, None, reward2)
 
     print("#________________________#")
     print("Le gagnant est : " + game.winner() + "\n")
@@ -292,6 +300,54 @@ def TurnBasedRLvsRL(inital_game,
     return game.winner()
 
 
+def TurnBasedRL_episodes(game, gl, agent, teacher_episodes):
+
+    for i in range(teacher_episodes):
+
+        sys.stdout = open(os.devnull, 'w')  # disable print out
+        TurnBasedRL(game, gl, agent)
+        sys.stdout = sys.__stdout__  # restore print out
+
+        # Monitor progress
+        if i % 1000 == 0:
+            print("Games played: %i" % i)
+
+
+def TurnBasedRLvsRL_episodes(game, gl1, gl2, teacher_episodes):
+
+    for i in range(args.teacher_episodes):
+
+        sys.stdout = open(os.devnull, 'w')  # disable print out
+        TurnBasedRLvsRL(game, gl1, gl2)
+        sys.stdout = sys.__stdout__  # restore print out
+
+        # Monitor progress
+        if i % 1000 == 0:
+            print("Games played: %i" % i)
+
+
+def TurnBasedRL_PrintResults(game, gl, agent, number_games):
+    games_won_J1 = 0
+    games_won_J2 = 0
+    draw = 0
+
+    players = ['Player1', 'Player2']
+
+    for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
+        # changer ici se besoins l'agent
+        returned_winner = TurnBasedRL(game, gl, agent)
+
+        if returned_winner == players[0]:
+            games_won_J1 += 1
+        elif returned_winner == players[1]:
+            games_won_J2 += 1
+        else:
+            draw += 1
+
+    PrintResults(games_won_J1, games_won_J2, draw,
+                 number_games, ['learner', 'agent'])
+
+
 def PrintResults(resultsJ1, resultsJ2, draw, number_games, players=['Player1', 'Player2']):
     # les résultats en % des parties gagnées sur le nombre total de parties
     print("Win rate " + players[0] + " : " +
@@ -300,3 +356,22 @@ def PrintResults(resultsJ1, resultsJ2, draw, number_games, players=['Player1', '
           str((resultsJ2/number_games)*100) + " % "
           " | "+"Draw rate " + " : " +
           str((draw/number_games)*100) + " % ")
+
+
+def SaveGL(gl, game):
+    if os.path.isfile('./'+gl.agent.__class__.__name__+"_"+game.__class__.__name__+'.pkl'):
+        while True:
+            response = input("An agent state is already saved for this type. "
+                             "Are you sure you want to overwrite? [y/n]: ")
+            if response == 'y' or response == 'yes':
+                gl.agent.save_agent(
+                    './'+gl.agent.__class__.__name__+game.__class__.__name__+'.pkl')
+                break
+            elif response == 'n' or response == 'no':
+                print("OK. Quitting.")
+                break
+            else:
+                print("Invalid input. Please choose 'y' or 'n'.")
+    else:
+        gl.agent.save_agent(
+            './'+gl.agent.__class__.__name__+"_"+game.__class__.__name__+'.pkl')
