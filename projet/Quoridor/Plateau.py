@@ -353,7 +353,26 @@ class Plateau():
 		return new_state
 
 
-	def check_is_stuck(self, joueur):
+	def init_matrice(self):
+		"""
+		Fonction qui initialise le graphe à parcourir (composé des
+		cases voisines sur lesquelles on peut jouer).
+		"""
+
+		num = 0
+
+		for i in range(2, self.ligne-3):
+			for j in range(self.colonne):
+				if(((i % 2 != 0) and (j % 2 != 0)) or (i % 2 == 0)):
+					num += 1
+					dictCoordonnees = {'coordonneeY': i, 'coordonneeX': j}
+					self.tabMurs.append(dictCoordonnees)
+					print(num, " ", dictCoordonnees)
+		
+			print("\n")
+
+
+	#def check_is_stuck(self, joueur):
 		"""
 		L'algorithme:
 
@@ -363,7 +382,7 @@ class Plateau():
 		Sinon, après un certain nombre de déplacements, on considèrera que le joueur n'est pas bloqué.
 		"""
 
-
+		"""
 		jAventurier = Joueur('T', joueur.x, joueur.y)
 
 		haut = 1
@@ -414,4 +433,4 @@ class Plateau():
 			return True
 		else:
 			return False
-
+	"""
