@@ -14,8 +14,6 @@ class Main():
 
     count = 0
 
-    print(p.copy_game_state())
-
     while(p.finDeJeu == False):
         if(count % 2 == 0):
             p.affichejeu()
@@ -24,4 +22,3 @@ class Main():
             p.tour(p.j2)
         
         count += 1
-
