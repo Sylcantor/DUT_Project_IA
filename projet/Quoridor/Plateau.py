@@ -83,7 +83,7 @@ class Plateau():
 		num = 0
 
 		for i in range(1, self.ligne-2):
-			for j in range(self.colonne):
+			for j in range(self.colonne-1):
 				if(((i % 2 != 0) and (j % 2 != 0)) or (i % 2 == 0)):
 					num += 1
 					dictCoordonnees = {'coordonneeY': i, 'coordonneeX': j}
@@ -359,17 +359,49 @@ class Plateau():
 		cases voisines sur lesquelles on peut jouer).
 		"""
 
+		matrice = {}
+		node5 = []
+		node7 = []
 		num = 0
+		key = 1
 
-		for i in range(2, self.ligne-3):
-			for j in range(self.colonne):
+		for j in range(0, self.colonne):
+    		if(self.tab[1][j] == 0):
+    			num += 1
+				node5.append(num)
+				matrice[0] = node5
+
+		for i in range(1, self.ligne-1):
+    		for j in range(0, self.colonne):
+    			if(self.tab[i][j] == 0):
+    				key += 1
+    				matrice[key] = []
+
+					if(self.tab[i+1][j] == 'm' and self.tab[i+2][j] == 0):
+    					matrice[key].append
+
+		for j in range(0, self.colonne):
+    		if(self.tab[self.ligne-1][j] == 0):
+    			num += 1
+				node7.append(num)
+				matrice[82] = node7
+
+		"""for i in range(self.ligne-1):
+			for j in range(self.colonne-1):
+    			num += 1
+
+    			if i == 0:
+    				node5[j] = num
+					matrice[i].append(node5)
+				
+				if(i == 18)
 				if(((i % 2 != 0) and (j % 2 != 0)) or (i % 2 == 0)):
 					num += 1
 					dictCoordonnees = {'coordonneeY': i, 'coordonneeX': j}
 					self.tabMurs.append(dictCoordonnees)
 					print(num, " ", dictCoordonnees)
 		
-			print("\n")
+			print("\n")"""
 
 
 	#def check_is_stuck(self, joueur):
