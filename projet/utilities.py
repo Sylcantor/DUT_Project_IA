@@ -348,14 +348,12 @@ def TurnBasedRL_PrintResults(game, gl, agent, number_games):
                  number_games, ['learner', 'agent'])
 
 
-def PrintResults(resultsJ1, resultsJ2, draw, number_games, players=['Player1', 'Player2']):
+def PrintResults(*names, *results, number_games):
     # les résultats en % des parties gagnées sur le nombre total de parties
-    print("Win rate " + players[0] + " : " +
-          str((resultsJ1/number_games)*100) + " %" +
-          " | "+"Win rate " + players[1] + " : " +
-          str((resultsJ2/number_games)*100) + " % "
-          " | "+"Draw rate " + " : " +
-          str((draw/number_games)*100) + " % ")
+    print("Win rate :")
+
+    for i, j in zip(names, results): 
+    print(i, ":",(j/number_games)*100,"%")
 
 
 def SaveGL(gl, game):
