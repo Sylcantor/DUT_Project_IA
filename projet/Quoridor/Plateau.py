@@ -4,6 +4,7 @@ Created on Sat Nov 23 12:44:48 2019
 
 @author: Kevin
 """
+from math import *
 from Joueur import *
 
 """
@@ -359,49 +360,77 @@ class Plateau():
 		cases voisines sur lesquelles on peut jouer).
 		"""
 
+		# Initialisation
 		matrice = {}
-		node5 = []
-		node7 = []
-		num = 0
+		voisins = []
 		key = 1
 
-		for j in range(0, self.colonne):
-    		if(self.tab[1][j] == 0):
-    			num += 1
-				node5.append(num)
-				matrice[0] = node5
+		for i in range(0, 83):
+			matrice[i] = voisins
 
 		for i in range(1, self.ligne-1):
-    		for j in range(0, self.colonne):
-    			if(self.tab[i][j] == 0):
-    				key += 1
-    				matrice[key] = []
+			for j in range(0, self.colonne):
+				if(self.tab[i][j] == 0 or self.tab[i][j] == 'A' or self.tab[i][j] == 'B'):
+					if(self.tab[i-1][j] == 'm'):
+						voisins.append(key-9)
+					if(j != self.colonne-1):
+						if(self.tab[i][j+1] == 'm'):
+							voisins.append(key+1)
+					if(self.tab[i+1][j] == 'm'):
+						voisins.append(key+9)
+					if(j != 0):
+						if(self.tab[i][j-1] == 'm'):
+							voisins.append(key-1)
 
-					if(self.tab[i+1][j] == 'm' and self.tab[i+2][j] == 0):
-    					matrice[key].append
+					# Réinitialisation
+					matrice[key] = voisins
+					voisins = []
+					key += 1
 
-		for j in range(0, self.colonne):
-    		if(self.tab[self.ligne-1][j] == 0):
-    			num += 1
-				node7.append(num)
-				matrice[82] = node7
-
-		"""for i in range(self.ligne-1):
-			for j in range(self.colonne-1):
-    			num += 1
-
-    			if i == 0:
-    				node5[j] = num
-					matrice[i].append(node5)
-				
-				if(i == 18)
-				if(((i % 2 != 0) and (j % 2 != 0)) or (i % 2 == 0)):
-					num += 1
-					dictCoordonnees = {'coordonneeY': i, 'coordonneeX': j}
-					self.tabMurs.append(dictCoordonnees)
-					print(num, " ", dictCoordonnees)
+		matrice[0] = [1,2,3,4,5,6,7,8,9]
+		matrice[82] = [81,80,79,78,77,76,75,74,73]
 		
-			print("\n")"""
+		for j in range(1, 10):
+			matrice[j].append(0)
+
+		for k in range(73, 82):
+			matrice[k].append(82)
+
+		for key in matrice:
+			print(key, ' : ', matrice[key], end='\n')
+
+
+	def find_path(graph, start, end, path=[]):
+		path = path + [start]
+
+		if start == end:
+			return path
+		if start not in graph:
+			return None
+		for node in graph[start]:
+			if node not in path:
+				newpath = find_path(graph, node, end, path)
+				if newpath: return newpath
+		return None
+
+
+	def get_node_player(self, joueur):
+		return (((joueur.y-1)/2)*9) + ceil(joueur.x/2)
+
+
+	def check_is_stuck(self, joueur):
+		graph = self.init_matrice()
+		start = self.get_node_player(joueur)
+
+		if(joueur.letter == 'A'):
+			end = 82
+		else:
+			end = 0
+
+		if(self.find_path(graph, start, end) == None):
+			return True
+		else:
+			return False
 
 
 	#def check_is_stuck(self, joueur):
