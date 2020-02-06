@@ -9,287 +9,123 @@ from copy import deepcopy
 
 # les noeuds:
 from agents.node import Node
+from player import Player
 
 # asserts:
-from agents.apprentissage_RL.agent import Learner
 from agents.AbstractAgent import AbstractAgent
+from agents.apprentissage_RL.agent import Learner
+
+# plot:
+from plot import plot_winrate
 
 """
-fonctions utilitaires
+fonctions utilitaires appelées depuis main.py
 """
 
 
-def TurnBased(inital_game,  # AgentvsAgent
-              agent1,
-              agent2,
-              players=['Player1', 'Player2']):
+def TurnBased(inital_game, agents):
     """
-    Agent avec un agent.
-    Fonction pour jouer à tour de role en permettant à un objet de
-    type GameLearning d'apprendre.
-    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
-    Player1 -> 'X' -> agent1
-    Player2 -> 'O' -> agent2
+    Permet de jouer avec n'importe quel agent et n'importe quel nombre d'agent selon
+    le nombre de joueurs dans la liste players du jeu entré.
+    Les objets de type Learner apprennent durant chaque fin de partie.
     """
-    assert agent1 is not isinstance(agent1, AbstractAgent)
-    assert agent2 is not isinstance(agent2, AbstractAgent)
+    for i in agents:
+        try:
+            isinstance(i, AbstractAgent)
+        except AttributeError:
+            print("AttributeError")
 
     game = deepcopy(inital_game)
 
+    # liste de string qui représente les joueurs dans le jeu et définit le nombre de joueurs
+    players = game.players
+
+    if len(players) > len(agents):
+        print("List index out of range: not enough agents to play")
+        exit(0)
+    elif len(players) < len(agents):
+        print("Too much agents: I will only take the firsts")
+
+        # liste qui définit chaque joueurs et sauvegarde leurs informations
+        # permet de faire le parallèle entre les players et les agents
+        # PlayerList sera de la taille de players
+    PlayerList = []
+    for i, j in zip(players, agents):
+        PlayerList.append(Player(i, j))
+
     # During teaching, chose who goes first randomly with equal probability
-    if random.random() < 0.5:
-        i = 0
-    else:
-        i = 1
+    playerIndex = random.randrange(len(PlayerList))
 
     print("#_______#NEW_GAME#_______#\n")
 
-    # iterate until game is over
-    while True:
-        # execute oldAction, observe reward and state
+    currentnode = Node(game)
 
-        print("\n")
-
-        if i == 0:
-
-            player = players[0]  # agent1 - Player1
-            print("___ " + player + " ___")
-            currentnode = Node(game, player)
-            choix = agent1.choose_move(currentnode)
-            game.play_move(choix, player)
-
-        else:
-
-            player = players[1]  # agent2 - Player2
-            print("___ " + player + " ___")
-            currentnode = Node(game, player)
-            choix = agent2.choose_move(currentnode)
-            game.play_move(choix, player)
-
-        if not game.winner() == None:
-            # game is over. +10 reward if win, -10 if loss, 0 if draw
-            if game.winner() == players[0]:  # Player1 -> 'X' -> gl.agent
-                reward = 10
-            elif game.winner() == players[1]:  # Player2 -> 'O' -> teacher
-                reward = -10
-            else:
-                reward = 0
-            break
-
-        print("\n")
-        i ^= 1
-
-    # Game over.
-    print("#________________________#")
-    print("Le gagnant est : " + game.winner() + "\n")
-
-    print("Affichage de fin : ")
-    print(game.print_game())
-
-    return game.winner()
-
-
-def TurnBasedRL(inital_game,  # vsAgent
-                gl,
-                teacher,
-                players=['Player1', 'Player2']):
-    """
-    Reinforcement learning avec un agent.
-    Fonction pour jouer à tour de role en permettant à un objet de
-    type GameLearning d'apprendre.
-    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
-    Player1 -> 'X' -> gl.agent
-    Player2 -> 'O' -> teacher
-    """
-    assert gl is not isinstance(gl, Learner)
-    assert teacher is not isinstance(teacher, AbstractAgent)
-
-    game = deepcopy(inital_game)
-
-    # During teaching, chose who goes first randomly with equal probability
-    if random.random() < 0.5:
-        i = 0
-    else:
-        i = 1
-
-    print("#_______#NEW_GAME#_______#\n")
-
-    currentnode = Node(game, players[0])  # ajouté
-
-    # Initialize the agent's state and action
-    prev_state = game.print_game()
-    prev_action = gl.agent.choose_move(currentnode, prev_state)
+    # Initialize the learner's state and action
+    for i in PlayerList:
+        if isinstance(i.agent, Learner):
+            i.prev_state = game.print_game()
+            i.prev_action = i.agent.choose_move(currentnode, i.prev_state)
 
     # iterate until game is over
     while True:
+
+        print("\n")
+        print("___", PlayerList[playerIndex].player,
+              PlayerList[playerIndex].agent.__class__.__name__, "___")
+
         # execute oldAction, observe reward and state
-
-        print("\n")
-
-        if i == 0:
-
-            player = players[0]  # agent - Player1
-            print("___ " + player + " ___")
-            game.play_move(prev_action, player)
-
+        if isinstance(PlayerList[playerIndex].agent, Learner):
+            game.play_move(
+                PlayerList[playerIndex].prev_action, PlayerList[playerIndex].player)
         else:
-
-            player = players[1]  # teacher - Player2
-            print("___ " + player + " ___")
-            currentnode = Node(game, player)
-            choix = teacher.choose_move(currentnode)
-            game.play_move(choix, player)
+            currentnode = Node(game)
+            choix = PlayerList[playerIndex].agent.choose_move(
+                currentnode)
+            game.play_move(choix, PlayerList[playerIndex].player)
 
         print("\n")
-        i ^= 1
 
+        # game is over. +10 reward if win, -10 if loss, 0 if draw
         if not game.winner() == None:
-            # game is over. +10 reward if win, -10 if loss, 0 if draw
-            if game.winner() == players[0]:  # Player1 -> 'X' -> gl.agent
-                reward = 10
-            elif game.winner() == players[1]:  # Player2 -> 'O' -> teacher
-                reward = -10
-            else:
-                reward = 0
-            break
-
-        # partie mise à jour
+            break  # break car sinon updatera pour 0 à un état final
 
         # game continues. 0 reward
         reward = 0
 
-        new_state = game.print_game()
+        # change player
+        playerIndex += 1
+        if playerIndex >= len(players):
+            playerIndex = 0
 
-        currentnode = Node(game, players[0])  # ajouté
+        for i in PlayerList:
+            if isinstance(i.agent, Learner):
+                # partie mise à jour des learners
+                new_state = game.print_game()
 
-        # determine new action (epsilon-greedy)
-        new_action = gl.agent.choose_move(currentnode, new_state)
-        # update Q-values
-        gl.agent.update(currentnode, prev_state, new_state,
-                        prev_action, new_action, reward)
-        # reset "previous" values
-        prev_state = new_state
-        prev_action = new_action
-        # append reward
+                currentnode = Node(game)  # the new node after playing
 
-    # Game over. Perform final update
-    gl.agent.update(currentnode, prev_state, None, prev_action, None, reward)
+                # determine new action (epsilon-greedy)
+                new_action = i.agent.choose_move(currentnode, new_state)
+                # update Q-values
+                i.agent.update(currentnode, i.prev_state, new_state,
+                               i.prev_action, new_action, reward)
+                # reset "previous" values
+                i.prev_state = new_state
+                i.prev_action = new_action
+                # append reward
 
-    print("#________________________#")
-    print("Le gagnant est : " + game.winner() + "\n")
-
-    print("Affichage de fin : ")
-    print(game.print_game())
-
-    return game.winner()
-
-
-def TurnBasedRLvsRL(inital_game,
-                    gl1,
-                    gl2,
-                    players=['Player1', 'Player2']):
-    """
-    Double reinforcement learning.
-    Fonction pour jouer à tour de role en permettant à deux objets de
-    type GameLearning d'apprendre.
-    Joueur 1 est le premier joueur à jouer et Joueur 2 est le second.
-    Player1 -> 'X' -> gl1.agent
-    Player2 -> 'O' -> gl2.agent
-    """
-
-    assert gl1 is not isinstance(gl1, Learner)
-    assert gl2 is not isinstance(gl2, Learner)
-
-    game = deepcopy(inital_game)
-
-    print("#_______#NEW_GAME#_______#\n")
-
-    currentnode = Node(game, players[0])  # ajouté
-
-    # Initialize the agent's state and action
-    prev_state = game.print_game()
-
-    # pour initialiser
-    prev_action1 = gl1.agent.choose_move(currentnode, prev_state)
-    prev_action2 = gl2.agent.choose_move(currentnode, prev_state)
-
-    # During teaching, chose who goes first randomly with equal probability
-    if random.random() < 0.5:
-        i = 0
-    else:
-        i = 1
-
-    # iterate until game is over
-    while True:
-        # execute oldAction, observe reward and state
-
-        print("\n")
-
-        if i == 0:
-
-            player = players[0]  # gl1 - Player1
-            print("___ " + player + " ___")
-            game.play_move(prev_action1, player)
-
-        else:
-
-            player = players[1]  # gl2 - Player2
-            print("___ " + player + " ___")
-            game.play_move(prev_action2, player)
-
-        print("\n")
-
-        if not game.winner() == None:
-            # game is over. +10 reward if win, -10 if loss, 0 if draw
-            if game.winner() == players[0]:  # Player1 -> 'X' -> gl.agent
-                reward1 = 10
-                reward2 = -10
-            elif game.winner() == players[1]:  # Player2 -> 'O' -> teacher
-                reward1 = -10
-                reward2 = 10
-            else:
-                reward1 = reward2 = 0
-            break
-
-        # game continues. 0 reward
-        reward1 = reward2 = 0
-
-        new_state = game.print_game()
-
-        # partie mise à jour
-        if i == 0:
-            currentnode = Node(game, players[0])  # ajouté
-
-            # determine new action (epsilon-greedy)
-            new_action1 = gl1.agent.choose_move(currentnode, new_state)
-            # update Q-values
-            gl1.agent.update(currentnode, prev_state, new_state,
-                             prev_action1, new_action1, reward1)
-            # reset "previous" values
-            prev_state = new_state
-            prev_action1 = new_action1
-            # append reward
-        else:
-            currentnode = Node(game, players[1])  # ajouté
-
-            # determine new action (epsilon-greedy)
-            new_action2 = gl2.agent.choose_move(currentnode, new_state)
-            # update Q-values
-            gl2.agent.update(currentnode, prev_state, new_state,
-                             prev_action2, new_action2, reward2)
-            # reset "previous" values
-            prev_state = new_state
-            prev_action2 = new_action2
-            # append reward
-
-        i ^= 1
-
-    # Game over. Perform final update
-    gl1.agent.update(currentnode, prev_state, None,
-                     prev_action1, None, reward1)
-
-    gl2.agent.update(currentnode, prev_state, None,
-                     prev_action2, None, reward2)
+    # Game over. Perform final update, game is over. +10 reward if win, -10 if loss, 0 if draw
+    for i in PlayerList:
+        if isinstance(i.agent, Learner):
+            if game.winner() == i.player:
+                i.agent.update(currentnode, i.prev_state, None,
+                               i.prev_action, None, 10)
+            elif game.winner() == 'Draw':  # it's a draw
+                i.agent.update(currentnode, i.prev_state, None,
+                               i.prev_action, None, 0)
+            else:  # another player wins
+                i.agent.update(currentnode, i.prev_state, None,
+                               i.prev_action, None, -10)
 
     print("#________________________#")
     print("Le gagnant est : " + game.winner() + "\n")
@@ -300,12 +136,18 @@ def TurnBasedRLvsRL(inital_game,
     return game.winner()
 
 
-def TurnBasedRL_episodes(game, gl, agent, teacher_episodes):
+def TurnBased_episodes(game, number_games, *agents):
+    """
+    Permet de faire plusieurs appels de TurnBased, utilisé pour l'entrainement
+    On peut mettre plusieurs agents les uns à la suite des autres
+    en argument de cette fonction. On a aussi besoins du jeu 
+    et le nombre de fois qu'on veut faire de jeux.
+    """
 
-    for i in range(teacher_episodes):
+    for i in range(number_games):
 
         sys.stdout = open(os.devnull, 'w')  # disable print out
-        TurnBasedRL(game, gl, agent)
+        TurnBased(game, agents)
         sys.stdout = sys.__stdout__  # restore print out
 
         # Monitor progress
@@ -313,29 +155,22 @@ def TurnBasedRL_episodes(game, gl, agent, teacher_episodes):
             print("Games played: %i" % i)
 
 
-def TurnBasedRLvsRL_episodes(game, gl1, gl2, teacher_episodes):
-
-    for i in range(args.teacher_episodes):
-
-        sys.stdout = open(os.devnull, 'w')  # disable print out
-        TurnBasedRLvsRL(game, gl1, gl2)
-        sys.stdout = sys.__stdout__  # restore print out
-
-        # Monitor progress
-        if i % 1000 == 0:
-            print("Games played: %i" % i)
-
-
-def TurnBasedRL_PrintResults(game, gl, agent, number_games):
+def TurnBased_PrintResults(game, number_games, *agents):
+    """
+    Comme TurnBased_episodes sauf qu'on veut mettre sous forme de diagramme
+    les résultats des parties gagnées grâce à plot_winrate.
+    Fonction utile pour faire des tests manuels par exemple.
+    """
+    # TODO dissocier les games_won_J1 selon le nombre de joueurs
     games_won_J1 = 0
     games_won_J2 = 0
     draw = 0
 
-    players = ['Player1', 'Player2']
+    # liste de string qui représente les joueurs dans le jeu et définit le nombre de joueurs
+    players = game.players
 
     for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
-        # changer ici se besoins l'agent
-        returned_winner = TurnBasedRL(game, gl, agent)
+        returned_winner = TurnBased(game, agents)
 
         if returned_winner == players[0]:
             games_won_J1 += 1
@@ -344,32 +179,53 @@ def TurnBasedRL_PrintResults(game, gl, agent, number_games):
         else:
             draw += 1
 
-    PrintResults(games_won_J1, games_won_J2, draw,
-                 number_games, ['learner', 'agent'])
+    plot_winrate([games_won_J1, games_won_J2, draw], [
+                 'learner', 'agent', 'draw'], number_games)
 
-
-def PrintResults(*names, *results, number_games):
-    # les résultats en % des parties gagnées sur le nombre total de parties
-    print("Win rate :")
-
-    for i, j in zip(names, results): 
-    print(i, ":",(j/number_games)*100,"%")
+# ──────────────────────────────────────────────────────────────────────────────── save & load
 
 
 def SaveGL(gl, game):
-    if os.path.isfile('./'+gl.agent.__class__.__name__+"_"+game.__class__.__name__+'.pkl'):
-        while True:
-            response = input("An agent state is already saved for this type. "
-                             "Are you sure you want to overwrite? [y/n]: ")
-            if response == 'y' or response == 'yes':
-                gl.agent.save_agent(
-                    './'+gl.agent.__class__.__name__+game.__class__.__name__+'.pkl')
-                break
-            elif response == 'n' or response == 'no':
-                print("OK. Quitting.")
-                break
-            else:
-                print("Invalid input. Please choose 'y' or 'n'.")
-    else:
-        gl.agent.save_agent(
-            './'+gl.agent.__class__.__name__+"_"+game.__class__.__name__+'.pkl')
+    """
+    Save one agent
+    """
+    # TODO faire fonctionner
+    while True:
+        print(gl.agent.__class__.__name__, " ",
+              game.__class__.__name__, " number of games: ")
+        response = input("Do you want you want to save this learner ? [y/n]: ")
+        if response == 'y' or response == 'yes':
+            gl.agent.save_agent(
+                './'+gl.agent.__class__.__name__+game.__class__.__name__+'.pkl')
+            break
+        elif response == 'n' or response == 'no':
+            print("OK. Learner not saved.")
+            break
+        else:
+            print("Invalid input. Please choose 'y' or 'n'.")
+
+
+def LoadGL(agent_type):
+    """
+    Load one agent
+    """
+    # TODO faire fonctionner
+    if agent_type == 'q':
+        # QLearner
+        try:
+            f = open('./qlearner_agent_' +
+                     game.__class__.__name__+'.pkl', 'rb')
+        except IOError:
+            print("The agent file does not exist. Quitting.")
+            sys.exit(0)
+    elif agent_type == 's':
+        # SarsaLearner
+        try:
+            f = open('./sarsa_agent_' +
+                     game.__class__.__name__+'.pkl', 'rb')
+        except IOError:
+            print("The agent file does not exist. Quitting.")
+            sys.exit(0)
+    agent = pickle.load(f)
+    f.close()
+    return agent

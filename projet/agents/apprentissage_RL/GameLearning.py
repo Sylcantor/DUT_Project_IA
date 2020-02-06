@@ -51,11 +51,3 @@ class GameLearning(object):
             else:
                 self.agent = SARSAlearner(game.valid_moves(),
                                           alpha, gamma, epsilon)
-
-    def plot_agent_reward(self):
-        """ Function to plot agent's accumulated reward vs. iteration """
-        plt.plot(np.cumsum(self.agent.rewards))
-        plt.title('Agent Cumulative Reward vs. Iteration')
-        plt.ylabel('Reward')
-        plt.xlabel('Episode')
-        plt.show()

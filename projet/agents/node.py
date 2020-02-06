@@ -14,7 +14,7 @@ class Node:
     On fait remonter le leaf_value des feuilles vers le haut de l'arbre dans l'algorithme Minimax.
     """
 
-    def __init__(self, game, player, move=None, leaf_value=None):
+    def __init__(self, game, player=None, move=None, leaf_value=None):
         self.game = game
         self.player = player
         self.move = move

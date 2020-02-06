@@ -19,7 +19,10 @@ class Random(AbstractAgent):
         """
         Methode pour faire des choix aléatoires
         """
-        assert node is not isinstance(node, Node)
+        try:
+            isinstance(node, Node)
+        except AttributeError:
+            print("AttributeError")
 
         random_index = randrange(len(node.game.valid_moves()))
         print("Coup décidé : " + str(node.game.valid_moves()[random_index]))

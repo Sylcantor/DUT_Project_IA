@@ -5,6 +5,9 @@ import collections
 import numpy as np
 import random
 
+# plot
+import matplotlib.pyplot as plt
+
 from agents.AbstractAgent import AbstractAgent
 # les noeuds:
 from agents.node import Node
@@ -28,7 +31,7 @@ class Learner(ABC):
         epsilon decay rate. Larger value = more decay
     """
 
-    def __init__(self, actions, alpha, gamma, eps, eps_decay=0.):
+    def __init__(self, actions, alpha=0.5, gamma=0.9, eps=0.1, eps_decay=0.):
         # Agent parameters
         self.alpha = alpha
         self.gamma = gamma
@@ -56,7 +59,11 @@ class Learner(ABC):
             contain the game where you can have the valid_moves()
         """
 
-        assert node is not isinstance(node, Node)
+        try:
+            isinstance(node, Node)
+        except AttributeError:
+            print("AttributeError")
+
         game = node.game  # current game
 
         # Only consider the allowed actions (empty board spaces)
@@ -98,6 +105,14 @@ class Learner(ABC):
         pickle.dump(self, f)
         f.close()
 
+    def plot_agent_reward(self):
+        """ Function to plot agent's accumulated reward vs. iteration """
+        plt.plot(np.cumsum(self.rewards))
+        plt.title('Agent Cumulative Reward vs. Iteration')
+        plt.ylabel('Reward')
+        plt.xlabel('Episode')
+        plt.show()
+
     @abstractmethod
     def update(self, node, s, s_, a, a_, r):
         pass
@@ -108,7 +123,7 @@ class Qlearner(Learner):
     A class to implement the Q-learning agent.
     """
 
-    def __init__(self, actions, alpha, gamma, eps, eps_decay=0.):
+    def __init__(self, actions, alpha=0.5, gamma=0.9, eps=0.1, eps_decay=0.):
         super().__init__(actions, alpha, gamma, eps, eps_decay)
 
     def update(self, node, s, s_, a, a_, r):
@@ -129,7 +144,10 @@ class Qlearner(Learner):
             reward received after executing action "a" in state "s"
         """
 
-        assert node is not isinstance(node, Node)
+        try:
+            isinstance(node, Node)
+        except AttributeError:
+            print("AttributeError")
         game = node.game  # current game
 
         # Update Q(s,a)
@@ -158,7 +176,7 @@ class SARSAlearner(Learner):
     A class to implement the SARSA agent.
     """
 
-    def __init__(self, actions,  alpha, gamma, eps, eps_decay=0.):
+    def __init__(self, actions,  alpha=0.5, gamma=0.9, eps=0.1, eps_decay=0.):
         super().__init__(actions, alpha, gamma, eps, eps_decay)
 
     def update(self, node, s, s_, a, a_, r):

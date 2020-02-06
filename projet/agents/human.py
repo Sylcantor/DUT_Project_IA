@@ -21,7 +21,10 @@ class Human(AbstractAgent):
         """
         Methode pour faire des choix en tant qu'humain
         """
-        assert node is not isinstance(node, Node)
+        try:
+            isinstance(node, Node)
+        except AttributeError:
+            print("AttributeError")
 
         consigne = "Entrez votre choix : "
 
