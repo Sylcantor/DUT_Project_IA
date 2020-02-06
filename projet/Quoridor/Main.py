@@ -10,15 +10,15 @@ class Main():
 
 
     p = Plateau()
-    p.initTabMurs()
 
     p.init_matrice()
 
     count = 0
 
     while(p.finDeJeu == False):
+        p.initTabMurs()
+        p.affichejeu()
         if(count % 2 == 0):
-            p.affichejeu()
             p.tour(p.j1)
         else:
             p.tour(p.j2)

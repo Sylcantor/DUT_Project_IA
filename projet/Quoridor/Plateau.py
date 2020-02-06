@@ -389,7 +389,7 @@ class Plateau():
 
 		matrice[0] = [1,2,3,4,5,6,7,8,9]
 		matrice[82] = [81,80,79,78,77,76,75,74,73]
-		
+
 		for j in range(1, 10):
 			matrice[j].append(0)
 
@@ -399,9 +399,11 @@ class Plateau():
 		for key in matrice:
 			print(key, ' : ', matrice[key], end='\n')
 
+		return matrice
 
-	def find_path(graph, start, end, path=[]):
-		path = path + [start]
+
+	def find_path(self, graph, start, end, path):
+		path.append(start)
 
 		if start == end:
 			return path
@@ -409,27 +411,31 @@ class Plateau():
 			return None
 		for node in graph[start]:
 			if node not in path:
-				newpath = find_path(graph, node, end, path)
+				newpath = self.find_path(graph, node, end, path)
 				if newpath: return newpath
+
 		return None
 
 
 	def get_node_player(self, joueur):
+		# à déterminer car calcul actuel faux
 		return (((joueur.y-1)/2)*9) + ceil(joueur.x/2)
 
 
 	def check_is_stuck(self, joueur):
 		graph = self.init_matrice()
 		start = self.get_node_player(joueur)
+		path = []
 
 		if(joueur.letter == 'A'):
 			end = 82
 		else:
 			end = 0
 
-		if(self.find_path(graph, start, end) == None):
+		if(self.find_path(graph, start, end, path) == None):
 			return True
 		else:
+			print(path)
 			return False
 
 
