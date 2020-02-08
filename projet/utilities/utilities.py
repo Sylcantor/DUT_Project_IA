@@ -5,18 +5,19 @@
 import sys
 import os
 import random
+import pickle
 from copy import deepcopy
 
 # les noeuds:
 from agents.node import Node
-from player import Player
+from utilities.player import Player
 
 # asserts:
-from agents.AbstractAgent import AbstractAgent
+from agents.agent import Agent
 from agents.apprentissage_RL.agent import Learner
 
 # plot:
-from plot import plot_winrate
+from utilities.plot import plot_winrate
 
 """
 fonctions utilitaires appelées depuis main.py
@@ -31,9 +32,9 @@ def TurnBased(inital_game, agents):
     """
     for i in agents:
         try:
-            isinstance(i, AbstractAgent)
+            isinstance(i, Agent)
         except AttributeError:
-            print("AttributeError")
+            sys.exit("AttributeError")
 
     game = deepcopy(inital_game)
 
@@ -41,8 +42,7 @@ def TurnBased(inital_game, agents):
     players = game.players
 
     if len(players) > len(agents):
-        print("List index out of range: not enough agents to play")
-        exit(0)
+        sys.exit("List index out of range: not enough agents to play")
     elif len(players) < len(agents):
         print("Too much agents: I will only take the firsts")
 
@@ -140,7 +140,7 @@ def TurnBased_episodes(game, number_games, *agents):
     """
     Permet de faire plusieurs appels de TurnBased, utilisé pour l'entrainement
     On peut mettre plusieurs agents les uns à la suite des autres
-    en argument de cette fonction. On a aussi besoins du jeu 
+    en argument de cette fonction. On a aussi besoins du jeu
     et le nombre de fois qu'on veut faire de jeux.
     """
 
@@ -155,7 +155,7 @@ def TurnBased_episodes(game, number_games, *agents):
             print("Games played: %i" % i)
 
 
-def TurnBased_PrintResults(game, number_games, *agents):
+def TurnBased_results(game, number_games, *agents):
     """
     Comme TurnBased_episodes sauf qu'on veut mettre sous forme de diagramme
     les résultats des parties gagnées grâce à plot_winrate.
@@ -185,47 +185,38 @@ def TurnBased_PrintResults(game, number_games, *agents):
 # ──────────────────────────────────────────────────────────────────────────────── save & load
 
 
-def SaveGL(gl, game):
+def save_learner(game, learner):
     """
-    Save one agent
+    Save one game learner
     """
-    # TODO faire fonctionner
-    while True:
-        print(gl.agent.__class__.__name__, " ",
-              game.__class__.__name__, " number of games: ")
-        response = input("Do you want you want to save this learner ? [y/n]: ")
-        if response == 'y' or response == 'yes':
-            gl.agent.save_agent(
-                './'+gl.agent.__class__.__name__+game.__class__.__name__+'.pkl')
-            break
-        elif response == 'n' or response == 'no':
-            print("OK. Learner not saved.")
-            break
-        else:
-            print("Invalid input. Please choose 'y' or 'n'.")
+    # TODO mettre dans un dossier et numéroter
+    if len(learner.rewards) != 0:
+        while True:
+            print(str(game.__class__.__name__) + "_" +
+                  str(learner.__class__.__name__) + ".pkl" +
+                  " Q matrix's size: " + str(len(learner.rewards)))
+            response = input(
+                "Do you want you want to save this learner ? [y/n]: ")
+            if response == 'y' or response == 'yes':
+                learner.save_agent(
+                    './'+game.__class__.__name__+"_"+learner.__class__.__name__+'.pkl')
+                break
+            elif response == 'n' or response == 'no':
+                print("OK. Learner not saved.")
+                break
+            else:
+                print("Invalid input. Please choose 'y' or 'n'.")
 
 
-def LoadGL(agent_type):
+def load_learner(file_name):
     """
-    Load one agent
+    Load one game learner
     """
-    # TODO faire fonctionner
-    if agent_type == 'q':
-        # QLearner
-        try:
-            f = open('./qlearner_agent_' +
-                     game.__class__.__name__+'.pkl', 'rb')
-        except IOError:
-            print("The agent file does not exist. Quitting.")
-            sys.exit(0)
-    elif agent_type == 's':
-        # SarsaLearner
-        try:
-            f = open('./sarsa_agent_' +
-                     game.__class__.__name__+'.pkl', 'rb')
-        except IOError:
-            print("The agent file does not exist. Quitting.")
-            sys.exit(0)
-    agent = pickle.load(f)
+    try:
+        f = open(file_name, 'rb')
+    except IOError:
+        print("The learner file does not exist. Quitting.")
+        sys.exit(0)
+    learner = pickle.load(f)
     f.close()
-    return agent
+    return learner

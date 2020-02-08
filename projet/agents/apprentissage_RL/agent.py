@@ -5,15 +5,12 @@ import collections
 import numpy as np
 import random
 
-# plot
-import matplotlib.pyplot as plt
-
-from agents.AbstractAgent import AbstractAgent
+from agents.agent import Agent
 # les noeuds:
 from agents.node import Node
 
 
-class Learner(ABC):
+class Learner(ABC, Agent):
     """
     Parent class for Q-learning and SARSA agents.
 
@@ -104,14 +101,6 @@ class Learner(ABC):
         f = open(path, 'wb')
         pickle.dump(self, f)
         f.close()
-
-    def plot_agent_reward(self):
-        """ Function to plot agent's accumulated reward vs. iteration """
-        plt.plot(np.cumsum(self.rewards))
-        plt.title('Agent Cumulative Reward vs. Iteration')
-        plt.ylabel('Reward')
-        plt.xlabel('Episode')
-        plt.show()
 
     @abstractmethod
     def update(self, node, s, s_, a, a_, r):

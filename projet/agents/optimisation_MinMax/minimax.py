@@ -9,12 +9,12 @@ from copy import deepcopy
 """
 @author: Aurelien
 """
-from agents.AbstractAgent import AbstractAgent
+from agents.agent import Agent
 # les noeuds:
 from agents.node import Node
 
 
-class Minimax(AbstractAgent):
+class Minimax(Agent):
     """
     Minimax est un algorithme d'optimisation déterminant le meilleur
     chemin pour atteindre la victoire en construisant un arbre 

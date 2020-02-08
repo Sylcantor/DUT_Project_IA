@@ -5,16 +5,16 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-from jeux.AbstractJeu import AbstractJeu
+from jeux.jeu import Jeu
 
 
-class Nim(AbstractJeu):
-    def __init__(self, size, players=['Player1', 'Player2']):
+class Nim(Jeu):
+    def __init__(self, size):
         """
         Constructeur où on définit le jeu
         """
+        self.players = ['Player1', 'Player2']  # liste des joueurs
         self.allumette = size         # le plateau
-        self.players = players        # liste des joueurs
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 

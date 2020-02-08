@@ -7,13 +7,13 @@ import sys
 import argparse
 
 # fonctions utilitaires: sont toutes dans utilities.py
-from utilities import TurnBased_episodes
-from utilities import TurnBased_PrintResults
-from utilities import SaveGL
+from utilities.utilities import TurnBased_episodes
+from utilities.utilities import TurnBased_results
+from utilities.utilities import save_learner
+from utilities.utilities import load_learner
 
 # plotting: pour créer des graphiques mathplotlib sont toutes dans plot.py
-from plot import manual
-from plot import plot_multiple_agents_reward
+from utilities.plot import plot_learners_reward
 
 # ───────────────────────────────── imports agents
 
@@ -30,8 +30,8 @@ from agents.random import Random
 # ───────────────────────────────── imports jeux
 
 # les jeux à importer:
-from jeux.Jeu_Nim import Nim
-from jeux.Jeu_TicTacToe import TicTacToe
+from jeux.jeu_Nim import Nim
+from jeux.jeu_TicTacToe import TicTacToe
 
 
 # ──────────────────────────────────────────────────────────────────────────────── main
@@ -44,30 +44,28 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="Reinforcement learning options.")
-    parser.add_argument("-s", "--save",
+    parser.add_argument("-t", "--teacher_episodes", default=10000, type=int,
+                        help="employ teacher agent who knows the optimal "
+                        "strategy and will play for TEACHER_EPISODES games")
+    parser.add_argument("-s", "--save", action='store_true',
                         help="whether to save all trained agents")
     parser.add_argument("-l", "--load", nargs="+",
                         help="whether to load one or multiple trained agents"
                         "enter your files *.pkl after -l each separated by"
                         "one space")
-    parser.add_argument("-t", "--teacher_episodes", default=None, type=int,
-                        help="employ teacher agent who knows the optimal "
-                        "strategy and will play for TEACHER_EPISODES games")
-    parser.add_argument("-p", "--plot",
+    parser.add_argument("-p", "--plot", action='store_true',
                         help="whether to plot reward vs. episode of stored agent")
 
     args = parser.parse_args()
 
     if args.plot:
         assert args.load, "Must load an agent to plot reward."
-        assert args.teacher_episodes is None, \
-            "Cannot plot and teach concurrently; must chose one or the other."
 
     # ───────────────────────────────── main
 
     # v changer ci-dessous le jeu (game) souhaité v
-    game = TicTacToe()
     # game = Nim(6)
+    game = TicTacToe()
 
     # algorithmes/agents ou teachers
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:
@@ -75,13 +73,16 @@ if __name__ == "__main__":
     random = Random()
     minimax = Minimax()
 
-    # the game learners : ne pas toucher la partie load
+    # the game learners:
     learners = []  # <-- tous contenus ici
+
+    # ───────────────────────────────── partie load
+    # ne pas toucher la partie load
     if args.load:
         for i in args.load:
-            loaded_agent = LoadGL(i)
+            loaded_agent = load_learner(i)
             if args.plot:  # If plotting, show plot
-                loaded_agent.plot_agent_reward()
+                plot_learners_reward(loaded_agent)
             learners.append(loaded_agent)
 
     # sinon on peut rajouter autant qu'on veut de learners ici:
@@ -94,30 +95,27 @@ if __name__ == "__main__":
 
     # ───────────────────────────────── apprentissage
 
-    if args.teacher_episodes is not None:  # on apprend puis tests à la main
-        TurnBased_episodes(game, args.teacher_episodes, glS, random)
-        glS.plot_agent_reward()
-        TurnBased_PrintResults(game, manual_games, glS, human)
+    if args.teacher_episodes is not None:  # on apprend puis on teste à la main
+        TurnBased_episodes(game, args.teacher_episodes, learners[1], random)
+        # plot_learners_reward peut plot plusieurs learners en même temps
+        plot_learners_reward(learners[1])
+        TurnBased_results(game, manual_games, learners[1], human)
 
-    # ───────────────────────────────── manuel utilisateur
+        # ─────────────────────────────  partie save
 
-    if len(sys.argv) == 1:
-        manuel()
-        TurnBased_PrintResults(game, manual_games, human, random)
-        exit(0)
+        if args.save:
+            for i in learners:
+                save_learner(game, i)
 
-    # ───────────────────────────────── partie save
-
-    if args.save:
-        for i in learners:
-            SaveGL(i)
-
-    # TODO nettoyer le code
-    # TODO nettoyer les \n dans l'affichage
-    # TODO faire plus d'asserts
-    # TODO réparer # plot_multiple_agents_reward(glQ, glS)
-    # TODO faire fonctionner QLearning plot
-    # TODO faire fonctionner MinMax
-    # TODO documenter + manuel
+    # TODO sys.exit("AttributeError")
+    # TODO ranger /jeux
+    # TODO généraliser TurnBased_results
+    # TODO save/load dans un dossier à part
+    # TODO save dans un dossier et numéroter
+    # TODO préparer humain pour plusieures phases
+    # TODO faire plus d'asserts / exceptions
+    # TODO faire fonctionner MinMax + nettoyer
+    # TODO documenter
     # TODO tester jeu nim
-    # TODO faire nouveau jeu
+    # TODO faire nouveau jeu + inventaire + multiplayer + plusieures phases
+    # TODO nettoyer le code

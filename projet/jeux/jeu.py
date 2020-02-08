@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 # Abstract base class which outlines the basic functionality
 
 
-class AbstractJeu:
+class Jeu:
     __metaclass__ = ABCMeta
 
     @abstractmethod

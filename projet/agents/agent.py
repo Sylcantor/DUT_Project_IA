@@ -2,7 +2,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class AbstractAgent:
+class Agent:
     __metaclass__ = ABCMeta
     """
     Classe abstraite représentant un agent jouant à un jeu

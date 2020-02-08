@@ -3,12 +3,12 @@
 @author: Aurélien
 """
 
-from agents.AbstractAgent import AbstractAgent
+from agents.agent import Agent
 # les noeuds:
 from agents.node import Node
 
 
-class Human(AbstractAgent):
+class Human(Agent):
     """
     Agent humain, pour jouer manuellement
     """

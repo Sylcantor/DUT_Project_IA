@@ -1,18 +1,18 @@
 import random
 
-from jeux.AbstractJeu import AbstractJeu
+from jeux.jeu import Jeu
 
-class TicTacToe(AbstractJeu):
+class TicTacToe(Jeu):
     """ The game class. New instance created for each new game. """
     """
     Player1 -> 'X'
     Player2 -> 'O'
     """
 
-    def __init__(self, players=['Player1', 'Player2']):
+    def __init__(self):
+        self.players=['Player1', 'Player2'] # liste des joueurs
         self.board = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
                                       # le plateau
-        self.players = players        # liste des joueurs
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 

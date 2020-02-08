@@ -5,12 +5,12 @@
 import numpy as np
 from random import randrange
 
-from agents.AbstractAgent import AbstractAgent
+from agents.agent import Agent
 # les noeuds:
 from agents.node import Node
 
 
-class Random(AbstractAgent):
+class Random(Agent):
     """
     Agent qui sélectionne aléatoirement
     """
