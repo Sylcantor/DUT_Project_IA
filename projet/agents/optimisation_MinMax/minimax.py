@@ -36,7 +36,7 @@ class Minimax(Agent):
         try:
             isinstance(node, Node)
         except AttributeError:
-            print("AttributeError")
+            raise Exception("AttributeError")
         """
         Méthode principale à appeler, on demande un noeud de l'arbre.
         """

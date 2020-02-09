@@ -107,7 +107,7 @@ if __name__ == "__main__":
             for i in learners:
                 save_learner(game, i)
 
-    # TODO sys.exit("AttributeError")
+    # TODO raise Exception()
     # TODO ranger /jeux
     # TODO généraliser TurnBased_results
     # TODO save/load dans un dossier à part

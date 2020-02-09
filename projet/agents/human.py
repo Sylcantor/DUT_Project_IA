@@ -24,7 +24,7 @@ class Human(Agent):
         try:
             isinstance(node, Node)
         except AttributeError:
-            print("AttributeError")
+            raise Exception("AttributeError")
 
         consigne = "Entrez votre choix : "
 

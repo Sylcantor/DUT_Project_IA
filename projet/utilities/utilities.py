@@ -34,7 +34,7 @@ def TurnBased(inital_game, agents):
         try:
             isinstance(i, Agent)
         except AttributeError:
-            sys.exit("AttributeError")
+            raise Exception("AttributeError")
 
     game = deepcopy(inital_game)
 
@@ -42,7 +42,7 @@ def TurnBased(inital_game, agents):
     players = game.players
 
     if len(players) > len(agents):
-        sys.exit("List index out of range: not enough agents to play")
+        raise Exception("List index out of range: not enough agents to play")
     elif len(players) < len(agents):
         print("Too much agents: I will only take the firsts")
 
@@ -143,6 +143,11 @@ def TurnBased_episodes(game, number_games, *agents):
     en argument de cette fonction. On a aussi besoins du jeu
     et le nombre de fois qu'on veut faire de jeux.
     """
+    for i in agents:
+        try:
+            isinstance(i, Agent)
+        except AttributeError:
+            raise Exception("AttributeError")
 
     for i in range(number_games):
 
@@ -215,8 +220,7 @@ def load_learner(file_name):
     try:
         f = open(file_name, 'rb')
     except IOError:
-        print("The learner file does not exist. Quitting.")
-        sys.exit(0)
+        raise Exception("The learner file does not exist.")
     learner = pickle.load(f)
     f.close()
     return learner

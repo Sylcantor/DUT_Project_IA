@@ -59,7 +59,7 @@ class Learner(ABC, Agent):
         try:
             isinstance(node, Node)
         except AttributeError:
-            print("AttributeError")
+            raise Exception("AttributeError")
 
         game = node.game  # current game
 
@@ -136,7 +136,8 @@ class Qlearner(Learner):
         try:
             isinstance(node, Node)
         except AttributeError:
-            print("AttributeError")
+            raise Exception("AttributeError")
+
         game = node.game  # current game
 
         # Update Q(s,a)

@@ -2,6 +2,7 @@ import random
 
 from jeux.jeu import Jeu
 
+
 class TicTacToe(Jeu):
     """ The game class. New instance created for each new game. """
     """
@@ -10,9 +11,9 @@ class TicTacToe(Jeu):
     """
 
     def __init__(self):
-        self.players=['Player1', 'Player2'] # liste des joueurs
+        self.players = ['Player1', 'Player2']  # liste des joueurs
         self.board = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
-                                      # le plateau
+        # le plateau
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
         return
 
@@ -27,21 +28,21 @@ class TicTacToe(Jeu):
 
             if self.currentplayer == self.players[0]:
                 self.board[row][col] = 'X'
-            else: 
+            else:
                 self.board[row][col] = 'O'
         # print("test : ", self.board)
-                
+
     def valid_moves(self):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
         moves = [
         ]  # tous les coups jouables sous forme de liste de nombres
-        # On numérote les coups où l'on peut jouer           
+        # On numérote les coups où l'on peut jouer
         for i in range(0, len(self.board)):
             for j in range(0, len(self.board)):
-                if (self.check_valid_move((i,j))):
-                    moves.append((i,j))
+                if (self.check_valid_move((i, j))):
+                    moves.append((i, j))
 
         # print("Coups jouables : " + str(moves))
 
@@ -60,7 +61,7 @@ class TicTacToe(Jeu):
                 return True
         else:
             return False
-        
+
     def check_current_state(self):  # utilisé par les agents
         """
         Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
@@ -70,10 +71,10 @@ class TicTacToe(Jeu):
             key = 'X'
         else:
             key = 'O'
-        
-        if self.checkForWin(key):
+
+        if self.check_win(key):
             return True
-        elif self.checkForDraw():
+        elif self.check_draw():
             return True
         return False
 
@@ -88,23 +89,23 @@ class TicTacToe(Jeu):
                 key = 'X'
             else:
                 key = 'O'
-            
-            if self.checkForWin(key):
-                
-                    if key == 'X':
-                        # print("Player wins!")
-                        return self.players[0]
-                    else:
-                        # print("RL agent wins!")
-                        return self.players[1]
-            elif self.checkForDraw():
-                
-                    # print("It's a draw!")
-                    return "Draw"
+
+            if self.check_win(key):
+
+                if key == 'X':
+                    # print("Player wins!")
+                    return self.players[0]
+                else:
+                    # print("RL agent wins!")
+                    return self.players[1]
+            elif self.check_draw():
+
+                # print("It's a draw!")
+                return "Draw"
         else:
             return None
 
-    def checkForWin(self, key):
+    def check_win(self, key):
         """
         Check to see whether the player/agent with token 'key' has won.
         Returns a boolean holding truth value.
@@ -127,7 +128,7 @@ class TicTacToe(Jeu):
                 return True
         return False
 
-    def checkForDraw(self):
+    def check_draw(self):
         """
         Check to see whether the game has ended in a draw. Returns a
         boolean holding truth value.
@@ -143,18 +144,18 @@ class TicTacToe(Jeu):
         """
         Return the game board as string.
         Représente l'état du jeu pour le reinforcement learning.
-        """   
-        string = str('    0   1   2')   
-        string += str('\n\n')      
+        """
+        string = str('    0   1   2')
+        string += str('\n\n')
         for i, row in enumerate(self.board):
             string += str('%i   ' % i)
             for elt in row:
                 string += str('%s   ' % elt)
             string += str('\n\n')
         return string
-    
+
     def print_rules(self):  # utilisé par l'humain
         """
         Return the game rules as string.
-        """ 
+        """
         return str("Player1 -> X\nPlayer2 -> O\n\nSélectionnez une ligne et une colonne de 0 à 2 : \n")
