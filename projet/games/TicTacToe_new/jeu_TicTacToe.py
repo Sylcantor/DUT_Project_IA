@@ -15,7 +15,7 @@ class TicTacToe(Game):
 
         self.phases = []  # création des différentes phases
         # phase n°1: position du pion
-        self.phases.append("Choisissez: row,col")  # on met l'instruction ici
+        self.phases.append("Choisissez: row,col")  # instruction de la phase 1
         self.currentphase = self.phases[0]  # la phase actuelle
         """
         Player1 -> 'X'
