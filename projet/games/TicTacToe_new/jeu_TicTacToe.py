@@ -7,7 +7,7 @@ from games.TicTacToe_new.player_informations import Player_Informations
 class TicTacToe(Game):
     """ The game class. New instance created for each new game. """
 
-    def __init__(self):
+    def __init__(self):  # constructeur
         self.players = ['Player1', 'Player2']  # liste des joueurs en string
         self.board = [['-', '-', '-'], ['-', '-', '-'],
                       ['-', '-', '-']]  # le plateau
@@ -34,16 +34,16 @@ class TicTacToe(Game):
         et donc l'action effectuée en fonction de la phase du jeu
         """
         def phase1(choice, currentplayer_info):
+            """ changement d'état pour la phase 1 """
             if choice in self.valid_moves():
                 row, col = int(choice[0]), int(choice[1])
-                # pose pion
-                self.board[row][col] = currentplayer_info.pawn
+                self.board[row][col] = currentplayer_info.pawn  # pose pion
             # et on lui fait passer à la phase suivante
             currentplayer_info.currentphase = self.phases[0]
 
-        currentplayer_info = None  # avoir le joueur par players_info
-        self.currentplayer = currentplayer
-        for i in self.players_info:
+        currentplayer_info = None  # on récupère le joueur par players_info
+        self.currentplayer = currentplayer  # ce qui permet de récupérer son inventaire
+        for i in self.players_info:  # et aussi lui faire passer à la phase d'après
             if i.player is self.currentplayer:
                 currentplayer_info = i
                 break
@@ -55,8 +55,8 @@ class TicTacToe(Game):
         switch.get(self.currentphase)
 
         """
-        On change de phase. Si tous les joueurs sont à la phase suivante
-        alors la phase du jeu passe à la phase d'après.
+        On change de phase globale. Si tous les joueurs sont à la phase suivante
+        alors la phase globale du jeu passe à la phase d'après.
         """
         dummy_phase = self.players_info[0].currentphase
         for i, element in enumerate(self.players_info):
@@ -74,11 +74,11 @@ class TicTacToe(Game):
         """
         def phase1():
             moves_phase1 = [
-            ]  # tous les coups jouables sous forme de liste de nombres
+            ]  # tous les coups jouables sous forme de liste de tuples pour la phase 1
 
             def check_phase1(choice):
                 """ Vérifie si le coup est valide pour la phase 1 """
-                if type(choice) is list or tuple:
+                if type(choice) is list or tuple:  # si la donnée entrée est un tuple (row, col)
                     row, col = int(choice[0]), int(choice[1])
                     if row not in range(3) or col not in range(3) or not self.board[row][col] == '-':
                         return False
@@ -93,7 +93,7 @@ class TicTacToe(Game):
                     if (check_phase1((i, j))):
                         moves_phase1.append((i, j))
 
-            return moves_phase1
+            return moves_phase1  # et on return la liste
 
         switch = {  # switch case sur self.currentphase
             self.phases[0]: phase1(),
