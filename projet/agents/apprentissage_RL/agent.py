@@ -10,6 +10,10 @@ from agents.agent import Agent
 from agents.node import Node
 
 
+def flatten_list(l):
+    return sum(l, [])
+
+
 class Learner(ABC, Agent):
     """
     Parent class for Q-learning and SARSA agents.
@@ -64,12 +68,10 @@ class Learner(ABC, Agent):
         game = node.game  # current game
 
         # Only consider the allowed actions (empty board spaces)
-        # possible_actions = [a for a in self.actions if s[a[0]*3 + a[1]] == '-']
 
         # L'ensemble des coups possibles pour cette node
         possible_actions = game.valid_moves()
         print("Les actions possibles :\n", possible_actions)
-        # print("state (2)\n", s)
 
         if random.random() < self.eps:
             # Random choose.

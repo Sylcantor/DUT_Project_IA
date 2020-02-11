@@ -1,7 +1,7 @@
 import random
 
-from jeux.jeu import Jeu
-from jeux.complete_example.inventory import Inventory
+from games.jeu import Jeu
+from games.complete_example.inventory import Inventory
 
 
 class enhancedTic(Jeu):
@@ -34,7 +34,7 @@ class enhancedTic(Jeu):
             self.board.append(row)
 
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
-        self.inventories = []         # inventaire de chaque joueurs
+        self.inventories = []         # inventaire de chaque joueur
         for i in self.players:
             self.inventories.append(Inventory(i, self.number_moves))
         return

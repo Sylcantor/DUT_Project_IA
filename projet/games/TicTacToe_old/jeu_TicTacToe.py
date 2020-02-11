@@ -1,9 +1,9 @@
 import random
 
-from jeux.jeu import Jeu
+from games.game import Game
 
 
-class TicTacToe(Jeu):
+class TicTacToe(Game):
     """ The game class. New instance created for each new game. """
     """
     Player1 -> 'X'

@@ -10,7 +10,8 @@ from copy import deepcopy
 
 # les noeuds:
 from agents.node import Node
-from utilities.player import Player
+from utilities.agent_informations import Agent_Informations
+from utilities.agent_victories import Agent_Victories
 
 # asserts:
 from agents.agent import Agent
@@ -46,22 +47,22 @@ def TurnBased(inital_game, agents):
     elif len(players) < len(agents):
         print("Too much agents: I will only take the firsts")
 
-        # liste qui définit chaque joueurs et sauvegarde leurs informations
-        # permet de faire le parallèle entre les players et les agents
-        # PlayerList sera de la taille de players
-    PlayerList = []
+    # liste qui définit chaque joueur et sauvegarde leurs informations
+    # permet de faire le parallèle entre les players et les agents
+    # agents_info sera de la taille de players
+    agents_info = []
     for i, j in zip(players, agents):
-        PlayerList.append(Player(i, j))
+        agents_info.append(Agent_Informations(i, j))
 
     # During teaching, chose who goes first randomly with equal probability
-    playerIndex = random.randrange(len(PlayerList))
+    playerIndex = random.randrange(len(agents_info))
 
     print("#_______#NEW_GAME#_______#\n")
 
     currentnode = Node(game)
 
     # Initialize the learner's state and action
-    for i in PlayerList:
+    for i in agents_info:
         if isinstance(i.agent, Learner):
             i.prev_state = game.print_game()
             i.prev_action = i.agent.choose_move(currentnode, i.prev_state)
@@ -70,18 +71,18 @@ def TurnBased(inital_game, agents):
     while True:
 
         print("\n")
-        print("___", PlayerList[playerIndex].player,
-              PlayerList[playerIndex].agent.__class__.__name__, "___")
+        print("___", agents_info[playerIndex].player,
+              agents_info[playerIndex].agent.__class__.__name__, "___")
 
         # execute oldAction, observe reward and state
-        if isinstance(PlayerList[playerIndex].agent, Learner):
+        if isinstance(agents_info[playerIndex].agent, Learner):
             game.play_move(
-                PlayerList[playerIndex].prev_action, PlayerList[playerIndex].player)
+                agents_info[playerIndex].prev_action, agents_info[playerIndex].player)
         else:
             currentnode = Node(game)
-            choix = PlayerList[playerIndex].agent.choose_move(
+            choix = agents_info[playerIndex].agent.choose_move(
                 currentnode)
-            game.play_move(choix, PlayerList[playerIndex].player)
+            game.play_move(choix, agents_info[playerIndex].player)
 
         print("\n")
 
@@ -97,7 +98,7 @@ def TurnBased(inital_game, agents):
         if playerIndex >= len(players):
             playerIndex = 0
 
-        for i in PlayerList:
+        for i in agents_info:
             if isinstance(i.agent, Learner):
                 # partie mise à jour des learners
                 new_state = game.print_game()
@@ -115,7 +116,7 @@ def TurnBased(inital_game, agents):
                 # append reward
 
     # Game over. Perform final update, game is over. +10 reward if win, -10 if loss, 0 if draw
-    for i in PlayerList:
+    for i in agents_info:
         if isinstance(i.agent, Learner):
             if game.winner() == i.player:
                 i.agent.update(currentnode, i.prev_state, None,
@@ -136,9 +137,9 @@ def TurnBased(inital_game, agents):
     return game.winner()
 
 
-def TurnBased_episodes(game, number_games, *agents):
+def TurnBased_episodes(game, number_games, print_games=False, *agents):
     """
-    Permet de faire plusieurs appels de TurnBased, utilisé pour l'entrainement
+    Permet de faire plusieurs appels de TurnBased, utilisé pour l'entrainement.
     On peut mettre plusieurs agents les uns à la suite des autres
     en argument de cette fonction. On a aussi besoins du jeu
     et le nombre de fois qu'on veut faire de jeux.
@@ -149,43 +150,40 @@ def TurnBased_episodes(game, number_games, *agents):
         except AttributeError:
             raise Exception("AttributeError")
 
+    # liste de string qui représente les joueurs dans le jeu et définit le nombre de joueurs
+    players = game.players
+
+    agents_victories = []
+
+    for i, j in zip(players, agents):
+        agents_victories.append(Agent_Victories(i, j))
+    # agent fictif pour les draw, on créé un objet vide "Draw"
+    agents_victories.append(Agent_Victories("Draw", type("Draw", (), {})()))
+
     for i in range(number_games):
 
-        sys.stdout = open(os.devnull, 'w')  # disable print out
-        TurnBased(game, agents)
-        sys.stdout = sys.__stdout__  # restore print out
+        if print_games is False:
+            sys.stdout = open(os.devnull, 'w')  # disable print out
+        winner = TurnBased(game, agents)
+        if print_games is False:
+            sys.stdout = sys.__stdout__  # restore print out
 
         # Monitor progress
         if i % 1000 == 0:
             print("Games played: %i" % i)
 
+        for i in agents_victories:
+            if winner is i.player:
+                i.victories += 1
 
-def TurnBased_results(game, number_games, *agents):
-    """
-    Comme TurnBased_episodes sauf qu'on veut mettre sous forme de diagramme
-    les résultats des parties gagnées grâce à plot_winrate.
-    Fonction utile pour faire des tests manuels par exemple.
-    """
-    # TODO dissocier les games_won_J1 selon le nombre de joueurs
-    games_won_J1 = 0
-    games_won_J2 = 0
-    draw = 0
+    # à la fin on fait un diagramme pour représenter les victoires de chaque joueur
 
-    # liste de string qui représente les joueurs dans le jeu et définit le nombre de joueurs
-    players = game.players
+    for i in agents_victories:
+        if winner is i.player:
+            i.victories += 1
 
-    for i in range(number_games):  # pour tester manuellement des parties après l'entrainement
-        returned_winner = TurnBased(game, agents)
-
-        if returned_winner == players[0]:
-            games_won_J1 += 1
-        elif returned_winner == players[1]:
-            games_won_J2 += 1
-        else:
-            draw += 1
-
-    plot_winrate([games_won_J1, games_won_J2, draw], [
-                 'learner', 'agent', 'draw'], number_games)
+    plot_winrate([o.victories for o in agents_victories],
+                 [o.agent.__class__.__name__ for o in agents_victories], number_games)
 
 # ──────────────────────────────────────────────────────────────────────────────── save & load
 

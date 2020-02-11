@@ -8,7 +8,6 @@ import argparse
 
 # fonctions utilitaires: sont toutes dans utilities.py
 from utilities.utilities import TurnBased_episodes
-from utilities.utilities import TurnBased_results
 from utilities.utilities import save_learner
 from utilities.utilities import load_learner
 
@@ -30,8 +29,9 @@ from agents.random import Random
 # ───────────────────────────────── imports jeux
 
 # les jeux à importer:
-from jeux.jeu_Nim import Nim
-from jeux.jeu_TicTacToe import TicTacToe
+from games.jeu_Nim import Nim
+from games.TicTacToe_old.jeu_TicTacToe import TicTacToe as TicTacToe_old
+from games.TicTacToe_new.jeu_TicTacToe import TicTacToe as TicTacToe_new
 
 
 # ──────────────────────────────────────────────────────────────────────────────── main
@@ -65,7 +65,8 @@ if __name__ == "__main__":
 
     # v changer ci-dessous le jeu (game) souhaité v
     # game = Nim(6)
-    game = TicTacToe()
+    game = TicTacToe_old()
+    # game = TicTacToe_new()
 
     # algorithmes/agents ou teachers
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:
@@ -96,10 +97,11 @@ if __name__ == "__main__":
     # ───────────────────────────────── apprentissage
 
     if args.teacher_episodes is not None:  # on apprend puis on teste à la main
-        TurnBased_episodes(game, args.teacher_episodes, learners[1], random)
+        TurnBased_episodes(game, args.teacher_episodes,
+                           False, learners[1], random)
         # plot_learners_reward peut plot plusieurs learners en même temps
         plot_learners_reward(learners[1])
-        TurnBased_results(game, manual_games, learners[1], human)
+        TurnBased_episodes(game, manual_games, True, learners[1], human)
 
         # ─────────────────────────────  partie save
 
@@ -108,8 +110,6 @@ if __name__ == "__main__":
                 save_learner(game, i)
 
     # TODO raise Exception()
-    # TODO ranger /jeux
-    # TODO généraliser TurnBased_results
     # TODO save/load dans un dossier à part
     # TODO save dans un dossier et numéroter
     # TODO préparer humain pour plusieures phases

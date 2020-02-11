@@ -1,6 +1,6 @@
 class Inventory:
     """
-    Classe qui permet de caractériser chaque joueurs. Elle lie aussi les joueurs à
+    Classe qui permet de caractériser chaque joueur. Elle lie aussi les joueurs à
     leurs objets durant la partie (son score, son nombre de coups possibles, son pion).
     """
 

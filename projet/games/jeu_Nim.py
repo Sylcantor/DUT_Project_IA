@@ -5,10 +5,10 @@ Created on Thu Nov 21 22:51:50 2019
 @author: Kevin
 """
 
-from jeux.jeu import Jeu
+from games.game import Game
 
 
-class Nim(Jeu):
+class Nim(Game):
     def __init__(self, size):
         """
         Constructeur où on définit le jeu
