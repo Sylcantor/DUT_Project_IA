@@ -65,8 +65,8 @@ if __name__ == "__main__":
 
     # v changer ci-dessous le jeu (game) souhaité v
     # game = Nim(6)
-    game = TicTacToe_old()
-    # game = TicTacToe_new()
+    # game = TicTacToe_old()
+    game = TicTacToe_new()
 
     # algorithmes/agents ou teachers
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:

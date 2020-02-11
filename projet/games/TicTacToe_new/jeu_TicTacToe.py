@@ -8,13 +8,14 @@ class TicTacToe(Game):
     """ The game class. New instance created for each new game. """
 
     def __init__(self):
-        self.players = ['Player1', 'Player2']  # liste des joueurs importante
+        self.players = ['Player1', 'Player2']  # liste des joueurs en string
         self.board = [['-', '-', '-'], ['-', '-', '-'],
                       ['-', '-', '-']]  # le plateau
         self.currentplayer = None  # caractérise le dernier joueur qui a joué
 
         self.phases = []  # création des différentes phases
-        self.phases.append("Choix position")
+        # phase n°1: position du pion
+        self.phases.append("Choisissez: row,col")  # on met l'instruction ici
         self.currentphase = self.phases[0]  # la phase actuelle
         """
         Player1 -> 'X'
@@ -53,9 +54,10 @@ class TicTacToe(Game):
         }
         switch.get(self.currentphase)
 
-        self.change_currentphase()
-
-    def change_currentphase(self):  # teste les phases de chaque joueurs
+        """
+        On change de phase. Si tous les joueurs sont à la phase suivante
+        alors la phase du jeu passe à la phase d'après.
+        """
         dummy_phase = self.players_info[0].currentphase
         for i, element in enumerate(self.players_info):
             if element.currentphase is not dummy_phase:
@@ -65,21 +67,17 @@ class TicTacToe(Game):
 
     def valid_moves(self):  # utilisé par les agents
         """
-        Methode qui donne sous forme de liste tous les coups jouables possibles
-        La liste récupérée représente un tour. Les listes imbriquées sont des
-        sous phases. instructions est la liste des instructions pour chaque
-        sous phases, cette liste est de la même taille que moves.
-        Chaque sous fonction représente les phases dans le jeu et donc
-        donnent chacunes les coups possibles en fonction des phases du jeu.
+        Methode qui donne sous forme de liste tous les coups jouables possibles.
+        La liste récupérée représente un tour.
+        Chaque sous fonction représente les phases dans le jeu et donc donnent 
+        chacunes les coups possibles en fonction des différentes phases du jeu.
         """
         def phase1():
-            moves = [
+            moves_phase1 = [
             ]  # tous les coups jouables sous forme de liste de nombres
-            instructions = [
-            ]  # les instructions pour les sous phases
 
-            def check_sub_phase1(choice):
-                """ Vérifie si le coup est valide """
+            def check_phase1(choice):
+                """ Vérifie si le coup est valide pour la phase 1 """
                 if type(choice) is list or tuple:
                     row, col = int(choice[0]), int(choice[1])
                     if row not in range(3) or col not in range(3) or not self.board[row][col] == '-':
@@ -89,22 +87,19 @@ class TicTacToe(Game):
                 else:
                     return False
 
-            sub_phase1 = []
             # On numérote les coups où l'on peut jouer
             for i in range(0, len(self.board)):
                 for j in range(0, len(self.board)):
-                    if (check_sub_phase1((i, j))):
-                        sub_phase1.append((i, j))
+                    if (check_phase1((i, j))):
+                        moves_phase1.append((i, j))
 
-            moves.append(sub_phase1)
-            instructions.append("Choisissez: row,col")
-            return moves, instructions
+            return moves_phase1
 
         switch = {  # switch case sur self.currentphase
             self.phases[0]: phase1(),
             # une autre phase...
         }
-        moves, self.instructions = switch.get(self.currentphase)
+        moves = switch.get(self.currentphase)
 
         return moves
 
