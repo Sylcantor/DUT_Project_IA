@@ -112,9 +112,7 @@ if __name__ == "__main__":
     # TODO raise Exception()
     # TODO save/load dans un dossier à part
     # TODO save dans un dossier et numéroter
-    # TODO préparer humain pour plusieures phases
     # TODO faire plus d'asserts / exceptions
     # TODO faire fonctionner MinMax + nettoyer
     # TODO documenter
-    # TODO tester jeu nim
     # TODO nettoyer le code
