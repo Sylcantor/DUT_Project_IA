@@ -117,5 +117,4 @@ if __name__ == "__main__":
     # TODO faire fonctionner MinMax + nettoyer
     # TODO documenter
     # TODO tester jeu nim
-    # TODO faire nouveau jeu + inventaire + multiplayer + plusieures phases
     # TODO nettoyer le code

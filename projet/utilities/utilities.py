@@ -64,27 +64,26 @@ def TurnBased(inital_game, agents):
     # Initialize the learner's state and action
     for i in agents_info:
         if isinstance(i.agent, Learner):
+            print("___", i.player, i.agent.__class__.__name__, "___")
             i.prev_state = game.print_game()
             i.prev_action = i.agent.choose_move(currentnode, i.prev_state)
+            print("\n")
 
     # iterate until game is over
-    while True:
+    while True:  # execute oldAction, observe reward and state
 
-        print("\n")
-        print("___", agents_info[playerIndex].player,
-              agents_info[playerIndex].agent.__class__.__name__, "___")
-
-        # execute oldAction, observe reward and state
+        # on joue le coup décidé selon choose_move par play_move
         if isinstance(agents_info[playerIndex].agent, Learner):
             game.play_move(
                 agents_info[playerIndex].prev_action, agents_info[playerIndex].player)
         else:
+            print("___", agents_info[playerIndex].player,
+                  agents_info[playerIndex].agent.__class__.__name__, "___")
             currentnode = Node(game)
             choix = agents_info[playerIndex].agent.choose_move(
                 currentnode)
             game.play_move(choix, agents_info[playerIndex].player)
-
-        print("\n")
+            print("\n")
 
         # game is over. +10 reward if win, -10 if loss, 0 if draw
         if not game.winner() == None:
@@ -100,6 +99,8 @@ def TurnBased(inital_game, agents):
 
         for i in agents_info:
             if isinstance(i.agent, Learner):
+                print("___", i.player,
+                      i.agent.__class__.__name__, "___")
                 # partie mise à jour des learners
                 new_state = game.print_game()
 
@@ -114,6 +115,7 @@ def TurnBased(inital_game, agents):
                 i.prev_state = new_state
                 i.prev_action = new_action
                 # append reward
+                print("\n")
 
     # Game over. Perform final update, game is over. +10 reward if win, -10 if loss, 0 if draw
     for i in agents_info:

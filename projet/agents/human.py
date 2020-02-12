@@ -13,10 +13,6 @@ class Human(Agent):
     Agent humain, pour jouer manuellement
     """
 
-    def __init__(self):
-        self.rules = True     # Booléen pour printer ou non les règles
-        return
-
     def choose_move(self, node):
         """
         Methode pour faire des choix en tant qu'humain
@@ -26,11 +22,8 @@ class Human(Agent):
         except AttributeError:
             raise Exception("AttributeError")
 
-        consigne = "Entrez votre choix : "
-
-        if self.rules:
-            print(node.game.print_rules())
-            self.rules = False
+        consigne = node.game.currentphase
+        consigne += " : "
 
         print(node.game.print_game())
         print("Choix disponibles :")

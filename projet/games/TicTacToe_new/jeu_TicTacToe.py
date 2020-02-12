@@ -15,7 +15,7 @@ class TicTacToe(Game):
 
         self.phases = []  # création des différentes phases
         # phase n°1: position du pion
-        self.phases.append("Choisissez: row,col")  # instruction de la phase 1
+        self.phases.append("Choix position")  # instruction de la phase 1
         self.currentphase = self.phases[0]  # la phase actuelle
         """
         Player1 -> 'X'
@@ -39,7 +39,9 @@ class TicTacToe(Game):
                 row, col = int(choice[0]), int(choice[1])
                 self.board[row][col] = currentplayer_info.pawn  # pose pion
             # et on lui fait passer à la phase suivante
-            currentplayer_info.currentphase = self.phases[0]
+            # phase suivante dynamique selon self.currentphase dans self.phases
+            currentplayer_info.currentphase = self.phases[(
+                self.phases.index(self.currentphase) + 1) % len(self.phases)]
 
         currentplayer_info = None  # on récupère le joueur par players_info
         self.currentplayer = currentplayer  # ce qui permet de récupérer son inventaire

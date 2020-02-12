@@ -20,13 +20,6 @@ class Game:
     """
 
     @abstractmethod
-    def check_current_state(self): pass  # utilisé par les agents
-    """
-    Methode qui vérifie l'état du jeu (victoire/défaite/match nul)
-    On renvoit un booléen qui représente si le jeu est terminé: true sinon false
-    """
-
-    @abstractmethod
     def winner(self): pass  # utilisé par les agents
     """
     Methode pour récupérer le joueur victorieux

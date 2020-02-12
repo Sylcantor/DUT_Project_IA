@@ -15,6 +15,11 @@ class TicTacToe(Game):
         self.board = [['-', '-', '-'], ['-', '-', '-'], ['-', '-', '-']]
         # le plateau
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
+
+        self.phases = []  # création des différentes phases
+        # phase n°1: position du pion
+        self.phases.append("Choix position")  # instruction de la phase 1
+        self.currentphase = self.phases[0]  # la phase actuelle
         return
 
     def play_move(self, choice, currentplayer):  # utilisé par les agents
@@ -32,7 +37,7 @@ class TicTacToe(Game):
                 self.board[row][col] = 'O'
         # print("test : ", self.board)
 
-    def valid_moves(self):  # utilisé par les agents
+    def valid_moves(self, all_moves=False):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -153,9 +158,3 @@ class TicTacToe(Game):
                 string += str('%s   ' % elt)
             string += str('\n\n')
         return string
-
-    def print_rules(self):  # utilisé par l'humain
-        """
-        Return the game rules as string.
-        """
-        return str("Player1 -> X\nPlayer2 -> O\n\nSélectionnez une ligne et une colonne de 0 à 2 : \n")

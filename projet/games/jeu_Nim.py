@@ -16,6 +16,11 @@ class Nim(Game):
         self.players = ['Player1', 'Player2']  # liste des joueurs
         self.allumette = size         # le plateau
         self.currentplayer = None     # caractérise le dernier joueur qui a joué
+
+        self.phases = []  # création des différentes phases
+        # phase n°1: position du pion
+        self.phases.append("Tirage allumettes")  # instruction de la phase 1
+        self.currentphase = self.phases[0]  # la phase actuelle
         return
 
     def play_move(self, choice, currentplayer):  # utilisé par les agents
@@ -27,7 +32,7 @@ class Nim(Game):
                                                 # si on choisit un move parmis les valid_moves()
             self.allumette -= choice            # si ok on change l'état du jeu
 
-    def valid_moves(self):  # utilisé par les agents
+    def valid_moves(self, all_moves=False):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """
@@ -96,9 +101,3 @@ class Nim(Game):
         Représente l'état du jeu pour le reinforcement learning.
         """
         return str("Allumettes restantes : " + str(self.allumette))
-
-    def print_rules(self):  # utilisé par l'humain
-        """
-        Return the game rules as string.
-        """
-        return str("\nJeu de Nim:\nÀ tour de rôle saisissez au maximum 3 allumettes. Le gagnant\nest celui qui parviendra ne pas tirer la dernière allumette.\n")
