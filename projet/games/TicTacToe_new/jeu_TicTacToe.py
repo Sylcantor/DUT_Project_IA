@@ -65,7 +65,7 @@ class TicTacToe(Game):
             if i is len(self.players_info):  # dernier element
                 self.currentphase = self.players_info[0]
 
-    def valid_moves(self):  # utilisé par les agents
+    def valid_moves(self, all_moves=False):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles.
         La liste récupérée représente un tour.
@@ -77,7 +77,7 @@ class TicTacToe(Game):
             ]  # tous les coups jouables sous forme de liste de tuples pour la phase 1
 
             def check_phase1(choice):
-                """ Vérifie si le coup est valide pour la phase 1 """
+                """ Vérifie si le coup est valide selon le plateau pour la phase 1 """
                 if type(choice) is list or tuple:  # si la donnée entrée est un tuple (row, col)
                     row, col = int(choice[0]), int(choice[1])
                     if row not in range(3) or col not in range(3) or not self.board[row][col] == '-':
@@ -87,10 +87,10 @@ class TicTacToe(Game):
                 else:
                     return False
 
-            # On numérote les coups où l'on peut jouer
+            # On numérote n'importe quel coup
             for i in range(0, len(self.board)):
                 for j in range(0, len(self.board)):
-                    if (check_phase1((i, j))):
+                    if check_phase1((i, j)):  # on vérifie selon le plateau du jeu
                         moves_phase1.append((i, j))
 
             return moves_phase1  # et on return la liste
@@ -99,8 +99,11 @@ class TicTacToe(Game):
             self.phases[0]: phase1(),
             # une autre phase...
         }
-        moves = switch.get(self.currentphase)
 
+        if not all_moves:  # les moves pour la phase globale actuelle du jeu
+            moves = switch.get(self.currentphase)
+        else:  # tous moves possibles du jeu, sert à initialiser la matrice Q
+            moves = sum(switch.values(), [])  # on applatit la liste
         return moves
 
     def winner(self):  # utilisé par les agents

@@ -41,9 +41,3 @@ class Game:
     Return the game board as string.
     Représente l'état du jeu pour le reinforcement learning.
     """
-
-    @abstractmethod
-    def print_rules(self): pass  # utilisé par l'humain
-    """
-    Return the game rules as string.
-    """

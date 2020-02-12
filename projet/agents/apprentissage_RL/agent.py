@@ -10,10 +10,6 @@ from agents.agent import Agent
 from agents.node import Node
 
 
-def flatten_list(l):
-    return sum(l, [])
-
-
 class Learner(ABC, Agent):
     """
     Parent class for Q-learning and SARSA agents.
