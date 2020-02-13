@@ -38,10 +38,6 @@ class TicTacToe(Game):
             if choice in self.valid_moves():
                 row, col = int(choice[0]), int(choice[1])
                 self.board[row][col] = currentplayer_info.pawn  # pose pion
-            # et on lui fait passer à la phase suivante
-            # phase suivante dynamique selon self.currentphase dans self.phases
-            currentplayer_info.currentphase = self.phases[(
-                self.phases.index(self.currentphase) + 1) % len(self.phases)]
 
         currentplayer_info = None  # on récupère le joueur par players_info
         self.currentplayer = currentplayer  # ce qui permet de récupérer son inventaire
@@ -55,6 +51,10 @@ class TicTacToe(Game):
             # une autre phase...
         }
         switch.get(self.currentphase)
+        # et on fait passer le joueur à la phase suivante
+        # phase suivante dynamique selon self.currentphase dans self.phases
+        currentplayer_info.currentphase = self.phases[(
+            self.phases.index(self.currentphase) + 1) % len(self.phases)]
 
         """
         On change de phase globale. Si tous les joueurs sont à la phase suivante
