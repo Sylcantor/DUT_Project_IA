@@ -98,10 +98,10 @@ if __name__ == "__main__":
 
     if args.teacher_episodes is not None:  # on apprend puis on teste à la main
         TurnBased_episodes(game, args.teacher_episodes,
-                           False, learners[1], random)
+                           False, learners[0], random)
         # plot_learners_reward peut plot plusieurs learners en même temps
-        plot_learners_reward(learners[1])
-        TurnBased_episodes(game, manual_games, True, learners[1], human)
+        plot_learners_reward(learners[0])
+        TurnBased_episodes(game, manual_games, True, learners[0], human)
 
         # ─────────────────────────────  partie save
 
