@@ -56,6 +56,7 @@ class Minimax(Agent):
         infinity = float('inf')
         # on part de - l'infini pour trouver quelque chose de meilleur à chaque fois
         max_value = -infinity
+        min_value = +infinity
 
         for state in successors_states:  # start of MinMax here
             """
@@ -64,9 +65,14 @@ class Minimax(Agent):
             On fait remonter les valeurs avec isTerminal(), getUtility(). Les noeuds ne return pas de valeur.
             Le programme fonctionne de façon naturelle : voir Plminmax.gif, MinMax.png.
             """
-            max_value = max(max_value, self.min_value(state))
-            print("  MAX: max_value: " + str(max_value))
-            state.value = max_value  # ---> propagate values up tree
+            if node.player == self.players[1]:  # if second then it's max min
+                max_value = max(max_value, self.min_value(state))
+                print("  MAX: max_value: " + str(max_value))
+                state.value = max_value  # ---> propagate values up tree
+            else:  # otherwise it's min max
+                min_value = min(min_value, self.max_value(state))
+                print("  MIN: min_value: " + str(min_value))
+                state.value = min_value  # ---> propagate values up tree
 
         # second, find the node which HAS that max value
         #  --> means we need to propagate the values back up the
@@ -82,9 +88,14 @@ class Minimax(Agent):
             """
             print("successors at n + 1 from the actual game : " + str(state))
 
-            if state.value == max_value:
-                best_move = state
-                break
+            if node.player == self.players[1]:
+                if state.value == max_value:
+                    best_move = state
+                    break
+            else:
+                if state.value == min_value:
+                    best_move = state
+                    break
 
         # return that best value that we've found
         print("\n == > MiniMax: Coup décidé : " + str(best_move) + "\n")
@@ -202,8 +213,8 @@ class Minimax(Agent):
         si c'est une feuille
         """
         assert node is not None
-        done = node.game.check_current_state()
-        return done == True
+        done = node.game.winner()
+        return done != None
 
     def getUtility(self, node):
         """
@@ -227,15 +238,14 @@ class Minimax(Agent):
         """
 
         # Si c'est des feuilles: on return la valeur de victoires ou défaite
-        done = game.check_current_state()
         winner = game.winner()
 
         # Si le jeu est fini et que l'IA a gagné.
-        if done == True and winner == self.players[1]:  # IA O
+        if winner == self.players[1]:  # IA O
             return self.win_value
         # Si le jeu est fini et que l'IA a perdu.
-        elif done == True and winner == self.players[0]:  # Humain X
+        elif winner == self.players[0]:  # Humain X
             return self.loss_value
         # Si le jeu est fini et que personne n'a gagné.
-        elif done == True and winner == 'Draw':
+        elif winner == 'Draw':
             return 0

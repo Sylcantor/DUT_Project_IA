@@ -64,9 +64,9 @@ if __name__ == "__main__":
     # ───────────────────────────────── main
 
     # v changer ci-dessous le jeu (game) souhaité v
-    # game = Nim(6)
+    game = Nim(6)
     # game = TicTacToe_old()
-    game = TicTacToe_new()
+    # game = TicTacToe_new()
 
     # algorithmes/agents ou teachers
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:
@@ -98,10 +98,10 @@ if __name__ == "__main__":
 
     if args.teacher_episodes is not None:  # on apprend puis on teste à la main
         TurnBased_episodes(game, args.teacher_episodes,
-                           False, learners[0], random)
-        # plot_learners_reward peut plot plusieurs learners en même temps
+                           False, learners[1], random)
         plot_learners_reward(learners[0])
-        TurnBased_episodes(game, manual_games, True, learners[0], human)
+        TurnBased_episodes(game, manual_games, True, learners[1], human)
+        # TurnBased_episodes(game, manual_games, True, minimax, human) # <-- minimax
 
         # ─────────────────────────────  partie save
 
@@ -113,6 +113,5 @@ if __name__ == "__main__":
     # TODO save/load dans un dossier à part
     # TODO save dans un dossier et numéroter
     # TODO faire plus d'asserts / exceptions
-    # TODO faire fonctionner MinMax + nettoyer
     # TODO documenter
     # TODO nettoyer le code

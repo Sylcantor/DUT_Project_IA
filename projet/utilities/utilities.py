@@ -79,7 +79,7 @@ def TurnBased(inital_game, agents):
         else:
             print("___", agents_info[playerIndex].player,
                   agents_info[playerIndex].agent.__class__.__name__, "___")
-            currentnode = Node(game)
+            currentnode = Node(game, agents_info[playerIndex].player)
             choix = agents_info[playerIndex].agent.choose_move(
                 currentnode)
             game.play_move(choix, agents_info[playerIndex].player)
