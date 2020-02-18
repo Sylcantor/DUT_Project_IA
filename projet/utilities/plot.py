@@ -28,7 +28,7 @@ def plot_winrate(results, names, number_games):
     plt.show()
 
 
-def plot_learners_reward(*leaners):
+def plot_learners_reward(leaners):
     """
     Comparer un ou plusieurs learners avec des courbes.
     """

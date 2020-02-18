@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="Reinforcement learning options.")
-    parser.add_argument("-t", "--teacher_episodes", default=10000, type=int,
+    parser.add_argument("-t", "--teacher_episodes", default=10000, type=int,  # par défaut on fait 10000 parties
                         help="employ teacher agent who knows the optimal "
                         "strategy and will play for TEACHER_EPISODES games")
     parser.add_argument("-s", "--save", action='store_true',
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     if args.teacher_episodes is not None:  # on apprend puis on teste à la main
         TurnBased_episodes(game, args.teacher_episodes,
                            False, learners[1], random)
-        plot_learners_reward(learners[0], learners[1])
+        plot_learners_reward(learners)
         TurnBased_episodes(game, manual_games, True, learners[1], human)
         # TurnBased_episodes(game, manual_games, True, minimax, human) # <-- minimax
 
@@ -109,8 +109,6 @@ if __name__ == "__main__":
                 save_learner(game, i)
 
     # TODO raise Exception()
-    # TODO save/load dans un dossier à part
-    # TODO save dans un dossier et numéroter
     # TODO faire plus d'asserts / exceptions
     # TODO documenter
     # TODO nettoyer le code

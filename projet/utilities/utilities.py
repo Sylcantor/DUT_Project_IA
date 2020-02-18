@@ -2,8 +2,9 @@
 """
 @author: Aurélien
 """
-import sys
 import os
+import sys
+import glob  # globing
 import random
 import pickle
 from copy import deepcopy
@@ -194,23 +195,24 @@ def save_learner(game, learner):
     """
     Save one game learner
     """
-    # TODO mettre dans un dossier et numéroter
     if len(learner.rewards) != 0:
         while True:
-            print(str(game.__class__.__name__) + "_" +
-                  str(learner.__class__.__name__) + ".pkl" +
+            print(str(game.__class__.__name__) + " " +
+                  str(learner.__class__.__name__) +
                   " Q matrix's size: " + str(len(learner.rewards)))
             response = input(
-                "Do you want you want to save this learner ? [y/n]: ")
-            if response == 'y' or response == 'yes':
-                learner.save_agent(
-                    './'+game.__class__.__name__+"_"+learner.__class__.__name__+'.pkl')
-                break
-            elif response == 'n' or response == 'no':
+                "Enter the file's name you want for it or enter \"no\" if you don't want to save it: ")
+            if response == 'n' or response == 'no':
                 print("OK. Learner not saved.")
                 break
+            if not glob.glob("./"+response+"*"):
+                learner.save_agent('./'+response+'.pkl')
+                break
             else:
-                print("Invalid input. Please choose 'y' or 'n'.")
+                print(
+                    "Sorry but a file or a directory has already the same name, please enter another name.")
+            print("")
+        print("")
 
 
 def load_learner(file_name):
