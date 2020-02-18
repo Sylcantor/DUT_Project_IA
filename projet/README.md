@@ -61,4 +61,4 @@ python ./projet -l myfilename.pkl
 ```
 
 ## Manuel du __main__.py
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/main.png)
+![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/main.jpg)
