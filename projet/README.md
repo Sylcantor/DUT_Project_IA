@@ -45,16 +45,16 @@ ou dans le dosseir courant
 ```bash
 python ./__main__.py -h
 ```
-- Exemples:
+__Exemples:__
   - Faire un entrainement de 20000 parties
-    ```bash
-    python ./projet -t 20000
-    ```
+```bash
+python ./projet -t 20000
+```
   - Faire un entrainement de 20000 parties et sauvegarder dans un fichier
-    ```bash
-    python ./projet -t 20000 -s
-    ```
+```bash
+python ./projet -t 20000 -s
+```
   - Charger le fichier qui a été sauvegardé
-    ```bash
-    python ./projet -l myfilename.pkl
-    ```
+```bash
+python ./projet -l myfilename.pkl
+```
