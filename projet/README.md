@@ -46,15 +46,15 @@ ou dans le dosseir courant
 python ./__main__.py -h
 ```
 __Exemples:__
-  - Faire un entrainement de 20000 parties
+Faire un entrainement de 20000 parties:
 ```bash
 python ./projet -t 20000
 ```
-  - Faire un entrainement de 20000 parties et sauvegarder dans un fichier
+Faire un entrainement de 20000 parties et sauvegarder dans un fichier:
 ```bash
 python ./projet -t 20000 -s
 ```
-  - Charger le fichier qui a été sauvegardé
+Charger le fichier qui a été sauvegardé:
 ```bash
 python ./projet -l myfilename.pkl
 ```
