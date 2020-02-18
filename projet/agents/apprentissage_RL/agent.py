@@ -123,9 +123,9 @@ class Qlearner(Learner):
             previous state
         s_ : string
             new state
-        a : (i,j) tuple
+        a : tuple
             previous action
-        a_ : (i,j) tuple
+        a_ : tuple
             new action. NOT used by Q-learner!
         r : int
             reward received after executing action "a" in state "s"
@@ -177,9 +177,9 @@ class SARSAlearner(Learner):
             previous state
         s_ : string
             new state
-        a : (i,j) tuple
+        a : tuple
             previous action
-        a_ : (i,j) tuple
+        a_ : tuple
             new action
         r : int
             reward received after executing action "a" in state "s"
