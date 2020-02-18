@@ -4,6 +4,7 @@
   - [Utilisation normale](#utilisation-normale)
   - [Résumé du projet](#r%c3%a9sum%c3%a9-du-projet)
   - [Arguments supplémentaires](#arguments-suppl%c3%a9mentaires)
+  - [Manuel du __main__.py](#manuel-du-mainpy)
 
 ## Installation
 Mode d'emploi installation, testé sur les machines de l'IUT (Arch Linux):
@@ -58,3 +59,6 @@ Charger le fichier qui a été sauvegardé:
 ```bash
 python ./projet -l myfilename.pkl
 ```
+
+## Manuel du __main__.py
+![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/main.png)
