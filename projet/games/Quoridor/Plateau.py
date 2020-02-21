@@ -4,6 +4,8 @@ from games.game import Game
 from games.Quoridor.Joueur import *
 from math import *
 
+from games.Quoridor.Joueur import Joueur
+
 
 class Plateau(Game):
     """Classe Plateau
@@ -293,7 +295,6 @@ class Plateau(Game):
 
 ######################### Méthodes utilisées par les agents #########################
 
-
     def play_move(self, choix, currentplayer):
         """Méthode play_move
 
@@ -357,7 +358,7 @@ class Plateau(Game):
                 self.currentPhase = self.players_info[0].phaseActuelle
                 self.numeroPhase += 1
 
-    def valid_moves(self, joueur=None):
+    def valid_moves(self, joueur, all_moves=False):
         """Méthode valid_moves
 
         Retourne la liste de tous les coups possibles.
@@ -427,7 +428,7 @@ class Plateau(Game):
         }
 
         # Les coups pour la phase globale actuelle du jeu
-        if joueur is not None:
+        if all_moves is not True:
             moves = switch.get(self.currentPhase)
 
         # Tous les coups possibles du jeu (sert à initialiser la matrice Q)

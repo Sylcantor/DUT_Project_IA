@@ -88,9 +88,9 @@ if __name__ == "__main__":
             learners.append(loaded_agent)
 
     # sinon on peut rajouter autant qu'on veut de learners ici:
-    glQ = Qlearner(game.valid_moves())
+    glQ = Qlearner(game.valid_moves(game.players[0], True))
     learners.append(glQ)
-    glS = SARSAlearner(game.valid_moves())
+    glS = SARSAlearner(game.valid_moves(game.players[0], True))
     learners.append(glS)
 
     manual_games = 3  # nombre de jeux tests à la main après l'entrainement
