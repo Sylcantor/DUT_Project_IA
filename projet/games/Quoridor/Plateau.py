@@ -328,15 +328,14 @@ class Plateau(Game):
 
         # On fait un switch case sur self.currentPhase
         switch = {
-            self.phases[0]: phase_deplacement(choix, currentplayer_info),
-
             # La phase de pose de murs est uniquement réalisée :
             # lors des phases divisibles par 4
             # et durant les 40 premières phases
-            self.phases[1] and self.numeroPhase % 4 == 0 and self.numeroPhase < 41: phase_pose_murs(choix, currentplayer_info)
+            self.numeroPhase % 4 == 0 and self.numeroPhase < 41: phase_pose_murs(choix, currentplayer_info)
         }
 
-        switch.get(self.currentPhase)
+        # Deuxième argument du get : équivalent du default
+        switch.get(self.currentPhase, phase_deplacement(choix, currentplayer_info))
 
         # On fait passer le joueur à la phase suivante
         # Phase suivante dynamique selon self.currentPhase dans self.phases
