@@ -45,7 +45,8 @@ class Plateau(Game):
         self.j2 = Joueur(self.players[1], 'B', 0, self.currentPhase, self.ligne-2, 8)
 
         self.players_info = []
-        self.players_info.append(self.j1, self.j2)
+        self.players_info.append(self.j1)
+        self.players_info.append(self.j2)
 
         # Initialisation du plateau
         self.initTabDeJeu()
