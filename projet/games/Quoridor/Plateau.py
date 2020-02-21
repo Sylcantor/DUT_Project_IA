@@ -386,7 +386,7 @@ class Plateau(Game):
                 """
 
                 if(choix in direction):
-                    return joueur.check_moves(choix)
+                    return (joueur.check_moves(choix, self))
                 else:
                     return False
 
@@ -418,7 +418,7 @@ class Plateau(Game):
                 """
 
                 if(choix in idMurs):
-                    return joueur.check_laying_walls(murs, choix, self)
+                    return (joueur.check_laying_walls(murs, choix, self))
                 else:
                     return False
             
