@@ -24,6 +24,7 @@ class Random(Agent):
         except AttributeError:
             raise Exception("AttributeError")
 
-        random_index = randrange(len(node.game.valid_moves()))
-        print("Coup décidé : " + str(node.game.valid_moves()[random_index]))
-        return node.game.valid_moves()[random_index]
+        random_index = randrange(len(node.game.valid_moves(node.player)))
+        print("Coup décidé : " +
+              str(node.game.valid_moves(node.player)[random_index]))
+        return node.game.valid_moves(node.player)[random_index]

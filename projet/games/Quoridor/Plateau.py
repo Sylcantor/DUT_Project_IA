@@ -42,7 +42,7 @@ class Plateau(Game):
 
         # Ajout des informations concernant les joueurs
         self.players = ['Joueur 1', 'Joueur 2']
-        self.currentPlayer = None
+        self.currentplayer = None
 
         self.j1 = Joueur(self.players[0], 'A',
                          self.ligne-1, self.currentPhase, 1, 8)
@@ -304,36 +304,36 @@ class Plateau(Game):
         """
 
         def phase_deplacement(choix, currentplayer_info):
-            if(choix in self.valid_moves(currentplayer_info)):
+            if(choix in self.valid_moves(currentplayer)):
                 # Déplacement du pion du joueur courant
                 currentplayer_info.seDeplacer(choix, self)
 
         def phase_pose_murs(choix, currentplayer_info):
-            if(choix in self.valid_moves(currentplayer_info)):
+            if(choix in self.valid_moves(currentplayer)):
                 murs = self.numMurs()
                 # Pose d'un mur par le joueur courant
                 currentplayer_info.poserMur(murs, choix, self)
 
         # Mise à jour du nom du joueur courant
-        self.currentPlayer = currentplayer
+        self.currentplayer = currentplayer
 
         # Initialisation du joueur courant
         currentplayer_info = None
 
         # On récupère le joueur grâce à self.players_info
         for i in self.players_info:
-            if(i.nom is self.currentPlayer):
+            if(i.nom is self.currentplayer):
                 currentplayer_info = i
                 break
 
         # On fait un switch case sur self.currentPhase
         switch = {
-            self.phase[0]: phase_deplacement(choix, currentplayer_info),
+            self.phases[0]: phase_deplacement(choix, currentplayer_info),
 
             # La phase de pose de murs est uniquement réalisée :
             # lors des phases divisibles par 4
             # et durant les 40 premières phases
-            self.phase[1] and self.numeroPhase % 4 == 0 and self.numeroPhase < 41: phase_pose_murs(choix, currentplayer_info)
+            self.phases[1] and self.numeroPhase % 4 == 0 and self.numeroPhase < 41: phase_pose_murs(choix, currentplayer_info)
         }
 
         switch.get(self.currentPhase)
@@ -358,7 +358,7 @@ class Plateau(Game):
                 self.currentPhase = self.players_info[0].phaseActuelle
                 self.numeroPhase += 1
 
-    def valid_moves(self, joueur, all_moves=False):
+    def valid_moves(self, currentplayer, all_moves=False):
         """Méthode valid_moves
 
         Retourne la liste de tous les coups possibles.
@@ -380,7 +380,7 @@ class Plateau(Game):
                 """
 
                 if(choix in direction):
-                    return (joueur.check_moves(choix, self))
+                    return (currentplayer_info.check_moves(choix, self))
                 else:
                     return False
 
@@ -411,15 +411,24 @@ class Plateau(Game):
                 """
 
                 if(choix in idMurs):
-                    return (joueur.check_laying_walls(murs, choix, self))
+                    return (currentplayer_info.check_laying_walls(murs, choix, self))
                 else:
                     return False
 
             for i in idMurs:
-                if(joueur.check_laying_walls(murs, i, self)):
+                if(currentplayer_info.check_laying_walls(murs, i, self)):
                     liste_coups.append(i)
 
             return liste_coups
+
+        # Initialisation du joueur courant
+        currentplayer_info = None
+
+        # On récupère le joueur grâce à self.players_info
+        for i in self.players_info:
+            if(i.nom is currentplayer):
+                currentplayer_info = i
+                break
 
         # On fait un switch case sur self.currentPhase
         switch = {

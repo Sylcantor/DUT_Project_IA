@@ -66,7 +66,7 @@ class Learner(ABC, Agent):
         # Only consider the allowed actions (empty board spaces)
 
         # L'ensemble des coups possibles pour cette node
-        possible_actions = game.valid_moves()
+        possible_actions = game.valid_moves(node.player)
         print("Les actions possibles :\n", possible_actions)
 
         if random.random() < self.eps:

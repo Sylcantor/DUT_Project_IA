@@ -60,13 +60,12 @@ def TurnBased(inital_game, agents):
 
     print("#_______#NEW_GAME#_______#\n")
 
-    currentnode = Node(game)
-
     # Initialize the learner's state and action
     for i in agents_info:
         if isinstance(i.agent, Learner):
             print("___", i.player, i.agent.__class__.__name__, "___")
             i.prev_state = game.print_game()
+            currentnode = Node(game, i.player)
             i.prev_action = i.agent.choose_move(currentnode, i.prev_state)
             print("\n")
 

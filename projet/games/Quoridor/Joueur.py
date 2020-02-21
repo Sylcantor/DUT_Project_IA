@@ -38,13 +38,6 @@ class Joueur():
         self.posX = x
         self.nbMurs = 10
 
-    def __repr__(self):
-        """
-        Lorsqu'on récupère l'objet, on récupère toutes ces informations.
-        """
-
-        return str(object.__repr__(self), self.nom, self.pion, self.arrivee, self.phaseActuelle, self.posY, self.posX, self.nbMurs)[1:-1]
-
     def seDeplacer(self, choix, plateau):
         """Méthode seDeplacer
 
