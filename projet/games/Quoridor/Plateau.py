@@ -357,7 +357,7 @@ class Plateau(Game):
                 self.currentPhase = self.players_info[0].phaseActuelle
                 self.numeroPhase += 1
 
-    def valid_moves(self, joueur=None, all_moves=False):
+    def valid_moves(self, joueur=None):
         """Méthode valid_moves
 
         Retourne la liste de tous les coups possibles.
@@ -427,7 +427,7 @@ class Plateau(Game):
         }
 
         # Les coups pour la phase globale actuelle du jeu
-        if(not all_moves):
+        if joueur is not None:
             moves = switch.get(self.currentPhase)
 
         # Tous les coups possibles du jeu (sert à initialiser la matrice Q)
