@@ -64,8 +64,8 @@ class TicTacToe(Game):
         for i, element in enumerate(self.players_info):
             if element.currentphase is not dummy_phase:
                 break  # alors quelqu'un n'a pas encore terminé
-            if i is len(self.players_info):  # dernier element
-                self.currentphase = self.players_info[0]
+            if i is len(self.players_info)-1:  # dernier element
+                self.currentphase = self.players_info[0].currentphase
 
     def valid_moves(self, all_moves=False):  # utilisé par les agents
         """
