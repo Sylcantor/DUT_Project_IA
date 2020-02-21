@@ -31,6 +31,7 @@ from agents.random import Random
 from games.jeu_Nim import Nim
 from games.TicTacToe_old.jeu_TicTacToe import TicTacToe as TicTacToe_old
 from games.TicTacToe_new.jeu_TicTacToe import TicTacToe as TicTacToe_new
+from games.Quoridor.Plateau import Plateau as Quoridor
 
 
 # ──────────────────────────────────────────────────────────────────────────────── main
@@ -65,7 +66,8 @@ if __name__ == "__main__":
     # v changer ci-dessous le jeu (game) souhaité v
     # game = Nim(6)
     # game = TicTacToe_old()
-    game = TicTacToe_new()
+    # game = TicTacToe_new()
+    game = Quoridor()
 
     # algorithmes/agents ou teachers
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:
@@ -86,9 +88,9 @@ if __name__ == "__main__":
             learners.append(loaded_agent)
 
     # sinon on peut rajouter autant qu'on veut de learners ici:
-    glQ = Qlearner(game.valid_moves(True))
+    glQ = Qlearner(game.valid_moves())
     learners.append(glQ)
-    glS = SARSAlearner(game.valid_moves(True))
+    glS = SARSAlearner(game.valid_moves())
     learners.append(glS)
 
     manual_games = 3  # nombre de jeux tests à la main après l'entrainement
