@@ -328,13 +328,10 @@ class Plateau(Game):
                 currentplayer_info = i
                 break
 
-        # On fait un switch case sur self.currentPhase
-        switch = {
-            self.phases[0]: phase_deplacement(choix, currentplayer_info),
-            self.phases[1]: phase_pose_murs(choix, currentplayer_info)
-        }
-
-        switch.get(self.currentPhase)
+        if self.currentPhase is self.phases[0]:
+            phase_deplacement(choix, currentplayer_info)
+        elif self.currentPhase is self.phases[1]:
+            phase_pose_murs(choix, currentplayer_info)
 
         # On fait passer le joueur à la phase suivante
         # Phase suivante dynamique selon self.currentPhase dans self.phases
@@ -374,14 +371,14 @@ class Plateau(Game):
             liste_coups = []
             direction = ["haut", "bas", "gauche", "droite"]
 
-            def check_deplacement(choixpos):
+            def check_deplacement(choix):
                 """Méthode check_deplacement
 
                 Vérifie que le joueur puisse se déplacer sur son choix à partir de sa position actuelle.
                 """
 
-                if(choixpos in direction):
-                    return (currentplayer_info.check_moves(choixpos, self))
+                if(choix in direction):
+                    return (currentplayer_info.check_moves(choix, self))
                 else:
                     return False
 
@@ -405,14 +402,14 @@ class Plateau(Game):
             for i in range(len(murs)):
                 idMurs.append(murs[i]['numéro'])
 
-            def check_pose_murs(choixmur):
+            def check_pose_murs(choix):
                 """Méthode check_pose_murs
 
                 Vérifie que le joueur puisse poser un mur sur la case de son choix.
                 """
 
-                if(choixmur in idMurs):
-                    return (currentplayer_info.check_laying_walls(murs, choixmur, self))
+                if(choix in idMurs):
+                    return (currentplayer_info.check_laying_walls(murs, choix, self))
                 else:
                     return False
 
