@@ -253,7 +253,8 @@ class Joueur():
             # si on est à la dernière ligne impossible d'aller en bas
             elif self.posY == plateau.ligne-1:
                 return False
-            else:
+            elif self.posY <= plateau.ligne-4:
+                # print(len(plateau.tabDeJeu))
                 if((plateau.tabDeJeu[self.posY+1][self.posX] != 1
                     and plateau.tabDeJeu[self.posY+2][self.posX] == 0)
                    or (plateau.tabDeJeu[self.posY+1][self.posX] != 1
