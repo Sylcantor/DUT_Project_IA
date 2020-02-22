@@ -30,19 +30,19 @@ class Human(Agent):
         # ───────────────────────────────────────────────────────────────── coups jouables
         i = 0
         j = 0
-        while i < len(node.game.valid_moves()):
-            print(i, ":", node.game.valid_moves()[i], end="")
+        while i < len(node.game.valid_moves(node.player)):
+            print(i, ":", node.game.valid_moves(node.player)[i], end="")
             i += 1
             j += 1
             if j == 4:
                 print("")
                 j = 0
-            elif i != len(node.game.valid_moves()):
+            elif i != len(node.game.valid_moves(node.player)):
                 print(" | ", end="")
         print("")
         # ─────────────────────────────────────────────────────────────────
         print("[Aide] Choisissez selon l'index : de",
-              0, "à", len(node.game.valid_moves())-1,)
+              0, "à", len(node.game.valid_moves(node.player))-1,)
 
         choix = input(consigne)
 
@@ -50,8 +50,8 @@ class Human(Agent):
 
             if choix.isdigit():
                 choix = int(choix)
-                if 0 <= choix < len(node.game.valid_moves()):
-                    return node.game.valid_moves()[choix]
+                if 0 <= choix < len(node.game.valid_moves(node.player)):
+                    return node.game.valid_moves(node.player)[choix]
                 else:
                     choix = input(consigne)
             else:

@@ -33,12 +33,12 @@ class Plateau(Game):
 
         # Ajout des phases de jeu
         self.phases = []
-        self.phases.append("Déplacez vous : ")
-        self.phases.append("Indiquez numéro position du mur à poser : ")
-        self.currentPhase = self.phases[0]
+        self.phases.append("Déplacez vous")
+        self.phases.append("Indiquez numéro position du mur à poser")
+        self.currentphase = self.phases[0]
 
         # Compteur de phases
-        self.numeroPhase = 1
+        self.numerophase = 1
 
         # Ajout des informations concernant les joueurs
         self.players = ['Joueur 1', 'Joueur 2']
@@ -97,12 +97,15 @@ class Plateau(Game):
         """
 
         # Numérotation des colonnes
-        print("\n", end='       ')
+        string = "\n"
+        string += '       '
 
         for j in range(self.colonne):
-            print(j, end='   ')
+            string += str(j)
+            string += '   '
 
-        print("\n       ------------------------------------------------------------------------", end='\n\n')
+        string += "\n       ------------------------------------------------------------------------"
+        string += '\n\n'
 
         # Numérotation des lignes et affichage du tableau de jeu
         for i in range(self.ligne):
@@ -111,28 +114,33 @@ class Plateau(Game):
                 # Numérotation des lignes comprenant un seul chiffre
                 if(i < 10):
                     if(j == 0):
-                        print("", i, end=' |   ')
+                        string += str(i)
+                        string += ' |   '
 
                 # Numérotation des lignes comprenant deux chiffres
                 elif(i > 9):
                     if(j == 0):
-                        print(i, end=' |   ')
+                        string += str(i)
+                        string += ' |   '
 
                 # Affichage des valeurs pour les colonnes comprenant un seul chiffre
                 if(j < 10):
-                    print(self.tabDeJeu[i][j], end='   ')
+                    string += str(self.tabDeJeu[i][j])
+                    string += '   '
 
                 # Affichage des valeurs pour les colonnes comprenant deux chiffres
                 elif(j > 9):
-                    print(self.tabDeJeu[i][j], end='    ')
+                    string += str(self.tabDeJeu[i][j])
+                    string += '    '
 
             # Si c'est la dernière ligne
             if(i == self.ligne-1):
-                print("\n")
+                string += "\n"
 
             # Sinon
             else:
-                print("\n   |")
+                string += "\n"
+        return string
 
     def winner(self):
         """Méthode victoire
@@ -141,10 +149,10 @@ class Plateau(Game):
         """
 
         if(self.j1.posY == self.ligne-1 or self.blocage(self.j1)):
-            gagnant = self.j1
+            gagnant = self.j1.name
         elif(self.j2.posY == 0 or self.blocage(self.j2)):
-            gagnant = self.j2
-        elif self.numeroPhase >= 40:
+            gagnant = self.j1.name
+        elif self.numerophase >= 40:
             gagnant = "Draw"
         else:
             gagnant = None
@@ -169,9 +177,9 @@ class Plateau(Game):
                     num += 1
                     attribution = {'numéro': num, 'y': i, 'x': j}
                     murs.append(attribution)
-                    print(attribution)
+                    # print(attribution)
 
-            print("\n")
+            # print("\n")
 
         return murs
 
@@ -295,6 +303,7 @@ class Plateau(Game):
 
 ######################### Méthodes utilisées par les agents #########################
 
+
     def play_move(self, choix, currentplayer):
         """Méthode play_move
 
@@ -328,33 +337,33 @@ class Plateau(Game):
                 currentplayer_info = i
                 break
 
-        if self.currentPhase is self.phases[0]:
+        if self.currentphase is self.phases[0]:
             phase_deplacement(choix, currentplayer_info)
-        elif self.currentPhase is self.phases[1]:
+        elif self.currentphase is self.phases[1]:
             phase_pose_murs(choix, currentplayer_info)
 
         # On fait passer le joueur à la phase suivante
-        # Phase suivante dynamique selon self.currentPhase dans self.phases
-        if self.numeroPhase+1 < 41:
-            currentplayer_info.numeroPhase += 1
+        # Phase suivante dynamique selon self.currentphase dans self.phases
+        if self.numerophase+1 < 41:
+            currentplayer_info.numerophase += 1
 
         # On change de phase globale :
         # Si tous les joueurs sont à la phase suivante,
         # alors la phase globale du jeu passe à la phase d'après
-        dummy_phase = self.players_info[0].numeroPhase
+        dummy_phase = self.players_info[0].numerophase
 
         for i, element in enumerate(self.players_info):
-            if(element.numeroPhase is not dummy_phase):
+            if(element.numerophase is not dummy_phase):
                 # Alors quelqu'un n'a pas encore terminé
                 break
             # Dernier élément
             if i is len(self.players_info) - 1:
-                if self.numeroPhase < 41:
-                    if self.numeroPhase % 4 == 0:
-                        self.currentPhase = self.phases[1]
+                if self.numerophase < 41:
+                    if self.numerophase % 4 == 0:
+                        self.currentphase = self.phases[1]
                     else:
-                        self.currentPhase = self.phases[0]
-                    self.numeroPhase += 1
+                        self.currentphase = self.phases[0]
+                    self.numerophase += 1
 
     def valid_moves(self, currentplayer, all_moves=False):
         """Méthode valid_moves
@@ -428,7 +437,7 @@ class Plateau(Game):
                 currentplayer_info = i
                 break
 
-        # On fait un switch case sur self.currentPhase
+        # On fait un switch case sur self.currentphase
         switch = {
             self.phases[0]: phase1(),
             self.phases[1]: phase2()
@@ -436,7 +445,7 @@ class Plateau(Game):
 
         # Les coups pour la phase globale actuelle du jeu
         if all_moves is not True:
-            moves = switch.get(self.currentPhase)
+            moves = switch.get(self.currentphase)
 
         # Tous les coups possibles du jeu (sert à initialiser la matrice Q)
         else:
