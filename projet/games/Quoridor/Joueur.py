@@ -227,17 +227,22 @@ class Joueur():
 
         # Cas d'un déplacement vers le bas (choix = 2)
         elif(choix == "bas"):
-            if(self.posY == plateau.ligne-2
+            #on vérifie si le joueur B n'est pas à la ligne 17 :
+            # on considère qu'il n'a pas le droit d'y aller
+            if(self.pion == "B" and self.posY == plateau.ligne-2):
+                return False
+            else:
+                if(self.posY == plateau.ligne-2
                 or (plateau.tabDeJeu[self.posY+1][self.posX] != 1
                     and plateau.tabDeJeu[self.posY+2][self.posX] == 0)
                 or (plateau.tabDeJeu[self.posY+1][self.posX] != 1
                     and plateau.tabDeJeu[self.posY+2][self.posX] != 0
                     and plateau.tabDeJeu[self.posY+3][self.posX] != 1)):
 
-                return True
+                    return True
 
-            else:
-                return False
+                else:
+                    return False
 
         # Cas d'un déplacement vers la gauche (choix = 3)
         elif(choix == "gauche"):
