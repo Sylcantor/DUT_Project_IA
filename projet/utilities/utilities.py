@@ -104,7 +104,8 @@ def TurnBased(inital_game, agents):
                 # partie mise à jour des learners
                 new_state = game.print_game()
 
-                currentnode = Node(game)  # the new node after playing
+                # the new node after playing
+                currentnode = Node(game, i.player)
 
                 # determine new action (epsilon-greedy)
                 new_action = i.agent.choose_move(currentnode, new_state)
@@ -131,7 +132,7 @@ def TurnBased(inital_game, agents):
                                i.prev_action, None, -10)
 
     print("#________________________#")
-    print("Le gagnant est : " + game.winner() + "\n")
+    print("Le gagnant est : " + str(game.winner()) + "\n")
 
     print("Affichage de fin : ")
     print(game.print_game())
