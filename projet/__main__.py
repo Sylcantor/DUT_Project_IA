@@ -99,9 +99,9 @@ if __name__ == "__main__":
 
     if args.teacher_episodes is not None:  # on apprend puis on teste à la main
         TurnBased_episodes(game, args.teacher_episodes,
-                           False, learners[1], random)
+                           False, random, random)
         plot_learners_reward(learners)
-        TurnBased_episodes(game, manual_games, True, learners[1], human)
+        TurnBased_episodes(game, manual_games, True, random, human)
         # TurnBased_episodes(game, manual_games, True, minimax, human) # <-- minimax
 
         # ─────────────────────────────  partie save
