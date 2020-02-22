@@ -18,7 +18,7 @@ class Joueur():
     # 4 : à droite ou en bas (saute-mouton)
     deplacements = [-4, -2, -1, 1, 2, 4]
 
-    def __init__(self, name, pawn, finishline, numeroPhase, y, x):
+    def __init__(self, name, pawn, finishline, numerophase, y, x):
         """Constructeur de la classe Joueur
 
         Un joueur possède:
@@ -38,7 +38,7 @@ class Joueur():
         self.nbMurs = 10
 
         # Compteur de phases
-        self.numeroPhase = numeroPhase
+        self.numerophase = numerophase
 
     def seDeplacer(self, choix, plateau):
         """Méthode seDeplacer
@@ -90,7 +90,7 @@ class Joueur():
 
         # Cas d'un déplacement vers la gauche (choix = 3)
         elif(choix == "gauche"):
-            #si on est à colonne 2 on ne peut pas faire de saute mouton
+            # si on est à colonne 2 on ne peut pas faire de saute mouton
             if self.posX == 2:
                 self.posX += self.deplacements[1]
             # Cas général
@@ -106,7 +106,7 @@ class Joueur():
 
         # Cas d'un déplacement vers la droite (choix = 4)
         elif(choix == "droite"):
-            #si on est la colonne 14
+            # si on est la colonne 14
             if self.posX == plateau.colonne:
                 self.posX += self.deplacements[4]
             # Cas général
@@ -156,7 +156,7 @@ class Joueur():
 
         murY = murs[num-1]['y']
         murX = murs[num-1]['x']
-        print("y : ", murY, " x : ", murX)
+        # print("y : ", murY, " x : ", murX)
 
         if(plateau.tabDeJeu[murY][murX] == 'm'):
 
@@ -212,8 +212,8 @@ class Joueur():
 
 
     def check_moves(self, choix, plateau):
-        print(plateau.ligne)
-        print(plateau.colonne)
+        # print(plateau.ligne)
+        # print(plateau.colonne)
         """Méthode check_moves
 
         Renvoie True si le déplacement choisi est possible et False sinon.
@@ -232,7 +232,7 @@ class Joueur():
                 return False
             else:
                 if((plateau.tabDeJeu[self.posY-1][self.posX] != 1
-                       and plateau.tabDeJeu[self.posY-2][self.posX] == 0)
+                    and plateau.tabDeJeu[self.posY-2][self.posX] == 0)
                    or (plateau.tabDeJeu[self.posY-1][self.posX] != 1
                        and plateau.tabDeJeu[self.posY-2][self.posX] != 0
                        and plateau.tabDeJeu[self.posY-3][self.posX] != 1)):
@@ -253,18 +253,17 @@ class Joueur():
             # si on est à la dernière ligne impossible d'aller en bas
             elif self.posY == plateau.ligne-1:
                 return False
-            else:
+            elif self.posY <= plateau.ligne-4:
+                print(len(plateau.tabDeJeu))
                 if((plateau.tabDeJeu[self.posY+1][self.posX] != 1
                     and plateau.tabDeJeu[self.posY+2][self.posX] == 0)
-                or (plateau.tabDeJeu[self.posY+1][self.posX] != 1
-                    and plateau.tabDeJeu[self.posY+2][self.posX] != 0
-                    and plateau.tabDeJeu[self.posY+3][self.posX] != 1)):
+                   or (plateau.tabDeJeu[self.posY+1][self.posX] != 1
+                       and plateau.tabDeJeu[self.posY+2][self.posX] != 0
+                        and plateau.tabDeJeu[self.posY+3][self.posX] != 1)):
 
                     return True
                 else:
                     return False
-                
-                
 
         # Cas d'un déplacement vers la gauche (choix = 3)
         elif(choix == "gauche"):
@@ -278,7 +277,7 @@ class Joueur():
                         return False
                     else:
                         return True
-            #si on est tout à gauche impossible d'aller à gauche
+            # si on est tout à gauche impossible d'aller à gauche
             elif self.posX == 0:
                 return False
             else:
@@ -295,10 +294,9 @@ class Joueur():
                 else:
                     return False
 
-
         # Cas d'un déplacement vers la droite (choix = 4)
         elif(choix == "droite"):
-            #si on est à la colonne 14, on vérifie qu'il n'y apas de mur à droite
+            # si on est à la colonne 14, on vérifie qu'il n'y apas de mur à droite
             if self.posX == plateau.colonne-3:
                 if plateau.tabDeJeu[self.posY][self.posX+1] == 1:
                     return False
@@ -308,14 +306,14 @@ class Joueur():
                         return False
                     else:
                         return True
-            #si on est à la dernière colonne on ne peut pas aller à droite
+            # si on est à la dernière colonne on ne peut pas aller à droite
             elif self.posX == plateau.colonne-1:
                 return False
 
             else:
                 if((plateau.tabDeJeu[self.posY][self.posX+1] != 1
                     and plateau.tabDeJeu[self.posY][self.posX+2] == 0)
-                    
+
                     or
 
                     (plateau.tabDeJeu[self.posY][self.posX+1] != 1
