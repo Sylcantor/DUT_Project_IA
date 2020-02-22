@@ -18,7 +18,7 @@ class Joueur():
     # 4 : à droite ou en bas (saute-mouton)
     deplacements = [-4, -2, -1, 1, 2, 4]
 
-    def __init__(self, name, pawn, finishline, currentphase, y, x):
+    def __init__(self, name, pawn, finishline, numeroPhase, y, x):
         """Constructeur de la classe Joueur
 
         Un joueur possède:
@@ -33,10 +33,12 @@ class Joueur():
         self.nom = name
         self.pion = pawn
         self.arrivee = finishline
-        self.phaseActuelle = currentphase
         self.posY = y
         self.posX = x
         self.nbMurs = 10
+
+        # Compteur de phases
+        self.numeroPhase = numeroPhase
 
     def seDeplacer(self, choix, plateau):
         """Méthode seDeplacer
@@ -51,7 +53,7 @@ class Joueur():
         plateau.tabDeJeu[self.posY][self.posX] = 0
 
         # Cas d'un déplacement vers le haut (choix = 1)
-        if(choix == 1):
+        if(choix == "haut"):
 
             # Pour atteindre la ligne d'arrivée
             if(self.posY == 1):
@@ -67,13 +69,9 @@ class Joueur():
                     else:
                         if(plateau.tabDeJeu[self.posY-3][self.posX] != 1):
                             self.posY += self.deplacements[0]
-                        else:
-                            self.message("mur", plateau)
-                else:
-                    self.message("mur", plateau)
 
         # Cas d'un déplacement vers le bas (choix = 2)
-        elif(choix == 2):
+        elif(choix == "bas"):
 
             # Pour atteindre la ligne d'arrivée
             if(self.posY == plateau.ligne-2):
@@ -89,61 +87,32 @@ class Joueur():
                     else:
                         if(plateau.tabDeJeu[self.posY+3][self.posX] != 1):
                             self.posY += self.deplacements[5]
-                        else:
-                            self.message("mur", plateau)
-                else:
-                    self.message("mur", plateau)
 
         # Cas d'un déplacement vers la gauche (choix = 3)
-        elif(choix == 3):
+        elif(choix == "gauche"):
 
-            # Cas où le joueur se trouve à l'extrémité gauche du plateau
-            if(self.posX == 0):
-                self.message("limite", plateau)
+            # Cas général
+            if(plateau.tabDeJeu[self.posY][self.posX-1] != 1):
+                if(plateau.tabDeJeu[self.posY][self.posX-2] == 0):
+                    self.posX += self.deplacements[1]
 
-            else:
-                # Cas général
-                if(plateau.tabDeJeu[self.posY][self.posX-1] != 1):
-                    if(plateau.tabDeJeu[self.posY][self.posX-2] == 0):
-                        self.posX += self.deplacements[1]
-
-                    # Cas où le joueur adverse se trouve sur la case choisie
-                    else:
-                        if(plateau.tabDeJeu[self.posY][self.posX-3] != 1):
-                            self.posX += self.deplacements[0]
-                        else:
-                            self.message("mur", plateau)
+                # Cas où le joueur adverse se trouve sur la case choisie
                 else:
-                    self.message("mur", plateau)
+                    if(plateau.tabDeJeu[self.posY][self.posX-3] != 1):
+                        self.posX += self.deplacements[0]
 
         # Cas d'un déplacement vers la droite (choix = 4)
-        elif(choix == 4):
+        elif(choix == "droite"):
 
-            # Cas où le joueur se trouve à l'extrémité droite du plateau
-            if(self.posX == plateau.colonne-1):
-                self.message("limite", plateau)
+            # Cas général
+            if(plateau.tabDeJeu[self.posY][self.posX+1] != 1):
+                if(plateau.tabDeJeu[self.posY][self.posX+2] == 0):
+                    self.posX += self.deplacements[4]
 
-            else:
-                # Cas général
-                if(plateau.tabDeJeu[self.posY][self.posX+1] != 1):
-                    if(plateau.tabDeJeu[self.posY][self.posX+2] == 0):
-                        self.posX += self.deplacements[4]
-
-                    # Cas où le joueur adverse se trouve sur la case choisie
-                    else:
-                        if(plateau.tabDeJeu[self.posY][self.posX+3] != 1):
-                            self.posX += self.deplacements[5]
-                        else:
-                            self.message("mur", plateau)
+                # Cas où le joueur adverse se trouve sur la case choisie
                 else:
-                    self.message("mur", plateau)
-
-        # Cas où le joueur entre une autre valeur que celles autorisées
-        else:
-            self.message("invalide", plateau)
-
-        # Ajoute la nouvelle position du joueur sur le plateau de jeu
-        plateau.tabDeJeu[self.posY][self.posX] = self.pion
+                    if(plateau.tabDeJeu[self.posY][self.posX+3] != 1):
+                        self.posX += self.deplacements[5]
 
     def message(self, erreur, plateau):
         """Méthode message

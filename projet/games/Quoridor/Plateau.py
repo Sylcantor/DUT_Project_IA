@@ -33,8 +33,8 @@ class Plateau(Game):
 
         # Ajout des phases de jeu
         self.phases = []
-        self.phases.append("Déplacement des joueurs")
-        self.phases.append("Pose de murs")
+        self.phases.append("Déplacez vous : ")
+        self.phases.append("Indiquez numéro position du mur à poser : ")
         self.currentPhase = self.phases[0]
 
         # Compteur de phases
@@ -44,10 +44,8 @@ class Plateau(Game):
         self.players = ['Joueur 1', 'Joueur 2']
         self.currentplayer = None
 
-        self.j1 = Joueur(self.players[0], 'A',
-                         self.ligne-1, self.currentPhase, 1, 8)
-        self.j2 = Joueur(self.players[1], 'B', 0,
-                         self.currentPhase, self.ligne-2, 8)
+        self.j1 = Joueur(self.players[0], 'A', self.ligne-1, 1, 1, 8)
+        self.j2 = Joueur(self.players[1], 'B', 0, 1, self.ligne-2, 8)
 
         self.players_info = []
         self.players_info.append(self.j1)
@@ -146,6 +144,8 @@ class Plateau(Game):
             gagnant = self.j1
         elif(self.j2.posY == 0 or self.blocage(self.j2)):
             gagnant = self.j2
+        elif self.numeroPhase >= 40:
+            gagnant = "Draw"
         else:
             gagnant = None
 
@@ -307,6 +307,8 @@ class Plateau(Game):
             if(choix in self.valid_moves(currentplayer)):
                 # Déplacement du pion du joueur courant
                 currentplayer_info.seDeplacer(choix, self)
+                # Ajoute la nouvelle position du joueur sur le plateau de jeu
+                self.tabDeJeu[currentplayer_info.posY][currentplayer_info.posX] = currentplayer_info.pion
 
         def phase_pose_murs(choix, currentplayer_info):
             if(choix in self.valid_moves(currentplayer)):
@@ -328,34 +330,34 @@ class Plateau(Game):
 
         # On fait un switch case sur self.currentPhase
         switch = {
-            # La phase de pose de murs est uniquement réalisée :
-            # lors des phases divisibles par 4
-            # et durant les 40 premières phases
-            self.numeroPhase % 4 == 0 and self.numeroPhase < 41: phase_pose_murs(choix, currentplayer_info)
+            self.phases[0]: phase_deplacement(choix, currentplayer_info),
+            self.phases[1]: phase_pose_murs(choix, currentplayer_info)
         }
 
-        # Deuxième argument du get : équivalent du default
-        switch.get(self.currentPhase, phase_deplacement(choix, currentplayer_info))
+        switch.get(self.currentPhase)
 
         # On fait passer le joueur à la phase suivante
         # Phase suivante dynamique selon self.currentPhase dans self.phases
-        currentplayer_info.phaseActuelle = self.phases[(
-            self.phases.index(self.currentPhase) + 1) % len(self.phases)]
+        if self.numeroPhase+1 < 41:
+            currentplayer_info.numeroPhase += 1
 
         # On change de phase globale :
         # Si tous les joueurs sont à la phase suivante,
         # alors la phase globale du jeu passe à la phase d'après
-        dummy_phase = self.players_info[0].phaseActuelle
+        dummy_phase = self.players_info[0].numeroPhase
 
         for i, element in enumerate(self.players_info):
-            if(element.phaseActuelle is not dummy_phase):
+            if(element.numeroPhase is not dummy_phase):
                 # Alors quelqu'un n'a pas encore terminé
                 break
-
             # Dernier élément
             if i is len(self.players_info) - 1:
-                self.currentPhase = self.players_info[0].phaseActuelle
-                self.numeroPhase += 1
+                if self.numeroPhase < 41:
+                    if self.numeroPhase % 4 == 0:
+                        self.currentPhase = self.phases[1]
+                    else:
+                        self.currentPhase = self.phases[0]
+                    self.numeroPhase += 1
 
     def valid_moves(self, currentplayer, all_moves=False):
         """Méthode valid_moves
@@ -372,14 +374,14 @@ class Plateau(Game):
             liste_coups = []
             direction = ["haut", "bas", "gauche", "droite"]
 
-            def check_deplacement(choix):
+            def check_deplacement(choixpos):
                 """Méthode check_deplacement
 
                 Vérifie que le joueur puisse se déplacer sur son choix à partir de sa position actuelle.
                 """
 
-                if(choix in direction):
-                    return (currentplayer_info.check_moves(choix, self))
+                if(choixpos in direction):
+                    return (currentplayer_info.check_moves(choixpos, self))
                 else:
                     return False
 
@@ -403,14 +405,14 @@ class Plateau(Game):
             for i in range(len(murs)):
                 idMurs.append(murs[i]['numéro'])
 
-            def check_pose_murs(choix):
+            def check_pose_murs(choixmur):
                 """Méthode check_pose_murs
 
                 Vérifie que le joueur puisse poser un mur sur la case de son choix.
                 """
 
-                if(choix in idMurs):
-                    return (currentplayer_info.check_laying_walls(murs, choix, self))
+                if(choixmur in idMurs):
+                    return (currentplayer_info.check_laying_walls(murs, choixmur, self))
                 else:
                     return False
 
