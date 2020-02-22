@@ -149,9 +149,9 @@ class Plateau(Game):
         """
 
         if(self.j1.posY == self.ligne-1 or self.blocage(self.j1)):
-            gagnant = self.j1.name
+            gagnant = self.j1.nom
         elif(self.j2.posY == 0 or self.blocage(self.j2)):
-            gagnant = self.j1.name
+            gagnant = self.j2.nom
         elif self.numerophase >= 40:
             gagnant = "Draw"
         else:
@@ -241,8 +241,8 @@ class Plateau(Game):
         for k in range(73, 82):
             matrice[k].append(82)
 
-        for key in matrice:
-            print(key, ' : ', matrice[key], end='\n')
+        # for key in matrice:
+            # print(key, ' : ', matrice[key], end='\n')
 
         return matrice
 
