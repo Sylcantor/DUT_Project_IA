@@ -54,7 +54,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-*.pkl
 build/
 develop-eggs/
 dist/

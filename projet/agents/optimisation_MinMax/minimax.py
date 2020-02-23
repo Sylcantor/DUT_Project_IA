@@ -177,7 +177,7 @@ class Minimax(Agent):
         new_nodes = []  # the next nodes at n + 1
 
         # L'ensemble des coups possibles pour cette node
-        moves = game.valid_moves()
+        moves = game.valid_moves(player)
         # Jeux imaginaires : tous les coups de jeu possibles selon le jeu que l'on a donné dans node
         for move in moves:
 

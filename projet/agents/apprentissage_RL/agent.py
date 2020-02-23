@@ -144,7 +144,7 @@ class Qlearner(Learner):
             # possible_actions = [action for action in self.actions if s_[
             #    action[0]*3 + action[1]] == '-']
 
-            possible_actions = game.valid_moves()
+            possible_actions = game.valid_moves(node.player)
             print("Les actions possibles après update :\n", possible_actions)
 
             Q_options = [self.Q[action][s_] for action in possible_actions]

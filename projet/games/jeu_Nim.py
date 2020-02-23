@@ -28,11 +28,12 @@ class Nim(Game):
         Methode pour jouer au jeu
         """
         self.currentplayer = currentplayer
-        if choice in self.valid_moves():        # vérification supplémentaire mais normalement c'est forcément vrai
+        # vérification supplémentaire mais normalement c'est forcément vrai
+        if choice in self.valid_moves(currentplayer):
                                                 # si on choisit un move parmis les valid_moves()
             self.allumette -= choice            # si ok on change l'état du jeu
 
-    def valid_moves(self, all_moves=False):  # utilisé par les agents
+    def valid_moves(self, currentplayer, all_moves=False):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles
         """

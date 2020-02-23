@@ -35,7 +35,7 @@ class TicTacToe(Game):
         """
         def phase1(choice, currentplayer_info):
             """ changement d'état pour la phase 1 """
-            if choice in self.valid_moves():
+            if choice in self.valid_moves(currentplayer):
                 row, col = int(choice[0]), int(choice[1])
                 self.board[row][col] = currentplayer_info.pawn  # pose pion
 
@@ -67,7 +67,7 @@ class TicTacToe(Game):
             if i is len(self.players_info)-1:  # dernier element
                 self.currentphase = self.players_info[0].currentphase
 
-    def valid_moves(self, all_moves=False):  # utilisé par les agents
+    def valid_moves(self, currentplayer, all_moves=False):  # utilisé par les agents
         """
         Methode qui donne sous forme de liste tous les coups jouables possibles.
         La liste récupérée représente un tour.

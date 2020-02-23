@@ -114,6 +114,7 @@ class Plateau(Game):
                 # Numérotation des lignes comprenant un seul chiffre
                 if(i < 10):
                     if(j == 0):
+                        string += ' '
                         string += str(i)
                         string += ' |   '
 
