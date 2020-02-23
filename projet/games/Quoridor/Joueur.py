@@ -11,14 +11,16 @@ class Joueur():
 
     # Liste des déplacements possibles
     # -4 : à gauche ou en haut (saute-mouton)
+    # -3 : à gauche ou en haut (saute-mouton proche de la ligne d'arrivée)
     # -2 : à gauche ou en haut
     # -1 : en haut (pour atteindre la ligne d'arrivée)
     # 1 : en bas (pour atteindre la ligne d'arrivée)
     # 2 : à droite ou en bas
+    # 3 : à droite ou en bas (saute-mouton proche de la ligne d'arrivée)
     # 4 : à droite ou en bas (saute-mouton)
-    deplacements = [-4, -2, -1, 1, 2, 4]
+    deplacements = [-4, -3, -2, -1, 1, 2, 3, 4]
 
-    def __init__(self, name, pawn, finishline, numerophase, y, x):
+    def __init__(self, name, pawn, finishline, phasenumber, y, x):
         """Constructeur de la classe Joueur
 
         Un joueur possède:
@@ -38,7 +40,7 @@ class Joueur():
         self.nbMurs = 10
 
         # Compteur de phases
-        self.numerophase = numerophase
+        self.numerophase = phasenumber
 
     def seDeplacer(self, choix, plateau):
         """Méthode seDeplacer
@@ -52,101 +54,80 @@ class Joueur():
         # Efface l'ancienne position du joueur sur le plateau de jeu
         plateau.tabDeJeu[self.posY][self.posX] = 0
 
-        # Cas d'un déplacement vers le haut (choix = 1)
+        # Cas d'un déplacement vers le haut
         if(choix == "haut"):
 
-            # Pour atteindre la ligne d'arrivée
-            if(self.posY == 1):
-                self.posY += self.deplacements[2]
+            # Pour atteindre la ligne d'arrivée (concerne le joueur 2)
+            if(self.nom == "Joueur 2" and self.posY == 1):
+                self.posY += self.deplacements[3]
 
-            elif self.posY != 0:
+            elif(self.posY != 1):
                 # Cas général
                 if(plateau.tabDeJeu[self.posY-1][self.posX] != 1):
                     if(plateau.tabDeJeu[self.posY-2][self.posX] == 0):
-                        self.posY += self.deplacements[1]
+                        self.posY += self.deplacements[2]
 
                     # Cas où le joueur adverse se trouve sur la case choisie
                     else:
-                        if(plateau.tabDeJeu[self.posY-3][self.posX] != 1):
+                        # Cas du saute-mouton proche de la ligne d'arrivée (concerne le joueur 2)
+                        if(self.nom == "Joueur 2" and self.posY == 3):
+                            self.posY += self.deplacements[1]
+
+                        # Cas du saute-mouton de base
+                        elif(plateau.tabDeJeu[self.posY-3][self.posX] != 1):
                             self.posY += self.deplacements[0]
 
-        # Cas d'un déplacement vers le bas (choix = 2)
+        # Cas d'un déplacement vers le bas
         elif(choix == "bas"):
 
-            # Pour atteindre la ligne d'arrivée
-            if(self.posY == plateau.ligne-2):
-                self.posY += self.deplacements[3]
+            # Pour atteindre la ligne d'arrivée (concerne le joueur 1)
+            if(self.nom == "Joueur 1" and self.posY == plateau.ligne-2):
+                self.posY += self.deplacements[4]
 
-            elif self.posY != plateau.ligne-1:
+            elif(self.posY != plateau.ligne-2):
                 # Cas général
                 if(plateau.tabDeJeu[self.posY+1][self.posX] != 1):
                     if(plateau.tabDeJeu[self.posY+2][self.posX] == 0):
-                        self.posY += self.deplacements[4]
+                        self.posY += self.deplacements[5]
 
                     # Cas où le joueur adverse se trouve sur la case choisie
                     else:
-                        if(plateau.tabDeJeu[self.posY+3][self.posX] != 1):
-                            self.posY += self.deplacements[5]
+                        # Cas du saute-mouton proche de la ligne d'arrivée (concerne le joueur 1)
+                        if(self.nom == "Joueur 1" and self.posY == plateau.ligne-4):
+                            self.posY += self.deplacements[6]
 
-        # Cas d'un déplacement vers la gauche (choix = 3)
+                        # Cas du saute-mouton de base
+                        elif(plateau.tabDeJeu[self.posY+3][self.posX] != 1):
+                            self.posY += self.deplacements[7]
+
+        # Cas d'un déplacement vers la gauche
         elif(choix == "gauche"):
-            # si on est à colonne 2 on ne peut pas faire de saute mouton
-            if self.posX == 2:
-                self.posX += self.deplacements[1]
+
             # Cas général
-            elif self.posX != 0:
+            if(self.posX != 0):
                 if(plateau.tabDeJeu[self.posY][self.posX-1] != 1):
                     if(plateau.tabDeJeu[self.posY][self.posX-2] == 0):
-                        self.posX += self.deplacements[1]
-
-                # Cas où le joueur adverse se trouve sur la case choisie
-                    elif self.posX != 2:
-                        if(plateau.tabDeJeu[self.posY][self.posX-3] != 1):
-                            self.posX += self.deplacements[0]
-
-        # Cas d'un déplacement vers la droite (choix = 4)
-        elif(choix == "droite"):
-            # si on est la colonne 14
-            if self.posX == plateau.colonne:
-                self.posX += self.deplacements[4]
-            # Cas général
-            elif self.posX != plateau.colonne-1:
-                if(plateau.tabDeJeu[self.posY][self.posX+1] != 1):
-                    if(plateau.tabDeJeu[self.posY][self.posX+2] == 0):
-                        self.posX += self.deplacements[4]
+                        self.posX += self.deplacements[2]
 
                     # Cas où le joueur adverse se trouve sur la case choisie
-                    else:
-                        if(plateau.tabDeJeu[self.posY][self.posX+3] != 1):
-                            self.posX += self.deplacements[5]
+                    elif(self.posX != 2 and plateau.tabDeJeu[self.posY][self.posX-3] != 1):
+                        self.posX += self.deplacements[0]
 
-    def message(self, erreur, plateau):
-        """Méthode message
+        # Cas d'un déplacement vers la droite
+        elif(choix == "droite"):
 
-        Affiche un message d'erreur :
-            - soit lorsqu'un mur sépare le joueur de la case dans laquelle il veut se déplacer,
-            - soit lorsque le joueur est à l'extrémité du plateau et qu'il veut la dépasser.
+            # Cas général
+            if(self.posX != plateau.colonne-1):
+                if(plateau.tabDeJeu[self.posY][self.posX+1] != 1):
+                    if(plateau.tabDeJeu[self.posY][self.posX+2] == 0):
+                        self.posX += self.deplacements[5]
 
-        Ensuite, demande au joueur de faire un autre choix.
-        """
+                    # Cas où le joueur adverse se trouve sur la case choisie
+                    elif(self.posX != plateau.colonne-3 and plateau.tabDeJeu[self.posY][self.posX+3] != 1):
+                        self.posX += self.deplacements[7]
 
-        # Cas où l'erreur est due à une réponse invalide
-        if(erreur == "invalide"):
-            self.seDeplacer(
-                int(input("Veuillez donner une reponse valide : ")), plateau)
-
-        else:
-            # Cas où l'erreur est due à un mur
-            if(erreur == "mur"):
-                print("Un mur se trouve devant vous, vous ne pouvez pas le traverser !")
-
-            # Cas où l'erreur est due aux extrémités du plateau
-            else:
-                print(
-                    "Vous êtes à l'extrémité du plateau, vous ne pouvez pas aller plus loin !")
-
-            self.seDeplacer(
-                int(input("Veuillez indiquer un autre déplacement : ")), plateau)
+        # Ajoute la nouvelle position du joueur sur le plateau de jeu
+        #plateau.tabDeJeu[self.posY][self.posX] = self.pion
 
     def poserMur(self, murs, num, plateau):
         """Méthode poserMur
@@ -156,7 +137,7 @@ class Joueur():
 
         murY = murs[num-1]['y']
         murX = murs[num-1]['x']
-        # print("y : ", murY, " x : ", murX)
+        #print("y : ", murY, " x : ", murX)
 
         if(plateau.tabDeJeu[murY][murX] == 'm'):
 
@@ -212,118 +193,93 @@ class Joueur():
 
 
     def check_moves(self, choix, plateau):
-        # print(plateau.ligne)
-        # print(plateau.colonne)
         """Méthode check_moves
 
         Renvoie True si le déplacement choisi est possible et False sinon.
         """
 
-        # Cas d'un déplacement vers le haut (choix = 1)
+        #print(plateau.ligne)
+        #print(plateau.colonne)
+
+        # Cas d'un déplacement vers le haut
         if(choix == "haut"):
-            # si on est à la ligne 1 on vérifie qu'il n'y a pas d'adversaire ou obstacle
-            if self.posY == 1:
-                if plateau.tabDeJeu[self.posY-1][self.posX] != 5:
-                    return False
-                else:
-                    return True
-            # si on est à la première ligne impossible d'aller en haut
-            elif self.posY == 0:
-                return False
+
+            # Cas de la ligne d'arrivée pour le joueur 2
+            if((self.nom == "Joueur 2" and self.posY == 1)
+                    or
+                ((self.posY != 1 and plateau.tabDeJeu[self.posY-1][self.posX] != 1)
+                    and
+                        # Cas général
+                        (plateau.tabDeJeu[self.posY-2][self.posX] == 0
+                            or
+
+                        # Cas du saute-mouton proche de la ligne d'arrivée pour le joueur 2
+                        (plateau.tabDeJeu[self.posY-2][self.posX] != 0 and (self.nom == "Joueur 2" and self.posY == 3))
+                            or
+
+                        # Cas du saute-mouton de base
+                        (plateau.tabDeJeu[self.posY-2][self.posX] != 0 and plateau.tabDeJeu[self.posY-3][self.posX] != 1)))):
+
+                return True
+
             else:
-                if((plateau.tabDeJeu[self.posY-1][self.posX] != 1
-                    and plateau.tabDeJeu[self.posY-2][self.posX] == 0)
-                   or (plateau.tabDeJeu[self.posY-1][self.posX] != 1
-                       and plateau.tabDeJeu[self.posY-2][self.posX] != 0
-                       and plateau.tabDeJeu[self.posY-3][self.posX] != 1)):
+                return False
 
-                    return True
-
-                else:
-                    return False
-
-        # Cas d'un déplacement vers le bas (choix = 2)
+        # Cas d'un déplacement vers le bas
         elif(choix == "bas"):
-            # si on est à ligne 17 on vérifie qu'il n'y a aucun obstacle ou adversaire
-            if self.posY == plateau.ligne-2:
-                if plateau.tabDeJeu[self.posY+1][self.posX] != 7:
-                    return False
-                else:
-                    return True
-            # si on est à la dernière ligne impossible d'aller en bas
-            elif self.posY == plateau.ligne-1:
+
+            # Cas de la ligne d'arrivée pour le joueur 1
+            if((self.nom == "Joueur 1" and self.posY == plateau.ligne-2)
+                    or
+                ((self.posY != plateau.ligne-2 and plateau.tabDeJeu[self.posY+1][self.posX] != 1)
+                    and
+                        # Cas général
+                        (plateau.tabDeJeu[self.posY+2][self.posX] == 0
+                            or
+
+                        # Cas du saute-mouton proche de la ligne d'arrivée pour le joueur 1
+                        (plateau.tabDeJeu[self.posY+2][self.posX] != 0 and (self.nom == "Joueur 1" and self.posY == plateau.ligne-4))
+                            or
+
+                        # Cas du saute-mouton de base
+                        (plateau.tabDeJeu[self.posY+2][self.posX] != 0 and plateau.tabDeJeu[self.posY+3][self.posX] != 1)))):
+
+                return True
+
+            else:
                 return False
-            elif self.posY <= plateau.ligne-4:
-                # print(len(plateau.tabDeJeu))
-                if((plateau.tabDeJeu[self.posY+1][self.posX] != 1
-                    and plateau.tabDeJeu[self.posY+2][self.posX] == 0)
-                   or (plateau.tabDeJeu[self.posY+1][self.posX] != 1
-                       and plateau.tabDeJeu[self.posY+2][self.posX] != 0
-                        and plateau.tabDeJeu[self.posY+3][self.posX] != 1)):
 
-                    return True
-                else:
-                    return False
-
-        # Cas d'un déplacement vers la gauche (choix = 3)
+        # Cas d'un déplacement vers la gauche
         elif(choix == "gauche"):
-            # si on est a la colonne 2 on vérifie s'il n'y l'adversaire à la colonne 0
-            # ou un mur
-            if self.posX == 2:
-                if plateau.tabDeJeu[self.posY][self.posX-1] == 1:
-                    return False
-                else:
-                    if plateau.tabDeJeu[self.posY][self.posX-2] != 0:
-                        return False
-                    else:
-                        return True
-            # si on est tout à gauche impossible d'aller à gauche
-            elif self.posX == 0:
-                return False
+            if((self.posX != 0 and plateau.tabDeJeu[self.posY][self.posX-1] != 1)
+                and
+                    # Cas général
+                    (plateau.tabDeJeu[self.posY][self.posX-2] == 0
+                        or
+
+                    # Cas où le joueur adverse se trouve sur la case choisie
+                    (self.posX != 2 and plateau.tabDeJeu[self.posY][self.posX-3] != 1))):
+
+                return True
+
             else:
-                if((plateau.tabDeJeu[self.posY][self.posX-1] != 1
-                    and plateau.tabDeJeu[self.posY][self.posX-2] == 0)
+                return False
 
-                    or
-
-                    (plateau.tabDeJeu[self.posY][self.posX-1] != 1
-                     and plateau.tabDeJeu[self.posY][self.posX-2] != 0
-                     and plateau.tabDeJeu[self.posY][self.posX-3] != 1)):
-
-                    return True
-                else:
-                    return False
-
-        # Cas d'un déplacement vers la droite (choix = 4)
+        # Cas d'un déplacement vers la droite
         elif(choix == "droite"):
-            # si on est à la colonne 14, on vérifie qu'il n'y apas de mur à droite
-            if self.posX == plateau.colonne-3:
-                if plateau.tabDeJeu[self.posY][self.posX+1] == 1:
-                    return False
-                # et pas d'adversaire
-                else:
-                    if plateau.tabDeJeu[self.posY][self.posX+2] != 0:
-                        return False
-                    else:
-                        return True
-            # si on est à la dernière colonne on ne peut pas aller à droite
-            elif self.posX == plateau.colonne-1:
-                return False
+            if((self.posX != plateau.colonne-1 and plateau.tabDeJeu[self.posY][self.posX+1] != 1)
+                and
+                    # Cas général
+                    (plateau.tabDeJeu[self.posY][self.posX+2] == 0
+                        or
+
+                    # Cas où le joueur adverse se trouve sur la case choisie
+                    (self.posX != plateau.colonne-3 and plateau.tabDeJeu[self.posY][self.posX+3] != 1))):
+
+                return True
 
             else:
-                if((plateau.tabDeJeu[self.posY][self.posX+1] != 1
-                    and plateau.tabDeJeu[self.posY][self.posX+2] == 0)
-
-                    or
-
-                    (plateau.tabDeJeu[self.posY][self.posX+1] != 1
-                     and plateau.tabDeJeu[self.posY][self.posX+2] != 0
-                     and plateau.tabDeJeu[self.posY][self.posX+3] != 1)):
-
-                    return True
-
-                else:
-                    return False
+                return False
 
         # Cas où le joueur entre une autre valeur que celles autorisées
         else:
@@ -338,22 +294,18 @@ class Joueur():
         murY = murs[num-1]['y']
         murX = murs[num-1]['x']
 
-        # Verticalement et horizontalement
-        if((plateau.tabDeJeu[murY][murX] == 'm'
-            and plateau.tabDeJeu[murY+1][murX] == 'm'
-            and plateau.tabDeJeu[murY][murX+1] == 'm')
+        if(plateau.tabDeJeu[murY][murX] == 'm'
+            and
+                # Verticalement et horizontalement
+                ((plateau.tabDeJeu[murY+1][murX] == 'm' and plateau.tabDeJeu[murY][murX+1] == 'm')
+                    or
 
-            or
+                # Horizontalement
+                plateau.tabDeJeu[murY][murX+1] == 'm'
+                    or
 
-            # Verticalement
-            (plateau.tabDeJeu[murY][murX] == 'm'
-             and plateau.tabDeJeu[murY+1][murX] == 'm')
-
-            or
-
-            # Horizontalement
-            (plateau.tabDeJeu[murY][murX] == 'm'
-             and plateau.tabDeJeu[murY][murX+1] == 'm')):
+                # Verticalement
+                plateau.tabDeJeu[murY+1][murX] == 'm')):
 
             return True
 
