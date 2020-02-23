@@ -41,7 +41,7 @@ class Plateau(Game):
         self.numerophase = 1
 
         # Ajout des informations concernant les joueurs
-        self.players = ['Joueur 1', 'Joueur 2']
+        self.players = ['Joueur A', 'Joueur B']
         self.currentplayer = None
 
         self.j1 = Joueur(self.players[0], 'A', self.ligne-1, 1, 1, 8)
