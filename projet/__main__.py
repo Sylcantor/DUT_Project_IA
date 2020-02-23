@@ -28,7 +28,7 @@ from agents.random import Random
 # ───────────────────────────────── imports jeux
 
 # les jeux à importer:
-from games.jeu_Nim import Nim
+from games.Nim.jeu_Nim import Nim
 from games.TicTacToe_old.jeu_TicTacToe import TicTacToe as TicTacToe_old
 from games.TicTacToe_new.jeu_TicTacToe import TicTacToe as TicTacToe_new
 from games.Quoridor.Plateau import Plateau as Quoridor

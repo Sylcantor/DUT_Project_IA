@@ -5,7 +5,7 @@
   - [Résumé du projet](#r%c3%a9sum%c3%a9-du-projet)
   - [Arguments supplémentaires](#arguments-suppl%c3%a9mentaires)
   - [Manuel du main](#manuel-du-main)
-  - [Diagramme de classes](#diagramme-de-classes)
+  - [Diagramme de classes et de packages](#diagramme-de-classes-et-de-packages)
 
 ## Installation
 Mode d'emploi installation, testé sur les machines de l'IUT (Arch Linux):
@@ -64,6 +64,6 @@ python ./projet -l myfilename.pkl
 ## Manuel du main
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/main.jpg)
 
-## Diagramme de classes
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/class1.PNG)
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/class2.PNG)
+## Diagramme de classes et de packages
+![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Class Diagram.svg)
+![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Package Diagram.svg)
