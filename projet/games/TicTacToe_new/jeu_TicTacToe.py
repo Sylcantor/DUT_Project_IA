@@ -8,7 +8,7 @@ class TicTacToe(Game):
     """ The game class. New instance created for each new game. """
 
     def __init__(self):  # constructeur
-        self.players = ['Player1', 'Player2']  # liste des joueurs en string
+        self.players = ['Player X', 'Player O']  # liste des joueurs en string
         self.board = [['-', '-', '-'], ['-', '-', '-'],
                       ['-', '-', '-']]  # le plateau
         self.currentplayer = None  # caractérise le dernier joueur qui a joué
@@ -17,10 +17,7 @@ class TicTacToe(Game):
         # phase n°1: position du pion
         self.phases.append("Choix position")  # instruction de la phase 1
         self.currentphase = self.phases[0]  # la phase actuelle
-        """
-        Player1 -> 'X'
-        Player2 -> 'O'
-        """
+
         self.players_info = []  # création des joueurs et leurs informations
         self.players_info.append(
             Player_Informations(self.players[0], self.currentphase, "X"))
