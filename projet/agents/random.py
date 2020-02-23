@@ -24,6 +24,7 @@ class Random(Agent):
         except AttributeError:
             raise Exception("AttributeError")
 
+        valid = node.game.valid_moves(node.player)  # <-- test
         random_index = randrange(len(node.game.valid_moves(node.player)))
         print("Coup décidé : " +
               str(node.game.valid_moves(node.player)[random_index]))
