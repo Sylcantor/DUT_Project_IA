@@ -80,12 +80,12 @@ class Nim(Game):
         Methode pour récupérer le joueur victorieux
         Si le match est toujours en cours on retourne "None"
         """
-        # le dernier joueur à avoir tiré la dernière allumette est le perdant
+        # le dernier joueur à avoir tiré la dernière allumette est le gagnant
         if self.check_current_state():
             if self.currentplayer == self.players[0]:
-                winner = self.players[1]
-            else:
                 winner = self.players[0]
+            else:
+                winner = self.players[1]
             return winner
         else:
             return None

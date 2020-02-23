@@ -29,7 +29,7 @@ Lancez soit à la racine du git
 ```bash
 python ./projet
 ```
-ou dans le dosseir courant
+ou dans le dossier courant
 ```bash
 python ./__main__.py
 ```
@@ -43,7 +43,7 @@ Lancez soit à la racine du git
 ```bash
 python ./projet -h
 ```
-ou dans le dosseir courant
+ou dans le dossier courant
 ```bash
 python ./__main__.py -h
 ```

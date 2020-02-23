@@ -64,7 +64,7 @@ if __name__ == "__main__":
     # ───────────────────────────────── main
 
     # v changer ci-dessous le jeu (game) souhaité v
-    # game = Nim(6)
+    # game = Nim(10)
     # game = TicTacToe_old()
     # game = TicTacToe_new()
     game = Quoridor()
@@ -98,16 +98,21 @@ if __name__ == "__main__":
     # ───────────────────────────────── apprentissage
 
     if args.teacher_episodes is not None:  # on apprend puis on teste à la main
-        # TurnBased_episodes(game, manual_games, True, minimax, human) # <-- minimax
+        """
+        TurnBased_episodes(game, manual_games, True,
+                           minimax, human)  # <-- minimax
+        """
+
         TurnBased_episodes(game, manual_games, True,
                            random, human)  # <-- tests
+
         """
         TurnBased_episodes(game, args.teacher_episodes,
                            False, learners[0], random)
         plot_learners_reward(learners)
-        TurnBased_episodes(game, manual_games, True, learners[0], human)
+        TurnBased_episodes(game, manual_games, True,
+                           learners[0], human)  # <-- learners
         """
-
         # ─────────────────────────────  partie save
 
         if args.save:

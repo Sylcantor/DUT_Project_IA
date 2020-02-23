@@ -4,7 +4,7 @@
   - [Résumé](#r%c3%a9sum%c3%a9)
 
 ## Utilisation
-Lancez dans le dosseir courant
+Lancez dans le dossier courant
 ```bash
 python ./Jeu_Nim_tree.py
 ```
