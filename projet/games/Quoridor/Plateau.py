@@ -32,7 +32,8 @@ class Plateau(Game):
         # Ajout des phases de jeu
         self.phases = []
         self.phases.append("Veuillez vous déplacer")
-        self.phases.append("Veuillez indiquer le numéro de la position du mur à poser")
+        self.phases.append(
+            "Veuillez indiquer le numéro de la position du mur à poser")
         self.currentphase = self.phases[0]
 
         # Compteur de phases
@@ -42,8 +43,10 @@ class Plateau(Game):
         self.players = ['Joueur A', 'Joueur B']
         self.currentplayer = None
 
-        self.j1 = Joueur(self.players[0], 'A', self.ligne-1, self.numerophase, 1, 8)
-        self.j2 = Joueur(self.players[1], 'B', 0, self.numerophase, self.ligne-2, 8)
+        self.j1 = Joueur(self.players[0], 'A',
+                         self.ligne-1, self.numerophase, 1, 8)
+        self.j2 = Joueur(self.players[1], 'B', 0,
+                         self.numerophase, self.ligne-2, 8)
 
         self.players_info = []
         self.players_info.append(self.j1)
@@ -153,10 +156,10 @@ class Plateau(Game):
 
         if(self.j1.posY == self.ligne-1 or self.blocage(self.j1)):
             gagnant = self.j1.nom
-            #self.initTabDeJeu()
+            # self.initTabDeJeu()
         elif(self.j2.posY == 0 or self.blocage(self.j2)):
             gagnant = self.j2.nom
-            #self.initTabDeJeu()
+            # self.initTabDeJeu()
         else:
             gagnant = None
 
@@ -180,9 +183,9 @@ class Plateau(Game):
                     num += 1
                     attribution = {'numéro': num, 'y': i, 'x': j}
                     murs.append(attribution)
-                    #print(attribution)
+                    # print(attribution)
 
-            #print("\n")
+            # print("\n")
 
         return murs
 
@@ -244,7 +247,7 @@ class Plateau(Game):
         for k in range(73, 82):
             matrice[k].append(82)
 
-        #for key in matrice:
+        # for key in matrice:
             #print(key, ' : ', matrice[key], end='\n')
 
         return matrice
@@ -305,7 +308,6 @@ class Plateau(Game):
 
 
 ######################### Méthodes utilisées par les agents #########################
-
 
     def play_move(self, choix, currentplayer):
         """Méthode play_move
@@ -450,7 +452,7 @@ class Plateau(Game):
         # Tous les coups possibles du jeu (sert à initialiser la matrice Q)
         else:
             # On applatit la liste
-            moves = sum(self.coups, [])
+            moves = self.coups
 
         return moves
 
@@ -467,7 +469,7 @@ class Plateau(Game):
         for i in dep:
             total.append(i)
 
-        for j in range(len(murs)-1):
+        for j in range(len(murs)):
             total.append(murs[j]['numéro'])
 
         return total

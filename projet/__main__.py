@@ -42,9 +42,9 @@ if __name__ == "__main__":
 
     # ───────────────────────────────── arguments
 
-    parser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(  # par défaut on fait 10000 parties
         description="Reinforcement learning options.")
-    parser.add_argument("-t", "--teacher_episodes", default=10000, type=int,  # par défaut on fait 10000 parties
+    parser.add_argument("-t", "--teacher_episodes", default=10000, type=int,
                         help="employ teacher agent who knows the optimal "
                         "strategy and will play for TEACHER_EPISODES games")
     parser.add_argument("-s", "--save", action='store_true',
@@ -64,10 +64,10 @@ if __name__ == "__main__":
     # ───────────────────────────────── main
 
     # v changer ci-dessous le jeu (game) souhaité v
-    # game = Nim(10)
+    game = Nim(10)
     # game = TicTacToe_old()
     # game = TicTacToe_new()
-    game = Quoridor()
+    # game = Quoridor()
 
     # algorithmes/agents ou teachers
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:
@@ -102,17 +102,17 @@ if __name__ == "__main__":
         TurnBased_episodes(game, manual_games, True,
                            minimax, human)  # <-- minimax
         """
-
+        """
         TurnBased_episodes(game, manual_games, True,
                            random, human)  # <-- tests
-
         """
+
         TurnBased_episodes(game, args.teacher_episodes,
                            False, learners[0], random)
         plot_learners_reward(learners)
         TurnBased_episodes(game, manual_games, True,
                            learners[0], human)  # <-- learners
-        """
+
         # ─────────────────────────────  partie save
 
         if args.save:
