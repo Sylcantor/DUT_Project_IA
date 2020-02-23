@@ -1,10 +1,8 @@
 # coding=utf-8
 
 from games.game import Game
-from games.Quoridor.Joueur import *
-from math import *
-
 from games.Quoridor.Joueur import Joueur
+from math import *
 
 
 class Plateau(Game):
@@ -33,8 +31,8 @@ class Plateau(Game):
 
         # Ajout des phases de jeu
         self.phases = []
-        self.phases.append("Déplacez vous")
-        self.phases.append("Indiquez numéro position du mur à poser")
+        self.phases.append("Veuillez vous déplacer")
+        self.phases.append("Veuillez indiquer le numéro de la position du mur à poser")
         self.currentphase = self.phases[0]
 
         # Compteur de phases
@@ -44,8 +42,8 @@ class Plateau(Game):
         self.players = ['Joueur A', 'Joueur B']
         self.currentplayer = None
 
-        self.j1 = Joueur(self.players[0], 'A', self.ligne-1, 1, 1, 8)
-        self.j2 = Joueur(self.players[1], 'B', 0, 1, self.ligne-2, 8)
+        self.j1 = Joueur(self.players[0], 'A', self.ligne-1, self.numerophase, 1, 8)
+        self.j2 = Joueur(self.players[1], 'B', 0, self.numerophase, self.ligne-2, 8)
 
         self.players_info = []
         self.players_info.append(self.j1)
@@ -53,6 +51,9 @@ class Plateau(Game):
 
         # Initialisation du plateau
         self.initTabDeJeu()
+
+        # Initialisation de tous les coups possibles au cours du jeu
+        self.coups = self.tous_les_coups()
 
     def initTabDeJeu(self):
         """Méthode initTabDeJeu
@@ -98,14 +99,14 @@ class Plateau(Game):
 
         # Numérotation des colonnes
         string = "\n"
-        string += '       '
+        string += "       "
 
         for j in range(self.colonne):
             string += str(j)
-            string += '   '
+            string += "   "
 
         string += "\n       ------------------------------------------------------------------------"
-        string += '\n\n'
+        string += "\n\n"
 
         # Numérotation des lignes et affichage du tableau de jeu
         for i in range(self.ligne):
@@ -114,25 +115,25 @@ class Plateau(Game):
                 # Numérotation des lignes comprenant un seul chiffre
                 if(i < 10):
                     if(j == 0):
-                        string += ' '
+                        string += " "
                         string += str(i)
-                        string += ' |   '
+                        string += " |   "
 
                 # Numérotation des lignes comprenant deux chiffres
                 elif(i > 9):
                     if(j == 0):
                         string += str(i)
-                        string += ' |   '
+                        string += " |   "
 
                 # Affichage des valeurs pour les colonnes comprenant un seul chiffre
                 if(j < 10):
                     string += str(self.tabDeJeu[i][j])
-                    string += '   '
+                    string += "   "
 
                 # Affichage des valeurs pour les colonnes comprenant deux chiffres
                 elif(j > 9):
                     string += str(self.tabDeJeu[i][j])
-                    string += '    '
+                    string += "    "
 
             # Si c'est la dernière ligne
             if(i == self.ligne-1):
@@ -140,7 +141,8 @@ class Plateau(Game):
 
             # Sinon
             else:
-                string += "\n"
+                string += "\n\n"
+
         return string
 
     def winner(self):
@@ -153,8 +155,6 @@ class Plateau(Game):
             gagnant = self.j1.nom
         elif(self.j2.posY == 0 or self.blocage(self.j2)):
             gagnant = self.j2.nom
-        elif self.numerophase >= 40:
-            gagnant = "Draw"
         else:
             gagnant = None
 
@@ -178,9 +178,9 @@ class Plateau(Game):
                     num += 1
                     attribution = {'numéro': num, 'y': i, 'x': j}
                     murs.append(attribution)
-                    # print(attribution)
+                    #print(attribution)
 
-            # print("\n")
+            #print("\n")
 
         return murs
 
@@ -242,8 +242,8 @@ class Plateau(Game):
         for k in range(73, 82):
             matrice[k].append(82)
 
-        # for key in matrice:
-            # print(key, ' : ', matrice[key], end='\n')
+        #for key in matrice:
+            #print(key, ' : ', matrice[key], end='\n')
 
         return matrice
 
@@ -296,7 +296,7 @@ class Plateau(Game):
             fin = 0
 
         if(self.cheminVersSortie(graphe, debut, fin, chemin) is not None):
-            print(chemin)
+            #print("Chemin vers sortie : ", chemin, end='\n\n')
             return False
         else:
             return True
@@ -317,8 +317,6 @@ class Plateau(Game):
             if(choix in self.valid_moves(currentplayer)):
                 # Déplacement du pion du joueur courant
                 currentplayer_info.seDeplacer(choix, self)
-                # Ajoute la nouvelle position du joueur sur le plateau de jeu
-                self.tabDeJeu[currentplayer_info.posY][currentplayer_info.posX] = currentplayer_info.pion
 
         def phase_pose_murs(choix, currentplayer_info):
             if(choix in self.valid_moves(currentplayer)):
@@ -338,33 +336,32 @@ class Plateau(Game):
                 currentplayer_info = i
                 break
 
-        if self.currentphase is self.phases[0]:
+        if(self.currentphase is self.phases[0]):
             phase_deplacement(choix, currentplayer_info)
-        elif self.currentphase is self.phases[1]:
+        elif(self.currentphase is self.phases[1]):
             phase_pose_murs(choix, currentplayer_info)
 
         # On fait passer le joueur à la phase suivante
-        # Phase suivante dynamique selon self.currentphase dans self.phases
-        if self.numerophase+1 < 41:
-            currentplayer_info.numerophase += 1
+        currentplayer_info.numerophase += 1
 
         # On change de phase globale :
         # Si tous les joueurs sont à la phase suivante,
-        # alors la phase globale du jeu passe à la phase d'après
+        # Alors la phase globale du jeu passe à la phase d'après
         dummy_phase = self.players_info[0].numerophase
 
         for i, element in enumerate(self.players_info):
             if(element.numerophase is not dummy_phase):
                 # Alors quelqu'un n'a pas encore terminé
                 break
+
             # Dernier élément
-            if i is len(self.players_info) - 1:
-                if self.numerophase < 41:
-                    if self.numerophase % 4 == 0:
-                        self.currentphase = self.phases[1]
-                    else:
-                        self.currentphase = self.phases[0]
-                    self.numerophase += 1
+            if(i is len(self.players_info) - 1):
+                self.numerophase += 1
+
+                if(self.numerophase < 41 and self.numerophase % 4 == 0):
+                    self.currentphase = self.phases[1]
+                else:
+                    self.currentphase = self.phases[0]
 
     def valid_moves(self, currentplayer, all_moves=False):
         """Méthode valid_moves
@@ -445,12 +442,30 @@ class Plateau(Game):
         }
 
         # Les coups pour la phase globale actuelle du jeu
-        if all_moves is not True:
+        if(all_moves is not True):
             moves = switch.get(self.currentphase)
 
         # Tous les coups possibles du jeu (sert à initialiser la matrice Q)
         else:
             # On applatit la liste
-            moves = sum(switch.values(), [])
+            moves = sum(self.coups, [])
 
         return moves
+
+    def tous_les_coups(self):
+        """Méthode tous_les_coups
+
+        Renvoie une liste de tous les coups possibles au cours du jeu.
+        """
+
+        total = []
+        dep = ["haut", "bas", "gauche", "droite"]
+        murs = self.numMurs()
+
+        for i in dep:
+            total.append(i)
+
+        for j in range(len(murs)-1):
+            total.append(murs[j]['numéro'])
+
+        return total

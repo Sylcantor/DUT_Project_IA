@@ -58,7 +58,7 @@ class Joueur():
         if(choix == "haut"):
 
             # Pour atteindre la ligne d'arrivée (concerne le joueur 2)
-            if(self.nom == "Joueur 2" and self.posY == 1):
+            if(self.nom == plateau.players[1] and self.posY == 1):
                 self.posY += self.deplacements[3]
 
             elif(self.posY != 1):
@@ -70,7 +70,7 @@ class Joueur():
                     # Cas où le joueur adverse se trouve sur la case choisie
                     else:
                         # Cas du saute-mouton proche de la ligne d'arrivée (concerne le joueur 2)
-                        if(self.nom == "Joueur 2" and self.posY == 3):
+                        if(self.nom == plateau.players[1] and self.posY == 3):
                             self.posY += self.deplacements[1]
 
                         # Cas du saute-mouton de base
@@ -81,7 +81,7 @@ class Joueur():
         elif(choix == "bas"):
 
             # Pour atteindre la ligne d'arrivée (concerne le joueur 1)
-            if(self.nom == "Joueur 1" and self.posY == plateau.ligne-2):
+            if(self.nom == plateau.players[0] and self.posY == plateau.ligne-2):
                 self.posY += self.deplacements[4]
 
             elif(self.posY != plateau.ligne-2):
@@ -93,7 +93,7 @@ class Joueur():
                     # Cas où le joueur adverse se trouve sur la case choisie
                     else:
                         # Cas du saute-mouton proche de la ligne d'arrivée (concerne le joueur 1)
-                        if(self.nom == "Joueur 1" and self.posY == plateau.ligne-4):
+                        if(self.nom == plateau.players[0] and self.posY == plateau.ligne-4):
                             self.posY += self.deplacements[6]
 
                         # Cas du saute-mouton de base
@@ -127,7 +127,7 @@ class Joueur():
                         self.posX += self.deplacements[7]
 
         # Ajoute la nouvelle position du joueur sur le plateau de jeu
-        #plateau.tabDeJeu[self.posY][self.posX] = self.pion
+        plateau.tabDeJeu[self.posY][self.posX] = self.pion
 
     def poserMur(self, murs, num, plateau):
         """Méthode poserMur
@@ -205,7 +205,7 @@ class Joueur():
         if(choix == "haut"):
 
             # Cas de la ligne d'arrivée pour le joueur 2
-            if((self.nom == "Joueur 2" and self.posY == 1)
+            if((self.nom == plateau.players[1] and self.posY == 1)
                     or
                 ((self.posY != 1 and plateau.tabDeJeu[self.posY-1][self.posX] != 1)
                     and
@@ -214,7 +214,7 @@ class Joueur():
                             or
 
                         # Cas du saute-mouton proche de la ligne d'arrivée pour le joueur 2
-                        (plateau.tabDeJeu[self.posY-2][self.posX] != 0 and (self.nom == "Joueur 2" and self.posY == 3))
+                        (plateau.tabDeJeu[self.posY-2][self.posX] != 0 and (self.nom == plateau.players[1] and self.posY == 3))
                             or
 
                         # Cas du saute-mouton de base
@@ -229,7 +229,7 @@ class Joueur():
         elif(choix == "bas"):
 
             # Cas de la ligne d'arrivée pour le joueur 1
-            if((self.nom == "Joueur 1" and self.posY == plateau.ligne-2)
+            if((self.nom == plateau.players[0] and self.posY == plateau.ligne-2)
                     or
                 ((self.posY != plateau.ligne-2 and plateau.tabDeJeu[self.posY+1][self.posX] != 1)
                     and
@@ -238,7 +238,7 @@ class Joueur():
                             or
 
                         # Cas du saute-mouton proche de la ligne d'arrivée pour le joueur 1
-                        (plateau.tabDeJeu[self.posY+2][self.posX] != 0 and (self.nom == "Joueur 1" and self.posY == plateau.ligne-4))
+                        (plateau.tabDeJeu[self.posY+2][self.posX] != 0 and (self.nom == plateau.players[0] and self.posY == plateau.ligne-4))
                             or
 
                         # Cas du saute-mouton de base
