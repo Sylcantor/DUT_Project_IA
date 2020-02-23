@@ -65,5 +65,5 @@ python ./projet -l myfilename.pkl
 ![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/main.jpg)
 
 ## Diagramme de classes et de packages
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Class Diagram.svg)
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Package Diagram.svg)
+![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Class Diagram.jpg)
+![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Package Diagram.jpg)
