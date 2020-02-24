@@ -13,13 +13,13 @@ Mode d'emploi installation, testé sur les machines de l'IUT (Arch Linux):
 python3.7 -m ensurepip --default-pip --user
 ```
 ```bash
-python -m pip install --upgrade pip
-```
-```bash
 setuptools wheel --user
 ```
 ```bash
 cd ~/.local/bin
+```
+```bash
+./pip3 install --upgrade pip --user
 ```
 ```bash
 ./pip3 install matplotlib && install numpy
