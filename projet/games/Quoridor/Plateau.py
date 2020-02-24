@@ -364,6 +364,9 @@ class Plateau(Game):
 
                 if(self.numerophase < 41 and self.numerophase % 4 == 0):
                     self.currentphase = self.phases[1]
+                    if len(self.valid_moves(currentplayer)) == 0:
+                        # s'il n'y a plus de murs à placer on fait des phases de déplacement
+                        self.currentphase = self.phases[0]
                 else:
                     self.currentphase = self.phases[0]
 
