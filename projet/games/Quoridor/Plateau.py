@@ -1,21 +1,18 @@
 # coding=utf-8
 
-from games.game import Game
-from games.Quoridor.Joueur import Joueur
-
+#from games.game import Game
+#from games.Quoridor.Joueur import Joueur
+from Joueur import *
 from math import *
 from random import *
 
 
-class Plateau(Game):
+class Plateau():
     """Classe Plateau
 
     Le plateau de jeu est représenté par une liste de listes
     (càd un tableau à deux dimensions) de taille 19 * 17.
     """
-
-    # Tableau représentant l'état des cases du plateau
-    tabDeJeu = []
 
     def __init__(self):
         """Constructeur de la classe Plateau
@@ -53,6 +50,9 @@ class Plateau(Game):
         self.players_info.append(self.j1)
         self.players_info.append(self.j2)
 
+        # Tableau représentant l'état des cases du plateau
+        self.tabDeJeu = []
+
         # Initialisation du plateau
         self.initTabDeJeu()
 
@@ -68,7 +68,7 @@ class Plateau(Game):
             - de 0 pour les cases libres dédiées aux joueurs
             - de m pour les cases libres dédiées aux murs
         """
-        self.tabDeJeu = []
+
         for i in range(self.ligne):
             self.tabDeJeu.append([])
 
@@ -751,3 +751,9 @@ class Plateau(Game):
             total.append(murs[j]['numéro'])
 
         return total
+
+
+######## Test Main ##########
+p = Plateau()
+p.seDeplacer(p.j2, "bas")
+print(p.j2.posY)
