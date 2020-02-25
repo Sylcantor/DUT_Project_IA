@@ -1,13 +1,13 @@
 # coding=utf-8
 
-#from games.game import Game
-#from games.Quoridor.Joueur import Joueur
-from Joueur import *
+from games.game import Game
+from games.Quoridor.Joueur import Joueur
+
 from math import *
 from random import *
 
 
-class Plateau():
+class Plateau(Game):
     """Classe Plateau
 
     Le plateau de jeu est représenté par une liste de listes
@@ -197,21 +197,22 @@ class Plateau():
             if(joueur.nom == self.players[1] and joueur.posY == 1):
                 joueur.posY += deplacements[3]
 
-            elif(joueur.posY != 1):
+            elif(joueur.posY != 0 and joueur.posY != 1):
                 # Cas général
                 if(self.tabDeJeu[joueur.posY-1][joueur.posX] != 1):
                     if(self.tabDeJeu[joueur.posY-2][joueur.posX] == 0):
                         joueur.posY += deplacements[2]
 
-                    # Cas où le joueur adverse se trouve sur la case choisie
-                    else:
-                        # Cas du saute-mouton proche de la ligne d'arrivée (concerne le joueur 2)
-                        if(joueur.nom == self.players[1] and joueur.posY == 3):
+                    # Cas du saute-mouton proche de la ligne d'arrivée
+                    elif(joueur.posY == 3):
+
+                        # Cas concernant le joueur 2
+                        if(joueur.nom == self.players[1]):
                             joueur.posY += deplacements[1]
 
-                        # Cas du saute-mouton de base
-                        elif(self.tabDeJeu[joueur.posY-3][joueur.posX] != 1):
-                            joueur.posY += deplacements[0]
+                    # Cas du saute-mouton de base
+                    elif(self.tabDeJeu[joueur.posY-3][joueur.posX] != 1):
+                        joueur.posY += deplacements[0]
 
         # Cas d'un déplacement vers le bas
         elif(choix == "bas"):
@@ -220,21 +221,22 @@ class Plateau():
             if(joueur.nom == self.players[0] and joueur.posY == self.ligne-2):
                 joueur.posY += deplacements[4]
 
-            elif(joueur.posY != self.ligne-2):
+            elif(joueur.posY != self.ligne-1 and joueur.posY != self.ligne-2):
                 # Cas général
                 if(self.tabDeJeu[joueur.posY+1][joueur.posX] != 1):
                     if(self.tabDeJeu[joueur.posY+2][joueur.posX] == 0):
                         joueur.posY += deplacements[5]
 
-                    # Cas où le joueur adverse se trouve sur la case choisie
-                    else:
-                        # Cas du saute-mouton proche de la ligne d'arrivée (concerne le joueur 1)
-                        if(joueur.nom == self.players[0] and joueur.posY == self.ligne-4):
+                    # Cas du saute-mouton proche de la ligne d'arrivée
+                    elif(joueur.posY == self.ligne-4):
+
+                        # Cas concernant le joueur 1
+                        if(joueur.nom == self.players[0]):
                             joueur.posY += deplacements[6]
 
-                        # Cas du saute-mouton de base
-                        elif(self.tabDeJeu[joueur.posY+3][joueur.posX] != 1):
-                            joueur.posY += deplacements[7]
+                    # Cas du saute-mouton de base
+                    elif(self.tabDeJeu[joueur.posY+3][joueur.posX] != 1):
+                        joueur.posY += deplacements[7]
 
         # Cas d'un déplacement vers la gauche
         elif(choix == "gauche"):
@@ -280,18 +282,18 @@ class Plateau():
             # Cas de la ligne d'arrivée pour le joueur 2
             if((joueur.nom == self.players[1] and joueur.posY == 1)
                     or
-                ((joueur.posY != 1 and self.tabDeJeu[joueur.posY-1][joueur.posX] != 1)
+                ((joueur.posY != 0 and joueur.posY != 1 and self.tabDeJeu[joueur.posY-1][joueur.posX] != 1)
                     and
                         # Cas général
                         (self.tabDeJeu[joueur.posY-2][joueur.posX] == 0
                             or
 
                         # Cas du saute-mouton proche de la ligne d'arrivée pour le joueur 2
-                        (self.tabDeJeu[joueur.posY-2][joueur.posX] != 0 and (joueur.nom == self.players[1] and joueur.posY == 3))
+                        (joueur.posY == 3 and joueur.nom == self.players[1])
                             or
 
                         # Cas du saute-mouton de base
-                        (self.tabDeJeu[joueur.posY-2][joueur.posX] != 0 and self.tabDeJeu[joueur.posY-3][joueur.posX] != 1)))):
+                        self.tabDeJeu[joueur.posY-3][joueur.posX] != 1))):
 
                 return True
 
@@ -304,18 +306,18 @@ class Plateau():
             # Cas de la ligne d'arrivée pour le joueur 1
             if((joueur.nom == self.players[0] and joueur.posY == self.ligne-2)
                     or
-                ((joueur.posY != self.ligne-2 and self.tabDeJeu[joueur.posY+1][joueur.posX] != 1)
+                ((joueur.posY != self.ligne-1 and joueur.posY != self.ligne-2 and self.tabDeJeu[joueur.posY+1][joueur.posX] != 1)
                     and
                         # Cas général
                         (self.tabDeJeu[joueur.posY+2][joueur.posX] == 0
                             or
 
                         # Cas du saute-mouton proche de la ligne d'arrivée pour le joueur 1
-                        (self.tabDeJeu[joueur.posY+2][joueur.posX] != 0 and (joueur.nom == self.players[0] and joueur.posY == self.ligne-4))
+                        (joueur.posY == self.ligne-4 and joueur.nom == self.players[0])
                             or
 
                         # Cas du saute-mouton de base
-                        (self.tabDeJeu[joueur.posY+2][joueur.posX] != 0 and self.tabDeJeu[joueur.posY+3][joueur.posX] != 1)))):
+                        self.tabDeJeu[joueur.posY+3][joueur.posX] != 1))):
 
                 return True
 
@@ -751,9 +753,3 @@ class Plateau():
             total.append(murs[j]['numéro'])
 
         return total
-
-
-######## Test Main ##########
-p = Plateau()
-p.seDeplacer(p.j2, "bas")
-print(p.j2.posY)
