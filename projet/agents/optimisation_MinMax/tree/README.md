@@ -1,5 +1,5 @@
-# Visualiseur d'arbre MinMax
-- [Visualiseur d'arbre MinMax](#visualiseur-darbre-minmax)
+# Programme de visualisation d'arbre MinMax
+- [Programme de visualisation d'arbre MinMax](#programme-de-visualisation-darbre-minmax)
   - [Utilisation](#utilisation)
   - [Résumé](#r%c3%a9sum%c3%a9)
 
