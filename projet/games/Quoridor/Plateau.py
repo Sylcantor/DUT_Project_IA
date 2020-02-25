@@ -68,7 +68,7 @@ class Plateau(Game):
             - de 0 pour les cases libres dédiées aux joueurs
             - de m pour les cases libres dédiées aux murs
         """
-
+        self.tabDeJeu = []
         for i in range(self.ligne):
             self.tabDeJeu.append([])
 
@@ -594,13 +594,13 @@ class Plateau(Game):
         def phase_deplacement(choix, currentplayer_info):
             if(choix in self.valid_moves(currentplayer)):
                 # Déplacement du pion du joueur courant
-                currentplayer_info.seDeplacer(currentplayer_info, choix)
+                self.seDeplacer(currentplayer_info, choix)
 
         def phase_pose_murs(choix, currentplayer_info):
             if(choix in self.valid_moves(currentplayer)):
                 murs = self.numMurs()
                 # Pose d'un mur par le joueur courant
-                currentplayer_info.poserMur(currentplayer_info, murs, choix)
+                self.poserMur(currentplayer_info, murs, choix)
 
         # Mise à jour du nom du joueur courant
         self.currentplayer = currentplayer
@@ -640,7 +640,7 @@ class Plateau(Game):
                     self.currentphase = self.phases[1]
 
                     # S'il n'y a plus de murs à placer, on fait des phases de déplacement
-                    if len(self.valid_moves(currentplayer_info)) == 0:
+                    if len(self.valid_moves(currentplayer)) == 0:
                         self.currentphase = self.phases[0]
                 else:
                     self.currentphase = self.phases[0]
@@ -650,6 +650,15 @@ class Plateau(Game):
 
         Retourne la liste de tous les coups possibles.
         """
+        
+        # Initialisation du joueur courant
+        currentplayer_info = None
+
+        # On récupère le joueur grâce à self.players_info
+        for i in self.players_info:
+            if(i.nom is currentplayer):
+                currentplayer_info = i
+                break
 
         def phase1():
             """Méthode phase_deplacement
@@ -667,7 +676,7 @@ class Plateau(Game):
                 """
 
                 if(choix in direction):
-                    return self.check_moves(currentplayer, choix)
+                    return self.check_moves(currentplayer_info, choix)
                 else:
                     return False
 
@@ -707,15 +716,6 @@ class Plateau(Game):
                     liste_coups.append(i)
 
             return liste_coups
-
-        # Initialisation du joueur courant
-        currentplayer_info = None
-
-        # On récupère le joueur grâce à self.players_info
-        for i in self.players_info:
-            if(i.nom is currentplayer):
-                currentplayer_info = i
-                break
 
         # On fait un switch case sur self.currentphase
         switch = {

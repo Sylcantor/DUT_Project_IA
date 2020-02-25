@@ -21,6 +21,8 @@ from agents.apprentissage_RL.agent import Learner
 # plot:
 from utilities.plot import plot_winrate
 
+from games.Quoridor.Plateau import Plateau as Quoridor
+
 """
 fonctions utilitaires appelées depuis main.py
 """
