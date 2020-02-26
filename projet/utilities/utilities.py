@@ -82,6 +82,8 @@ def TurnBased(inital_game, agents):
             print("___", agents_info[playerIndex].player,
                   agents_info[playerIndex].agent.__class__.__name__, "___")
             currentnode = Node(game, agents_info[playerIndex].player)
+            if len(currentnode.game.valid_moves(currentnode.player)) == 0:
+                break
             choix = agents_info[playerIndex].agent.choose_move(
                 currentnode)
             game.play_move(choix, agents_info[playerIndex].player)
@@ -99,6 +101,7 @@ def TurnBased(inital_game, agents):
         if playerIndex >= len(players):
             playerIndex = 0
 
+        stopAll = False
         for i in agents_info:
             if isinstance(i.agent, Learner):
                 print("___", i.player,
@@ -108,6 +111,9 @@ def TurnBased(inital_game, agents):
 
                 # the new node after playing
                 currentnode = Node(game, i.player)
+                if len(currentnode.game.valid_moves(currentnode.player)) == 0:
+                    stopAll = True
+                    break
 
                 # determine new action (epsilon-greedy)
                 new_action = i.agent.choose_move(currentnode, new_state)
@@ -119,6 +125,8 @@ def TurnBased(inital_game, agents):
                 i.prev_action = new_action
                 # append reward
                 print("\n")
+        if stopAll is True:
+            break
 
     # Game over. Perform final update, game is over. +10 reward if win, -10 if loss, 0 if draw
     for i in agents_info:
@@ -174,8 +182,8 @@ def TurnBased_episodes(game, number_games, print_games=False, *agents):
             sys.stdout = sys.__stdout__  # restore print out
 
         # Monitor progress
-        if i % 1000 == 0:
-            print("Games played: %i" % i)
+        # if i % 1000 == 0:
+        print("Games played: %i" % i)
 
         for i in agents_victories:
             if winner is i.player:
