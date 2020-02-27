@@ -108,10 +108,10 @@ if __name__ == "__main__":
         """
 
         TurnBased_episodes(game, args.teacher_episodes,
-                           False, learners[0], random)
+                           False, learners[1], random)
         plot_learners_reward(learners)
-        TurnBased_episodes(game, manual_games, True,
-                           learners[0], human)  # <-- learners
+        #TurnBased_episodes(game, manual_games, True,
+        #                   learners[1], human)  # <-- learners
 
         # ─────────────────────────────  partie save
 
