@@ -7,9 +7,8 @@ Created on Thu Dec 19 01:15:48 2019
 
 """
 TODO
-- Verification si il y a un mur des murs pendant la coupe : le mur doit etre considéré comme étant une pierre adversaire pendant la coupe
+- Verification si il y a des murs pendant la coupe : le mur doit etre considéré comme étant une pierre adversaire pendant la coupe
 - Verifier si la coupe marche (sans etre a proximité d'un mur): coupe qui verifie si il y a une coupe 
-- victoire qui compte les points de chaque joueur et qui renvoie le gagnant
 """
 
 
@@ -35,6 +34,8 @@ class Plateau():
         self.j1 = 'A'
         self.j2 = 'B'
         self.fin = 0
+        self.scoreJ1 = 0
+        self.scoreJ2 = 0
         # Ajout de la liste pour obtenir un tableau à 2 dimensions.
 
         for i in range(self.ligne):
@@ -75,6 +76,10 @@ class Plateau():
         Arguments : int, int, String
         """
         self.tab[ligne][colonne]=joueur
+        if joueur = 'A':
+            self.scoreJ1 == self.scoreJ1+1
+        else
+            self.scoreJ2 == self.scoreJ2+1
 
     def finDeJeu(self):
         if self.fin==2:
@@ -116,6 +121,10 @@ class Plateau():
                 ligne = tabCheckPoint.pop()
 
             else:
+                if joueur = 'A':
+                    self.scoreJ2 = self.scoreJ2 - len(liste)
+                else:
+                    self.scoreJ1 = self.scoreJ1 - len(liste)
                 for i in range(len(liste)):
                     self.tab[liste[i][0]][liste[i][1]] = '.'
                 break
@@ -151,8 +160,11 @@ class Plateau():
 
 
     def victoire(self): #TODO
-        print("Victoire !")
-        return True
+        if self.scoreJ1 > self.scoreJ2:
+            return self.j1
+        else:
+            return self.j2
+        
         
     def tour(self, joueur):
         """
@@ -226,4 +238,5 @@ while p.finDeJeu() == False:
 
     count += 1
 
-p.victoire()
+g = p.victoire()
+print("Victoire de ", g, " !" )
