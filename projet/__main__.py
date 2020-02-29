@@ -73,7 +73,7 @@ if __name__ == "__main__":
     # on peut rajouter autant qu'on veut d'agents ou teachers ici:
     human = Human()
     random = Random()
-    minimax = Minimax()
+    minimax = Minimax(game.players)
 
     # the game learners:
     learners = []  # <-- tous contenus ici
@@ -106,13 +106,13 @@ if __name__ == "__main__":
         TurnBased_episodes(game, args.teacher_episodes, False,
                            random, random)  # <-- tests
         """
-
+        
         TurnBased_episodes(game, args.teacher_episodes,
-                           False, learners[1], random)
+                           False, learners[0], random)
         plot_learners_reward(learners)
-        #TurnBased_episodes(game, manual_games, True,
-        #                   learners[1], human)  # <-- learners
-
+        TurnBased_episodes(game, manual_games, True,
+                           learners[0], human)  # <-- learners
+        
         # ─────────────────────────────  partie save
 
         if args.save:

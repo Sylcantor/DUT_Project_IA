@@ -25,8 +25,8 @@ class Plateau(Game):
         """
 
         # Détermine la taille du plateau
-        self.ligne = 19
-        self.colonne = 17
+        self.ligne = 9
+        self.colonne = 9
 
         # Ajout des phases de jeu
         self.phases = []
@@ -42,9 +42,9 @@ class Plateau(Game):
         self.currentplayer = None
 
         self.j1 = Joueur(self.players[0], 'A',
-                         self.ligne-1, self.numerophase, 1, 8)
+                         self.ligne-1, self.numerophase, 1, 4)
         self.j2 = Joueur(self.players[1], 'B', 0,
-                         self.numerophase, self.ligne-2, 8)
+                         self.numerophase, self.ligne-2, 4)
 
         self.players_info = []
         self.players_info.append(self.j1)

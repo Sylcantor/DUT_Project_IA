@@ -21,13 +21,13 @@ class Minimax(Agent):
     représentant toutes les parties possibles.
     """
 
-    def __init__(self, win_value=10, loss_value=-10, players=['Player1', 'Player2']):
+    def __init__(self, players, win_value=10, loss_value=-10):
         """
         Constructeur.
         """
+        self.players = players
         self.win_value = win_value
         self.loss_value = loss_value
-        self.players = players
         return
 
     # ────────────────────────────────────────────────────────────────────────────────

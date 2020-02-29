@@ -82,8 +82,10 @@ def TurnBased(inital_game, agents):
             print("___", agents_info[playerIndex].player,
                   agents_info[playerIndex].agent.__class__.__name__, "___")
             currentnode = Node(game, agents_info[playerIndex].player)
+            
             if len(currentnode.game.valid_moves(currentnode.player)) == 0:
                 break
+            
             choix = agents_info[playerIndex].agent.choose_move(
                 currentnode)
             game.play_move(choix, agents_info[playerIndex].player)
@@ -125,6 +127,7 @@ def TurnBased(inital_game, agents):
                 i.prev_action = new_action
                 # append reward
                 print("\n")
+                
         if stopAll is True:
             break
 
@@ -150,6 +153,18 @@ def TurnBased(inital_game, agents):
     return game.winner()
 
 
+# Print iterations progress
+def progress(count, total, suffix=''):
+
+    bar_len = 60
+    filled_len = int(round(bar_len * count / float(total)))
+
+    percents = round(100.0 * count / float(total), 1)
+    bar = '#' * filled_len + '-' * (bar_len - filled_len)
+
+    sys.stdout.write('|%s| %s%s ...%s\r' % (bar, percents, '%', suffix))
+    sys.stdout.flush()  # As suggested by Rom Ruben
+
 def TurnBased_episodes(game, number_games, print_games=False, *agents):
     """
     Permet de faire plusieurs appels de TurnBased, utilisé pour l'entrainement.
@@ -173,6 +188,8 @@ def TurnBased_episodes(game, number_games, print_games=False, *agents):
     # agent fictif pour les draw, on créé un objet vide "Draw"
     agents_victories.append(Agent_Victories("Draw", type("Draw", (), {})()))
 
+    progress(1, number_games, "playing games")
+
     for i in range(number_games):
 
         if print_games is False:
@@ -182,14 +199,15 @@ def TurnBased_episodes(game, number_games, print_games=False, *agents):
             sys.stdout = sys.__stdout__  # restore print out
 
         # Monitor progress
-        # if i % 1000 == 0:
-        print("Games played: %i" % i)
+        progress(i, number_games, "playing games")
 
         for i in agents_victories:
             if winner is i.player:
                 i.victories += 1
 
     # à la fin on fait un diagramme pour représenter les victoires de chaque joueur
+
+    print("")
 
     for i in agents_victories:
         if winner is i.player:
