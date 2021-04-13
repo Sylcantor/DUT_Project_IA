@@ -1,19 +1,15 @@
 #### Membres du groupe : Castel Aurélien, Léa Dacosta, Kevin Seri, Nicolas Guiblin
 #### Tuteur : Florent Madelaine
-<br>
 
 # Cahier des charges PT
 ### Délais (Octobre 2019 à Mars 2020)  
-<br>
 
 ## Sommaire
 
-<br>
-# I) Contexte
+### I) Contexte
 ### II) Spécifications fonctionnelles
 ### III) Spécifications techniques
 ### IV) Diagrammes
-<br>
 
 ## I) Contexte
 
@@ -38,7 +34,6 @@ produire, nous utilisons la méthode MoSCoW :
 * C : Could (fonctionnalités optionnelles)
 * W : Would (fonctionnalités pour parfaire le projet)
 
-<br>
 #### Diagramme de MoSCoW
 
 <br>
