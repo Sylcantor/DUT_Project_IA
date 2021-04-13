@@ -9,7 +9,7 @@
 ## Sommaire
 
 <br>
-### I) Contexte
+# I) Contexte
 ### II) Spécifications fonctionnelles
 ### III) Spécifications techniques
 ### IV) Diagrammes
