@@ -33,7 +33,7 @@ produire, nous utilisons la méthode MoSCoW :
 
 #### Diagramme de MoSCoW
 
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/MoSCoW.png)
+![alt text](https://raw.githubusercontent.com/aurelien-castel/DUT-Oct-2019-API-IA/master/images/MoSCoW.png)
 
 ## III) Spécifications techniques
 
@@ -57,7 +57,7 @@ importe ces données.
 
 #### Diagramme de Gantt
 
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Gantt.png)
+![alt text](https://github.com/aurelien-castel/DUT-Oct-2019-API-IA/raw/master/images/Gantt.png?raw=true)
 
 #### Résultat des entretiens
 
@@ -69,4 +69,4 @@ importe ces données.
 
 #### Diagramme de cas d’usage
 
-![alt text](https://dwarves.iut-fbleau.fr/git/castel/PT-API-IA-python/raw/master/images/Cas%20d%27usage.png)
+![alt text](https://github.com/aurelien-castel/DUT-Oct-2019-API-IA/raw/master/images/Cas%20d'usage.png?raw=true)
